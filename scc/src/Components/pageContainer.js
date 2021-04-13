@@ -1,31 +1,53 @@
-import React from "react";
+import React, {useState} from "react";
 import { Editor, EditorState, RichUtils } from "draft-js";
+import getFragmentFromSelection from 'draft-js/lib/getFragmentFromSelection';
+import {getDefaultKeyBinding, KeyBindingUtil} from 'draft-js';
 import { Button } from '@material-ui/core'
+
+const {hasCommandModifier} = KeyBindingUtil;
 
 class PageContainer extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			editorState: EditorState.createEmpty()
-		};
+		this.handleKeyCommand = this.handleKeyCommand.bind(this)
+		this.state = { 
+			editorState: EditorState.createEmpty(),
+			selected: '' 
+		}
+
+		this.onSearch = (selectedText) => {
+			this.setState({selected : selectedText})
+			this.props.onSearch(selectedText)
+		}
+	
+		this.onChange = (editorState) => {
+				this.setState({editorState})
+				}
 	}
 
-	onChange = editorState => {
-		this.setState({
-			editorState
-		});
-	};
+	suggestionsKeyBinding = (e) => {
+		if (e.keyCode === 83 && hasCommandModifier(e)) {
+			return 'find-antonyms'
+		}
+		return getDefaultKeyBinding(e)
+	}
 
 	handleKeyCommand = command => {
 		const newState = RichUtils.handleKeyCommand(
 			this.state.editorState,
 			command
 		);
-		if (newState) {
-			this.onChange(newState);
-			return "handled";
+		if (command === 'find-antonyms') {
+			const selected = getFragmentFromSelection(this.state.editorState);
+			// this.onSearch(selected ? selected.map(x => x.getText()).join('\n') : '')
+			alert(selected ? selected.map(x => x.getText()).join('\n') : '')
+			return "handled"
 		}
-		return "not-handled";
+		if(newState) {
+			this.onChange(newState);
+			return 'handled'
+		}
+		return "not-handled"
 	};
 
 	onUnderlineClick = () => {
@@ -47,7 +69,7 @@ class PageContainer extends React.Component {
 	render() {
 		return (
 			<div className="editorContainer">
-				<Button 
+				{/* <Button 
                     onClick={this.onUnderlineClick}
                     variant= "contained"
                     color="default"
@@ -68,11 +90,15 @@ class PageContainer extends React.Component {
                     size="small"
                     >
 					<em>I</em>
-				</Button>
-				<div className="editors">
+				</Button> */}
+				<div 
+					className="editors"
+					>
+
 					<Editor
 						editorState={this.state.editorState}
 						handleKeyCommand={this.handleKeyCommand}
+						keyBindingFn={this.suggestionsKeyBinding}
 						onChange={this.onChange}
 					/>
 				</div>
