@@ -1,8 +1,8 @@
-import React, {useState} from "react";
+import React from "react";
 import { Editor, EditorState, RichUtils } from "draft-js";
 import getFragmentFromSelection from 'draft-js/lib/getFragmentFromSelection';
 import {getDefaultKeyBinding, KeyBindingUtil} from 'draft-js';
-import { Button } from '@material-ui/core'
+// import { Button } from '@material-ui/core'
 
 const {hasCommandModifier} = KeyBindingUtil;
 
@@ -25,8 +25,12 @@ class PageContainer extends React.Component {
 				}
 	}
 
+	handleDataChange = (e) => {
+		this.props.onSearch(e)
+	}
+
 	suggestionsKeyBinding = (e) => {
-		if (e.keyCode === 83 && hasCommandModifier(e)) {
+		if (e.keyCode === 65 && hasCommandModifier(e)) {
 			return 'find-antonyms'
 		}
 		return getDefaultKeyBinding(e)
@@ -39,8 +43,12 @@ class PageContainer extends React.Component {
 		);
 		if (command === 'find-antonyms') {
 			const selected = getFragmentFromSelection(this.state.editorState);
-			// this.onSearch(selected ? selected.map(x => x.getText()).join('\n') : '')
-			alert(selected ? selected.map(x => x.getText()).join('\n') : '')
+			if((selected ? selected.map(x => x.getText()).join('\n') : '').split(' ').length > 1){
+				alert("Please select only one word to search antonyms for!")
+				return "handled"
+			}
+			this.handleDataChange(selected ? selected.map(x => x.getText()).join('\n') : '')
+			this.props.onChange('Antonyms')
 			return "handled"
 		}
 		if(newState) {

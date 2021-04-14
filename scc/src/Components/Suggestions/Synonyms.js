@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 
 const Synonyms = (props) => {
-    const URL = "http://localhost:8088/api/findSynonyms?word="+props.value
+    const URL = "http://localhost:8088/scc/api/findSynonyms?word="+props.value
     const [dataList, setWords] = useState([]);
 
     useEffect(() => {
@@ -14,7 +14,7 @@ const Synonyms = (props) => {
     //     .catch(err => {console.log(err)})
     //     }
     //     fetchAntonyms()
-        fetch("http://localhost:8088/api/findSynonyms?word="+props.value)
+        fetch("http://localhost:8088/scc/api/findSynonyms?word="+props.value)
             .then(response => response.json())
             .then(respo => {
                 console.log("data////", JSON.stringify(respo))
