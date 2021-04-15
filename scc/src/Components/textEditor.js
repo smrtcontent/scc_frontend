@@ -2,8 +2,8 @@ import React,{ useState } from  'react'
 import PageContainer from './pageContainer'
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Typography } from '@material-ui/core';
-
-
+import Legends from './legends'
+import Suggestions from './suggestions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,18 +46,19 @@ export default function TextEditor() {
 
   const [dataList, setWords] = useState([]);
   const [type, setType] = useState()
-  
-  const setChange = (e) => setWords(e)  
+  const [repText, setRepText] = useState()
 
-  const typeChange = (e) => setType(e)
+  const setRep = e => setRepText(e) 
 
-  const handleDataChange = (newData) => {
-    const URL = "http://localhost:8088/scc/api/findAntonyms?word="+newData
+  const setChange = e => setWords(e)  
+
+  const typeChange = e => setType(e)
+
+  const handleDataChange = (command,newData) => {
+    const URL = "http://localhost:8088/scc/api/"+command+"?word="+newData
     fetch(URL)
         .then(res => res.json())
-        .then(wordList => setChange(wordList),
-
-        console.log("my words",JSON.stringify(dataList)))
+        .then(wordList => setChange(wordList))
         .catch(err => {console.log(err)})
   }
 
@@ -75,8 +76,8 @@ export default function TextEditor() {
         className={classes.secondary}
         gutterBottom={true}
       >
-        * Type the content you want to and once you feel the need it select the word and 
-        press specific key to get the type of suggestion you desire.
+        * Type the content you want to and once you feel the need, select the word and 
+        press the specific key to get the type of suggestion you desire.
       </Typography>
     <div className="row" >
       <div className="col-md-8">
@@ -85,6 +86,7 @@ export default function TextEditor() {
             <PageContainer 
               onSearch = {handleDataChange}
               onChange = {typeChange}
+              reptext = {repText}
             />
           </CardContent>
           {/* <Box 
@@ -104,55 +106,18 @@ export default function TextEditor() {
         </Card>
       </div>
       <div className="col-md-4">
-        <Card className={ classes.root + ' suggestion-box ' }>
-          <CardContent>
-            <Typography 
-              className={classes.secondaryTitle} 
-              color="textPrimary" 
-              gutterBottom={true}
-              >
-              Suggestions
-            </Typography>
-            <Typography
-              className={classes.subHeading}
-            >
-              {type}
-            </Typography>
-            {/* <Antonyms 
-              value={selection}
-              setWords={setWords}
-              /> */}
-            <ul>
-              {dataList.map((data,index) => (<li key={index}> {data.word} </li>))}
-            </ul>
-          </CardContent>
-        </Card>
+        <Suggestions
+          type = {type}
+          dataList = {dataList}
+          onClick = {setRep}
+          />
       </div>
     </div>
-    <div className='row mt-4'>
-      <div className='col-md-12'>
-        <Card>
-          <CardContent>
-            <div className="row">
-              <div className="col-md-6 col-12">
-                <Typography
-                  className={classes.secondaryTitle}
-                >
-                  Legend
-                </Typography>
-                <ul>
-                  <li>
-                    <p>
-                      {"'ctrl' + a -> Find Antonyms"} 
-                    </p>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+      <div className='row mt-4'>
+        <div className='col-md-12'>
+          <Legends />
+        </div>
       </div>
     </div>
-    </div>
-  );
+  )
 }
