@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   secondary: {
     fontSize: 16,
-    padding: theme.spacing(1),
+    padding: theme.spacing(1,1,0,1),
   },
   secondaryTitle: {
     fontSize: 26,
@@ -47,6 +47,7 @@ export default function TextEditor() {
   const [dataList, setWords] = useState([]);
   const [type, setType] = useState()
   const [repText, setRepText] = useState()
+  const [definitions, setDefinitions] = useState([])
 
   const setRep = e => setRepText(e) 
 
@@ -59,6 +60,19 @@ export default function TextEditor() {
     fetch(URL)
         .then(res => res.json())
         .then(wordList => setChange(wordList))
+        .catch(err => {console.log(err)})
+    
+    setDefinitions([])
+  }
+
+  const handleDefinitionChange = (command, newData) => {
+    setWords([])
+    const URL = "http://localhost:8088/scc/api/"+command+"?word="+newData
+    fetch(URL)
+        .then(res => res.json())
+        .then(wordList => {
+          setDefinitions(wordList)
+        })
         .catch(err => {console.log(err)})
   }
 
@@ -74,45 +88,46 @@ export default function TextEditor() {
       <Typography
         color='textSecondary'
         className={classes.secondary}
-        gutterBottom={true}
       >
         * Type the content you want to and once you feel the need, select the word and 
         press the specific key to get the type of suggestion you desire.
       </Typography>
-    <div className="row" >
-      <div className="col-md-8">
-        <Card className={classes.root}>
-          <CardContent>
-            <PageContainer 
-              onSearch = {handleDataChange}
-              onChange = {typeChange}
-              reptext = {repText}
+      <div className="row" >
+        <div className="col-md-8 col-12 mt-4">
+          <Card className={classes.root}>
+            <CardContent>
+              <PageContainer 
+                onSearch = {handleDataChange}
+                onDefChange = {handleDefinitionChange}
+                onChange = {typeChange}
+                reptext = {repText}
+              />
+            </CardContent>
+            {/* <Box 
+              display='flex'
+              justifyContent='center'
+            >
+              <CardActions>
+                <Button 
+                  variant='contained'
+                  color='primary'
+                  size="small"
+                  >
+                    Save
+                </Button>
+              </CardActions>
+            </Box> */}
+          </Card>
+        </div>
+        <div className="col-md-4 col-12 mt-4">
+          <Suggestions
+            type = {type}
+            dataList = {dataList}
+            definitions = {definitions}
+            onClick = {setRep}
             />
-          </CardContent>
-          {/* <Box 
-            display='flex'
-            justifyContent='center'
-          >
-            <CardActions>
-              <Button 
-                variant='contained'
-                color='primary'
-                size="small"
-                >
-                  Save
-              </Button>
-            </CardActions>
-          </Box> */}
-        </Card>
+        </div>
       </div>
-      <div className="col-md-4">
-        <Suggestions
-          type = {type}
-          dataList = {dataList}
-          onClick = {setRep}
-          />
-      </div>
-    </div>
       <div className='row mt-4'>
         <div className='col-md-12'>
           <Legends />

@@ -1,8 +1,8 @@
 import React,{useState} from 'react'
 import { Card, CardContent, Typography , Button, Snackbar } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core';
 import Alert from './alert'
-
+import Definitions from './definitions'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
     subHeading: {
       fontSize: 16,
+      fontWeight: 600,
       padding: theme.spacing(1),
       color: '#4756ca',
     },
@@ -74,6 +75,9 @@ const Suggestions = (props) => {
                     >
                         {props.type}
                     </Typography>
+                    <Definitions 
+                        meanings = {props.definitions} 
+                    />
                     <div 
                         className='suggestions'
                         id='scroll-blue'

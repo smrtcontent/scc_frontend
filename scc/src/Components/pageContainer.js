@@ -58,12 +58,24 @@ class PageContainer extends React.Component {
 			return 'find-rhymes'
 		} else if (e.keyCode === 83 && hasCommandModifier(e)) { // 83 -> s
 			return 'find-triggers'
+		} else if (e.keyCode === 81 && hasCommandModifier(e)) { //  ->81 -> q
+			return 'find-definitions'
 		} else if (e.keyCode === 80 && hasCommandModifier(e)) { // 80 -> p
 			return 'replace'
 		}
 		return getDefaultKeyBinding(e)
 	}
 
+	checkLen = e => (e ? e.map(x => x.getText()).join('\n') : '').split(' ').length > 2
+	textReturn = e => (e ? e.map(x => x.getText()).join('\n') : '') 
+
+	/**
+	 * Handles the input command given to the editor and maps it to the specific
+	 * function and sets the state of selection at textEditor.js
+	 * 
+	 * @param {*} command 
+	 * @returns {Void}
+	 */
 	handleKeyCommand = command => {
 		const newState = RichUtils.handleKeyCommand(
 			this.state.editorState,
@@ -71,32 +83,42 @@ class PageContainer extends React.Component {
 		);
 		if (command === 'find-antonyms') {
 			const selected = getFragmentFromSelection(this.state.editorState);
-			if((selected ? selected.map(x => x.getText()).join('\n') : '').split(' ').length > 1){
+			if(this.checkLen(selected)){
 				alert("Please select only one word to search antonyms for!")
 				return "handled"
 			}
-			this.handleDataChange('findAntonyms',selected ? selected.map(x => x.getText()).join('\n') : '')
+			this.handleDataChange('findAntonyms',this.textReturn(selected))
 			this.props.onChange('Antonyms')
 			return "handled"
 		}
 		if (command === 'find-rhymes') {
 			const selected = getFragmentFromSelection(this.state.editorState);
-			if((selected ? selected.map(x => x.getText()).join('\n') : '').split(' ').length > 1){
+			if(this.checkLen(selected)){
 				alert("Please select only one word to search Rhymes for!")
 				return "handled"
 			}
-			this.handleDataChange('findRhymes',selected ? selected.map(x => x.getText()).join('\n') : '')
+			this.handleDataChange('findRhymes',this.textReturn(selected))
 			this.props.onChange('Rhymes')
 			return "handled"
 		}
 		if (command === 'find-triggers') {
 			const selected = getFragmentFromSelection(this.state.editorState);
-			if((selected ? selected.map(x => x.getText()).join('\n') : '').split(' ').length > 1){
+			if(this.checkLen(selected)){
 				alert("Please select only one word to search Triggers for!")
 				return "handled"
 			}
-			this.handleDataChange('findTriggers',selected ? selected.map(x => x.getText()).join('\n') : '')
+			this.handleDataChange('findTriggers',this.textReturn(selected))
 			this.props.onChange('Triggers')
+			return "handled"
+		}
+		if (command === 'find-definitions') {
+			const selected = getFragmentFromSelection(this.state.editorState);
+			if(this.checkLen(selected)){
+				alert("Please select only one word to search Definitions for!")
+				return "handled"
+			}
+			this.props.onDefChange('findDefinitions',this.textReturn(selected))
+			this.props.onChange('Definitions')
 			return "handled"
 		}
 		if (command === 'replace') {
