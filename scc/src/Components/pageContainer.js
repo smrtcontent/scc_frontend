@@ -2,7 +2,7 @@ import React from "react";
 import { Editor, EditorState, RichUtils, Modifier } from "draft-js";
 import getFragmentFromSelection from 'draft-js/lib/getFragmentFromSelection';
 import {getDefaultKeyBinding, KeyBindingUtil} from 'draft-js';
-// import { Button } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 
 const {hasCommandModifier} = KeyBindingUtil;
 
@@ -23,6 +23,11 @@ class PageContainer extends React.Component {
 		this.onChange = (editorState) => {
 				this.setState({editorState})
 				}
+	}
+
+	editorLog = () => {
+		console.log(this.state.editorState.getCurrentContent().getPlainText())
+		alert('Check Log in console')
 	}
 
 	insertCharacter = (characterToInsert, editorState) => {
@@ -182,6 +187,15 @@ class PageContainer extends React.Component {
 						keyBindingFn={this.suggestionsKeyBinding}
 						onChange={this.onChange}
 					/>
+				</div>
+				<div className='mt-3 mb-0'>
+					<Button
+					variant='contained'
+					color='primary'
+					onClick={this.editorLog}
+					>
+						Editor-log
+					</Button>
 				</div>
 			</div>
 		);
