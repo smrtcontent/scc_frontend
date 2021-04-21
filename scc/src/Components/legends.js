@@ -31,10 +31,18 @@ const Legends = () => {
                 </Typography>
                 <ul className={classes.listItem}>
                     {[
-                        {item:"'ctrl' + a : Find Antonyms"}, 
-                        {item:"'ctrl' + r : Find Rhymes"},
-                        {item:"'ctrl' + s : Find Triggers"},
-                        {item:"'ctrl' + q : Find Definitions"}
+                        { item : "'ctrl' + A : Find Antonyms"}, 
+                        { item : "'ctrl' + 'Shift' + A : Find Adjectives"},
+                        { item : "'alt' + 'Shift' + A : Find Approximate Rhymes"},
+                        { item : "'ctrl' + 'Shift' + C : Find Consonant Match"},
+                        { item : "'ctrl' + D : Find Definitions"},
+                        { item : "'ctrl' + 'Shift' + F : Find Frequent Follower"},
+                        { item : "'ctrl' + 'alt' + F : Find Frequent Predecessor"},
+                        { item : "'ctrl' + 'shift' + H : Find Holonyms"},
+                        { item : "'alt' + H : Find Homphones"},
+                        { item : "'alt' + 'shift' + H : Find Hypernyms"},
+                        { item : "'ctrl' + r : Find Rhymes"},
+                        { item : "'Shift' + 'alt' + t: Find Trigger"},
                         ].map((x,index) => <li key={index} >{x.item}</li>)
                     }
                 </ul>

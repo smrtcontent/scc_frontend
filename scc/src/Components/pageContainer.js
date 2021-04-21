@@ -1,12 +1,11 @@
 import React from "react";
 import getFragmentFromSelection from 'draft-js/lib/getFragmentFromSelection';
-import { Editor, EditorState, RichUtils, Modifier, getDefaultKeyBinding, KeyBindingUtil
-		} from "draft-js";
+import { Editor, EditorState, RichUtils, 
+		 Modifier, getDefaultKeyBinding, KeyBindingUtil} from "draft-js";
 import 'draft-js/dist/Draft.css'
 import { Button, ButtonGroup } from '@material-ui/core'
 
-
-const {hasCommandModifier} = KeyBindingUtil;
+const {hasCommandModifier} = KeyBindingUtil
 
 class PageContainer extends React.Component {
 	constructor(props) {
@@ -18,6 +17,9 @@ class PageContainer extends React.Component {
 		}
 	}
 
+	/**
+	 *  Sets the focus to the editor when component is loaded
+	 */
 	componentDidMount() {
 		this.setState({
 			editorState: EditorState.moveFocusToEnd(this.state.editorState)
@@ -67,8 +69,6 @@ class PageContainer extends React.Component {
 	/**
 	 * Function that calls the insertCharacter function and then pushes the new state in the  
 	 * setState function which in turn sets the new state of the editor.
-	 * 
-	 * @param {*} e 
 	 */
 	replace = e => {
 		const newEditorState = this.insertCharacter(e, this.state.editorState);
@@ -78,35 +78,48 @@ class PageContainer extends React.Component {
 	}
 
 	/**
-	 *  Function to set the values of the onSearch function recieved from the props
-	 */ 
-	handleDataChange = (c,e) => {
-		this.props.onSearch(c,e)
-	}
-
-	/**
 	 * Checks and returns the command for the text editor
 	 * 
-	 * @param {*} e 
-	 * @returns 
 	 */
 	suggestionsKeyBinding = (e) => {
-		if (e.keyCode === 65 && hasCommandModifier(e)) { // 65 -> a
-			return 'find-antonyms'
-		} else if (e.keyCode === 82 && hasCommandModifier(e)) { // 82 -> r
-			return 'find-rhymes'
-		} else if (e.keyCode === 83 && hasCommandModifier(e)) { // 83 -> s
-			return 'find-triggers'
-		} else if (e.keyCode === 81 && hasCommandModifier(e)) { //  ->81 -> q
-			return 'find-definitions'
-		} else if (e.keyCode === 80 && hasCommandModifier(e)) { // 80 -> p
-			return 'replace'
-		}
+			 if (e.key === 'a' && hasCommandModifier(e)) return 'find-antonyms'
+		else if (e.key === 'A' && hasCommandModifier(e)) return 'find-adjectives'
+		else if (e.key === 'A' && e.altKey) 			 return 'find-approximate-rhymes'
+		else if (e.key === 'C' && hasCommandModifier(e)) return 'find-consonant-match'
+		else if (e.key === 'd' && hasCommandModifier(e)) return 'find-definitions'
+		else if (e.key === 'F' && hasCommandModifier(e)) return 'find-frequent-follower'
+		else if (e.key === 'f' && e.ctrlKey && e.altKey) return 'find-frequent-predecessors'
+		else if (e.key === 'H' && hasCommandModifier(e)) return 'find-holonyms'
+		else if (e.key === 'h' && e.altKey) 			 return 'find-homophones'
+		else if (e.key === 'H' && e.altKey) 			 return 'find-hypernyms'
+		else if (e.key === 'r' && hasCommandModifier(e)) return 'find-rhymes'
+		else if (e.key === 'T' && e.altKey) 			 return 'find-triggers'
+		else if (e.key === 'D' && e.ctrlKey) 			 console.log(e)
+		else if (e.key === 'p' && hasCommandModifier(e)) return 'replace'
+
 		return getDefaultKeyBinding(e)
 	}
 
-	checkLen = e => (e ? e.map(x => x.getText()).join('\n') : '').split(' ').length > 2
-	textReturn = e => (e ? e.map(x => x.getText()).join('\n') : '') 
+	/**
+	 * Handles the shortcut commands and updates the parent states
+	 * 
+	 * @param {*} command 
+	 * @param {*} query 
+	 * @returns 
+	 */
+	handleCommand = (command, query) => {
+		const selected = getFragmentFromSelection(this.state.editorState);
+			if((selected ? selected.map(x => x.getText()).join('\n') : '').split(' ').length > 2){
+				alert('Please select only one word to search ' + query + ' for!')
+				return "handled"
+			}
+			if (query === 'Definitions')
+				this.props.onDefChange(command,selected ? selected.map(x => x.getText()).join('\n') : '')
+			else
+				this.props.onSearch(command,selected ? selected.map(x => x.getText()).join('\n') : '')
+			this.props.onChange(query)
+			return "handled"
+	}
 
 	/**
 	 * Handles the input command given to the editor and maps it to the specific
@@ -116,53 +129,21 @@ class PageContainer extends React.Component {
 	 * @returns {Void}
 	 */
 	handleKeyCommand = command => {
-		const newState = RichUtils.handleKeyCommand(
-			this.state.editorState,
-			command
-		);
-		if (command === 'find-antonyms') {
-			const selected = getFragmentFromSelection(this.state.editorState);
-			if(this.checkLen(selected)){
-				alert("Please select only one word to search Antonyms for!")
-				return "handled"
-			}
-			this.handleDataChange('findAntonyms',this.textReturn(selected))
-			this.props.onChange('Antonyms')
-			return "handled"
-		}
-		if (command === 'find-rhymes') {
-			const selected = getFragmentFromSelection(this.state.editorState);
-			if(this.checkLen(selected)){
-				alert("Please select only one word to search Rhymes for!")
-				return "handled"
-			}
-			this.handleDataChange('findRhymes',this.textReturn(selected))
-			this.props.onChange('Rhymes')
-			return "handled"
-		}
-		if (command === 'find-triggers') {
-			const selected = getFragmentFromSelection(this.state.editorState);
-			if(this.checkLen(selected)){
-				alert("Please select only one word to search Triggers for!")
-				return "handled"
-			}
-			this.handleDataChange('findTriggers',this.textReturn(selected))
-			this.props.onChange('Triggers')
-			return "handled"
-		}
-		if (command === 'find-definitions') {
-			const selected = getFragmentFromSelection(this.state.editorState);
-			if(this.checkLen(selected)){
-				alert("Please select only one word to search Definitions for!")
-				return "handled"
-			}
-			this.props.onDefChange('findDefinitions',this.textReturn(selected))
-			this.props.onChange('Definitions')
-			return "handled"
-		}
-		if (command === 'replace') {
-			this.replace(this.props.reptext)
-		}
+		const newState = RichUtils.handleKeyCommand(this.state.editorState,command)
+
+		if (command === 'find-antonyms') 				this.handleCommand('findAntonyms', 'Antonyms')
+		if (command === 'find-adjectives') 				this.handleCommand('findAdjectives', 'Adjectives')
+		if (command === 'find-approximate-rhymes') 		this.handleCommand('findApproximateRhymes', 'Approximate Rhymes')
+		if (command === 'find-consonant-match') 		this.handleCommand('findConsonantMatch', 'Consonant Match')
+		if (command === 'find-rhymes') 					this.handleCommand('findRhymes', 'Rhymes')
+		if (command === 'find-triggers') 				this.handleCommand('findTriggers', 'Triggers')
+		if (command === 'find-definitions') 			this.handleCommand('findDefinitions', 'Definitions')
+		if (command === 'find-frequent-follower') 		this.handleCommand('findFrequentFollower', 'Frequent Followers')
+		if (command === 'find-frequent-predecessors') 	this.handleCommand('findFrequentPredecessors', 'Frequent Predecessors')
+		if (command === 'find-holonyms') 				this.handleCommand('findHolonyms', 'Holonyms')
+		if (command === 'find-homophones') 				this.handleCommand('findHomophones', 'Homophones')
+		if (command === 'find-hypernyms') 				this.handleCommand('findHypernyms', 'Hypernyms')
+		if (command === 'replace') 						this.replace(this.props.reptext)
 		if(newState) {
 			this.onChange(newState);
 			return 'handled'
@@ -175,9 +156,7 @@ class PageContainer extends React.Component {
 	 */
 
 	onUnderlineClick = () => {
-		this.onChange(
-			RichUtils.toggleInlineStyle(this.state.editorState, "UNDERLINE")
-		)
+		this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, "UNDERLINE"))
 	}
 
 	onBoldClick = () => {
@@ -185,17 +164,13 @@ class PageContainer extends React.Component {
 	}
 
 	onItalicClick = () => {
-		this.onChange(
-			RichUtils.toggleInlineStyle(this.state.editorState, "ITALIC")
-		)
+		this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, "ITALIC"))
 	}
 
 	render() {
 		return (
 			<div className="editorContainer">
-				<ButtonGroup 
-					
-				>
+				<ButtonGroup>
 					<Button 
 						onClick={this.onUnderlineClick}
 						style = {{backgroundColor:'#f6f6f6'}}
