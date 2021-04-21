@@ -6,7 +6,7 @@ import Definitions from './definitions'
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      minWidth: 275,
+      minWidth: 200,
       width: '100%',
         '& > * + *': {
         marginTop: theme.spacing(2),
@@ -14,17 +14,17 @@ const useStyles = makeStyles((theme) => ({
     },
     secondaryTitle: {
       fontSize: 26,
+      fontWeight: 700,
       padding: theme.spacing(1),
-      fontFamily: "'Oleo Script', cursive"
     },
     subHeading: {
       fontSize: 16,
       fontWeight: 600,
       padding: theme.spacing(1),
-      color: '#4756ca',
+      color: '#1e56a0',
     },
     btn: {
-        margin: theme.spacing(0.5),
+        margin: theme.spacing(0.5)
     },
     pos: {
       marginBottom: 12,

@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: 42,
-    fontFamily: "'Oleo Script', cursive", 
+    fontWeight: 700,
     color: '#ffffff',
     margin: theme.spacing(0,2,0,2),
     padding: theme.spacing(0),
@@ -29,11 +29,10 @@ const useStyles = makeStyles((theme) => ({
   secondaryTitle: {
     fontSize: 26,
     padding: theme.spacing(1),
-    fontFamily: "'Oleo Script', cursive"
   },
   subHeading: {
     fontSize: 16,
-    padding: theme.spacing(1),
+    padding: theme.spacing(1,0),
     color: '#4756ca',
   },
   pos: {
@@ -77,14 +76,14 @@ export default function TextEditor() {
   }
 
   return (
-    <div className="container" >
-      <Typography 
+    <div className="container-fluid" >
+      {/* <Typography 
         className={classes.title} 
         color="textSecondary" 
         gutterBottom={true}
       >
         Smart Content Creator...
-      </Typography>
+      </Typography> */}
       <Typography
         color='textSecondary'
         className={classes.secondary}
@@ -93,7 +92,7 @@ export default function TextEditor() {
         press the specific key to get the type of suggestion you desire.
       </Typography>
       <div className="row" >
-        <div className="col-md-8 col-12 mt-4">
+        <div className="col-md-8 col-12 mt-2">
           <Card className={classes.root}>
             <CardContent>
               <PageContainer 
@@ -119,7 +118,7 @@ export default function TextEditor() {
             </Box> */}
           </Card>
         </div>
-        <div className="col-md-4 col-12 mt-4">
+        <div className="col-md-4 col-12 mt-2">
           <Suggestions
             type = {type}
             dataList = {dataList}

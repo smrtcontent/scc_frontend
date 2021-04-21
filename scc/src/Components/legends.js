@@ -8,11 +8,11 @@ const useStyles = makeStyles((theme) => ({
     },
     secondaryTitle: {
       fontSize: 26,
+      fontWeight: 700,
       padding: theme.spacing(1),
-      fontFamily: "'Oleo Script', cursive"
     },
     listItem: {
-        fontFamily: "'Bebas Neue', cursive",
+        fontSize: 14,
     },
     pos: {
       marginBottom: 12,

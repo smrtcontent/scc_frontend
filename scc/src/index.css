@@ -1,14 +1,21 @@
+/*
+  Color Pallete
+  off white - #f6f6f6
+  light blue - #d6e4f4
+  dark blue - #1e56a0
+  Oxford blue - #163172
+
+*/
+
+
 body {
   margin: 0;
-  padding: 2rem;
+  padding: 0;
   scroll-behavior: smooth;
-  font-family: 'Fira Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #3186b2;
-  /* background: #7F00FF;  
-  background: -webkit-linear-gradient(to right, #E100FF, #7F00FF);  
-  background: linear-gradient(to right, #E100FF, #7F00FF);  */
+  background-color: #d6e4f4;
 
 }
 
@@ -18,29 +25,31 @@ code {
 }
 
 .editorContainer {
-  padding: 1rem;
+  padding: 0.2rem;
 }
 
 div.DraftEditor-root{
-  border: 1px lightblue solid;
-  padding: 1rem;
   margin-top: 1rem;
   height: 50vh;
-  font-family: 'Open Sans';
+  width: 100%;
+  font-family: 'Roboto Slab', serif;
   font-size: 90%;
   overflow-y: auto;
 }
 
 div.DraftEditor-editorContainer, div.public-DraftEditor-content {
   height: 100%;
+  width: auto;
 }
 
 .suggestion-box {
-  height: 63.6vh;
+  height: 64vh;
+  width: 100%;
 }
 
 .suggestions {
-  height: 40vh;
+  height: 43vh;
+  width: 100%;
   overflow-y: auto;
 }
 
@@ -63,7 +72,7 @@ div.DraftEditor-editorContainer, div.public-DraftEditor-content {
 	background-color: #0ae;
 	
 	background-image: -webkit-gradient(linear, 0 0, 0 100%,
-	                   color-stop(.5, rgba(255, 255, 255, .2)),
-					   color-stop(.5, transparent), to(transparent));
+                    color-stop(.5, rgba(255, 255, 255, .2)),
+                    color-stop(.5, transparent), to(transparent));
 }
 

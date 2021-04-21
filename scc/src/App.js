@@ -1,8 +1,10 @@
-import TextEditor from './Components/textEditor'
+// import TextEditor from './Components/textEditor'
+import MiniDrawer from './Components/drawer'
 function App() {
   return (
     <div className="App">
-      <TextEditor />
+      <MiniDrawer />
+      {/* <TextEditor /> */}
     </div>
   );
 }

@@ -1,8 +1,10 @@
 import React from "react";
-import { Editor, EditorState, RichUtils, Modifier } from "draft-js";
 import getFragmentFromSelection from 'draft-js/lib/getFragmentFromSelection';
-import {getDefaultKeyBinding, KeyBindingUtil} from 'draft-js';
-import { Button } from '@material-ui/core'
+import { Editor, EditorState, RichUtils, Modifier, getDefaultKeyBinding, KeyBindingUtil
+		} from "draft-js";
+import 'draft-js/dist/Draft.css'
+import { Button, ButtonGroup } from '@material-ui/core'
+
 
 const {hasCommandModifier} = KeyBindingUtil;
 
@@ -14,22 +16,39 @@ class PageContainer extends React.Component {
 			editorState: EditorState.createEmpty(),
 			selected: '' 
 		}
+	}
 
-		this.onSearch = (selectedText) => {
-			this.setState({selected : selectedText})
-			this.props.onSearch(selectedText)
-		}
+	componentDidMount() {
+		this.setState({
+			editorState: EditorState.moveFocusToEnd(this.state.editorState)
+		})
+
+	/**
+	 * This function is to set the selected text in the selected state
+	 */
+	this.onSearch = (selectedText) => {
+		this.setState({selected : selectedText})
+		this.props.onSearch(selectedText)
+	}
 	
-		this.onChange = (editorState) => {
-				this.setState({editorState})
-				}
+	/**
+	 * This function updates the editorState
+	 * 
+	 * @param {*} editorState 
+	 * @returns {void}
+	 */
+	this.onChange = (editorState) => this.setState({editorState})
+		
 	}
 
-	editorLog = () => {
-		console.log(this.state.editorState.getCurrentContent().getPlainText())
-		alert('Check Log in console')
-	}
-
+	/**
+	 * Gets the current Editor State and the character to insert and then inserts
+	 * the character in the editorState
+	 * 
+	 * @param {*} characterToInsert 
+	 * @param {*} editorState 
+	 * @returns 
+	 */
 	insertCharacter = (characterToInsert, editorState) => {
 		const currentContent = editorState.getCurrentContent(),
 				currentSelection = editorState.getSelection();
@@ -45,6 +64,12 @@ class PageContainer extends React.Component {
 		return  newEditorState;
 	}
 	  
+	/**
+	 * Function that calls the insertCharacter function and then pushes the new state in the  
+	 * setState function which in turn sets the new state of the editor.
+	 * 
+	 * @param {*} e 
+	 */
 	replace = e => {
 		const newEditorState = this.insertCharacter(e, this.state.editorState);
 		this.setState({
@@ -52,10 +77,19 @@ class PageContainer extends React.Component {
 		})
 	}
 
+	/**
+	 *  Function to set the values of the onSearch function recieved from the props
+	 */ 
 	handleDataChange = (c,e) => {
 		this.props.onSearch(c,e)
 	}
 
+	/**
+	 * Checks and returns the command for the text editor
+	 * 
+	 * @param {*} e 
+	 * @returns 
+	 */
 	suggestionsKeyBinding = (e) => {
 		if (e.keyCode === 65 && hasCommandModifier(e)) { // 65 -> a
 			return 'find-antonyms'
@@ -89,7 +123,7 @@ class PageContainer extends React.Component {
 		if (command === 'find-antonyms') {
 			const selected = getFragmentFromSelection(this.state.editorState);
 			if(this.checkLen(selected)){
-				alert("Please select only one word to search antonyms for!")
+				alert("Please select only one word to search Antonyms for!")
 				return "handled"
 			}
 			this.handleDataChange('findAntonyms',this.textReturn(selected))
@@ -128,7 +162,6 @@ class PageContainer extends React.Component {
 		}
 		if (command === 'replace') {
 			this.replace(this.props.reptext)
-			// alert(this.props.reptext)
 		}
 		if(newState) {
 			this.onChange(newState);
@@ -137,47 +170,55 @@ class PageContainer extends React.Component {
 		return "not-handled"
 	}
 
-	// onUnderlineClick = () => {
-	// 	this.onChange(
-	// 		RichUtils.toggleInlineStyle(this.state.editorState, "UNDERLINE")
-	// 	)
-	// }
+	/**
+	 * The formatting options
+	 */
 
-	// onBoldClick = () => {
-	// 	this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, "BOLD"))
-	// }
+	onUnderlineClick = () => {
+		this.onChange(
+			RichUtils.toggleInlineStyle(this.state.editorState, "UNDERLINE")
+		)
+	}
 
-	// onItalicClick = () => {
-	// 	this.onChange(
-	// 		RichUtils.toggleInlineStyle(this.state.editorState, "ITALIC")
-	// 	)
-	// }
+	onBoldClick = () => {
+		this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, "BOLD"))
+	}
+
+	onItalicClick = () => {
+		this.onChange(
+			RichUtils.toggleInlineStyle(this.state.editorState, "ITALIC")
+		)
+	}
 
 	render() {
 		return (
 			<div className="editorContainer">
-				{/* <Button 
-                    onClick={this.onUnderlineClick}
-                    variant= "contained"
-                    color="default"
-                    size="small"
-                    >U</Button>
-				<Button 
-                    onClick={this.onBoldClick}
-                    variant= "contained"
-                    color="default"
-                    size="small"
-                    >
-					<b>B</b>
-				</Button>
-				<Button 
-                    onClick={this.onItalicClick}
-                    variant= "contained"
-                    color="default"
-                    size="small"
-                    >
-					<em>I</em>
-				</Button> */}
+				<ButtonGroup 
+					
+				>
+					<Button 
+						onClick={this.onUnderlineClick}
+						style = {{backgroundColor:'#f6f6f6'}}
+						variant= "contained"
+						size="small"
+						>U</Button>
+					<Button 
+						onClick={this.onBoldClick}
+						variant= "contained"
+						style = {{backgroundColor:'#f6f6f6'}}
+						size="small"
+						>
+						<b>B</b>
+					</Button>
+					<Button 
+						onClick={this.onItalicClick}
+						variant= "contained"
+						style = {{backgroundColor:'#f6f6f6'}}
+						size="small"
+						>
+						<em>I</em>
+					</Button>
+				</ButtonGroup>
 				<div 
 					className="editors"
 					>
@@ -186,19 +227,12 @@ class PageContainer extends React.Component {
 						handleKeyCommand={this.handleKeyCommand}
 						keyBindingFn={this.suggestionsKeyBinding}
 						onChange={this.onChange}
+						spellCheck
+						placeholder='Begin typing here...'
 					/>
 				</div>
-				<div className='mt-3 mb-0'>
-					<Button
-					variant='contained'
-					color='primary'
-					onClick={this.editorLog}
-					>
-						Editor-log
-					</Button>
-				</div>
 			</div>
-		);
+		)
 	}
 }
 
