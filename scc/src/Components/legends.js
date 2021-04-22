@@ -29,23 +29,80 @@ const Legends = () => {
                 >
                     {'Legend'}
                 </Typography>
-                <ul className={classes.listItem}>
-                    {[
-                        { item : "'ctrl' + A : Find Antonyms"}, 
-                        { item : "'ctrl' + 'Shift' + A : Find Adjectives"},
-                        { item : "'alt' + 'Shift' + A : Find Approximate Rhymes"},
-                        { item : "'ctrl' + 'Shift' + C : Find Consonant Match"},
-                        { item : "'ctrl' + D : Find Definitions"},
-                        { item : "'ctrl' + 'Shift' + F : Find Frequent Follower"},
-                        { item : "'ctrl' + 'alt' + F : Find Frequent Predecessor"},
-                        { item : "'ctrl' + 'shift' + H : Find Holonyms"},
-                        { item : "'alt' + H : Find Homphones"},
-                        { item : "'alt' + 'shift' + H : Find Hypernyms"},
-                        { item : "'ctrl' + r : Find Rhymes"},
-                        { item : "'Shift' + 'alt' + t: Find Trigger"},
-                        ].map((x,index) => <li key={index} >{x.item}</li>)
-                    }
-                </ul>
+                <div className="row">
+                    <div>
+                        <ul className={classes.listItem}>
+                            {[
+                                { item : "'Ctrl' + A : Find Antonyms"}, 
+                                { item : "'Ctrl' + 'Shift' + A : Find Adjectives"},
+                                { item : "'Alt' + 'Shift' + A : Find Approximate Rhymes"},
+                                { item : "'Ctrl' + 'Shift' + C : Find Consonant Match"},
+                                { item : "'Ctrl' + D : Find Definitions"},
+                                { item : "'Ctrl' + 'Shift' + F : Find Frequent Follower"},
+                                { item : "'Ctrl' + 'Alt' + F : Find Frequent Predecessor"},
+                                { item : "'Ctrl' + 'Shift' + H : Find Holonyms"},
+                                // { item : "'Alt' + H : Find Homphones"},
+                                // { item : "'Alt' + 'Shift' + H : Find Hypernyms"},
+                                // { item : "'Ctrl' + M : Find Meronyms"},
+                                // { item : "'Alt' + N : Find Nouns"},
+                                // { item : "'Alt' + P : Find Prefix Hints"},
+                                // { item : "'Ctrl' + R : Find Rhymes"},
+                                // { item : "'Ctrl' + 'Shift' + R : Find Advance Rhymes"},
+                                // { item : "'Ctrl' + 'Shift' + S : Find Similar Words"},
+                                // { item : "'Shift' + 'Alt' + T: Find Trigger"},
+                                ].map((x,index) => <li key={index} >{x.item}</li>)
+                            }
+                        </ul>
+                    </div>
+                    <div>
+                        <ul className={classes.listItem}>
+                            {[
+                                // { item : "'Ctrl' + A : Find Antonyms"}, 
+                                // { item : "'Ctrl' + 'Shift' + A : Find Adjectives"},
+                                // { item : "'Alt' + 'Shift' + A : Find Approximate Rhymes"},
+                                // { item : "'Ctrl' + 'Shift' + C : Find Consonant Match"},
+                                // { item : "'Ctrl' + D : Find Definitions"},
+                                // { item : "'Ctrl' + 'Shift' + F : Find Frequent Follower"},
+                                // { item : "'Ctrl' + 'Alt' + F : Find Frequent Predecessor"},
+                                // { item : "'Ctrl' + 'Shift' + H : Find Holonyms"},
+                                { item : "'Alt' + H : Find Homphones"},
+                                { item : "'Alt' + 'Shift' + H : Find Hypernyms"},
+                                { item : "'Ctrl' + M : Find Meronyms"},
+                                { item : "'Alt' + N : Find Nouns"},
+                                { item : "'Alt' + P : Find Prefix Hints"},
+                                { item : "'Ctrl' + R : Find Rhymes"},
+                                { item : "'Ctrl' + 'Shift' + R : Find Advance Rhymes"},
+                                { item : "'Ctrl' + 'Shift' + S : Find Similar Words"},
+                                // { item : "'Shift' + 'Alt' + T: Find Trigger"},
+                                ].map((x,index) => <li key={index} >{x.item}</li>)
+                            }
+                        </ul>
+                    </div>
+                    <div>
+                        <ul className={classes.listItem}>
+                            {[
+                                // { item : "'Ctrl' + A : Find Antonyms"}, 
+                                // { item : "'Ctrl' + 'Shift' + A : Find Adjectives"},
+                                // { item : "'Alt' + 'Shift' + A : Find Approximate Rhymes"},
+                                // { item : "'Ctrl' + 'Shift' + C : Find Consonant Match"},
+                                // { item : "'Ctrl' + D : Find Definitions"},
+                                // { item : "'Ctrl' + 'Shift' + F : Find Frequent Follower"},
+                                // { item : "'Ctrl' + 'Alt' + F : Find Frequent Predecessor"},
+                                // { item : "'Ctrl' + 'Shift' + H : Find Holonyms"},
+                                // { item : "'Alt' + H : Find Homphones"},
+                                // { item : "'Alt' + 'Shift' + H : Find Hypernyms"},
+                                // { item : "'Ctrl' + M : Find Meronyms"},
+                                // { item : "'Alt' + N : Find Nouns"},
+                                // { item : "'Alt' + P : Find Prefix Hints"},
+                                // { item : "'Ctrl' + R : Find Rhymes"},
+                                // { item : "'Ctrl' + 'Shift' + R : Find Advance Rhymes"},
+                                // { item : "'Ctrl' + 'Shift' + S : Find Similar Words"},
+                                { item : "'Shift' + 'Alt' + T: Find Trigger"},
+                                ].map((x,index) => <li key={index} >{x.item}</li>)
+                            }
+                        </ul>
+                    </div>
+                </div>
             </CardContent>
         </Card>
     )

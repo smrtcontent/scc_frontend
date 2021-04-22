@@ -92,11 +92,14 @@ class PageContainer extends React.Component {
 		else if (e.key === 'H' && hasCommandModifier(e)) return 'find-holonyms'
 		else if (e.key === 'h' && e.altKey) 			 return 'find-homophones'
 		else if (e.key === 'H' && e.altKey) 			 return 'find-hypernyms'
+		else if (e.key === 'm' && hasCommandModifier(e)) return 'find-meronyms'
+		else if (e.key === 'n' && e.altKey) 			 return 'find-nouns'
+		else if (e.key === 'p' && e.altKey) 			 return 'find-prefix-hints'
 		else if (e.key === 'r' && hasCommandModifier(e)) return 'find-rhymes'
+		else if (e.key === 'R' && hasCommandModifier(e)) return 'find-advance-rhymes'
+		else if (e.key === 'S' && hasCommandModifier(e)) return 'find-similar'
 		else if (e.key === 'T' && e.altKey) 			 return 'find-triggers'
-		else if (e.key === 'D' && e.ctrlKey) 			 console.log(e)
 		else if (e.key === 'p' && hasCommandModifier(e)) return 'replace'
-
 		return getDefaultKeyBinding(e)
 	}
 
@@ -109,14 +112,15 @@ class PageContainer extends React.Component {
 	 */
 	handleCommand = (command, query) => {
 		const selected = getFragmentFromSelection(this.state.editorState);
-			if((selected ? selected.map(x => x.getText()).join('\n') : '').split(' ').length > 2){
+		var Selected = selected ? selected.map(x => x.getText()).join('\n') : ''
+			if(Selected.trim().split(' ').length > 1){
 				alert('Please select only one word to search ' + query + ' for!')
 				return "handled"
 			}
 			if (query === 'Definitions')
-				this.props.onDefChange(command,selected ? selected.map(x => x.getText()).join('\n') : '')
+				this.props.onDefChange(command,Selected)
 			else
-				this.props.onSearch(command,selected ? selected.map(x => x.getText()).join('\n') : '')
+				this.props.onSearch(command,Selected)
 			this.props.onChange(query)
 			return "handled"
 	}
@@ -131,23 +135,65 @@ class PageContainer extends React.Component {
 	handleKeyCommand = command => {
 		const newState = RichUtils.handleKeyCommand(this.state.editorState,command)
 
-		if (command === 'find-antonyms') 				this.handleCommand('findAntonyms', 'Antonyms')
-		if (command === 'find-adjectives') 				this.handleCommand('findAdjectives', 'Adjectives')
-		if (command === 'find-approximate-rhymes') 		this.handleCommand('findApproximateRhymes', 'Approximate Rhymes')
-		if (command === 'find-consonant-match') 		this.handleCommand('findConsonantMatch', 'Consonant Match')
-		if (command === 'find-rhymes') 					this.handleCommand('findRhymes', 'Rhymes')
-		if (command === 'find-triggers') 				this.handleCommand('findTriggers', 'Triggers')
-		if (command === 'find-definitions') 			this.handleCommand('findDefinitions', 'Definitions')
-		if (command === 'find-frequent-follower') 		this.handleCommand('findFrequentFollower', 'Frequent Followers')
-		if (command === 'find-frequent-predecessors') 	this.handleCommand('findFrequentPredecessors', 'Frequent Predecessors')
-		if (command === 'find-holonyms') 				this.handleCommand('findHolonyms', 'Holonyms')
-		if (command === 'find-homophones') 				this.handleCommand('findHomophones', 'Homophones')
-		if (command === 'find-hypernyms') 				this.handleCommand('findHypernyms', 'Hypernyms')
-		if (command === 'replace') 						this.replace(this.props.reptext)
+		if (command === 'find-antonyms') 				
+			this.handleCommand('findAntonyms', 'Antonyms')
+
+		if (command === 'find-adjectives') 				
+			this.handleCommand('findAdjectives', 'Adjectives')
+
+		if (command === 'find-approximate-rhymes') 		
+			this.handleCommand('findApproximateRhymes', 'Approximate Rhymes')
+
+		if (command === 'find-consonant-match') 		
+			this.handleCommand('findConsonantMatch', 'Consonant Match')
+
+		if (command === 'find-definitions') 			
+			this.handleCommand('findDefinitions', 'Definitions')
+
+		if (command === 'find-frequent-follower') 		
+			this.handleCommand('findFrequentFollower', 'Frequent Followers')
+
+		if (command === 'find-frequent-predecessors') 	
+			this.handleCommand('findFrequentPredecessors', 'Frequent Predecessors')
+
+		if (command === 'find-holonyms') 				
+			this.handleCommand('findHolonyms', 'Holonyms')
+
+		if (command === 'find-homophones') 				
+			this.handleCommand('findHomophones', 'Homophones')
+
+		if (command === 'find-hypernyms') 				
+			this.handleCommand('findHypernyms', 'Hypernyms')
+
+		if (command === 'find-meronyms') 				
+			this.handleCommand('findMeronyms', 'Meronyms')
+
+		if (command === 'find-nouns') 					
+			this.handleCommand('findNouns', 'Nouns')
+
+		if (command === 'find-prefix-hints') 			
+			this.handleCommand('prefixHintSuggestions', 'Prefix Hints')
+
+		if (command === 'find-rhymes') 					
+			this.handleCommand('findRhymes', 'Rhymes')
+
+		if (command === 'find-advance-rhymes') 			
+			this.handleCommand('findRhymesAdvance', 'Advance Rhymes')
+
+		if (command === 'find-similar') 			
+			this.handleCommand('findSimilar', 'Similar Words')
+
+		if (command === 'find-triggers') 				
+			this.handleCommand('findTriggers', 'Triggers')
+
+		if (command === 'replace') 						
+			this.replace(this.props.reptext)
+
 		if(newState) {
 			this.onChange(newState);
 			return 'handled'
 		}
+
 		return "not-handled"
 	}
 

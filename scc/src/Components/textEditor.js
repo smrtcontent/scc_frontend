@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#ffffff',
     margin: theme.spacing(0,2,0,2),
     padding: theme.spacing(0),
-    textShadow: `0 2px 1.8px -19px rgba(0, 0, 0, 0.028),
+    shadow: `0 2px 1.8px -19px rgba(0, 0, 0, 0.028),
     0 4.9px 4.3px -19px rgba(0, 0, 0, 0.04),
     0 9.3px 8.1px -19px rgba(0, 0, 0, 0.05),
     0 16.5px 14.5px -19px rgba(0, 0, 0, 0.06),
@@ -55,7 +55,7 @@ export default function TextEditor() {
   const typeChange = e => setType(e)
 
   const handleDataChange = (command,newData) => {
-    const URL = "http://localhost:8088/scc/api/"+command+"?word="+newData
+    const URL = "http://localhost:8088/scc/api/"+command+"?word="+newData.trim()
     fetch(URL)
         .then(res => res.json())
         .then(wordList => setChange(wordList))
@@ -69,21 +69,12 @@ export default function TextEditor() {
     const URL = "http://localhost:8088/scc/api/"+command+"?word="+newData
     fetch(URL)
         .then(res => res.json())
-        .then(wordList => {
-          setDefinitions(wordList)
-        })
+        .then(wordList => setDefinitions(wordList))
         .catch(err => {console.log(err)})
   }
 
   return (
     <div className="container-fluid" >
-      {/* <Typography 
-        className={classes.title} 
-        color="textSecondary" 
-        gutterBottom={true}
-      >
-        Smart Content Creator...
-      </Typography> */}
       <Typography
         color='textSecondary'
         className={classes.secondary}
@@ -92,7 +83,7 @@ export default function TextEditor() {
         press the specific key to get the type of suggestion you desire.
       </Typography>
       <div className="row" >
-        <div className="col-md-8 col-12 mt-2">
+        <div className="col-md-8 col-12 mt-2 pl-2 pr-1">
           <Card className={classes.root}>
             <CardContent>
               <PageContainer 
@@ -118,7 +109,7 @@ export default function TextEditor() {
             </Box> */}
           </Card>
         </div>
-        <div className="col-md-4 col-12 mt-2">
+        <div className="col-md-4 col-12 mt-2 pl-2 pr-1">
           <Suggestions
             type = {type}
             dataList = {dataList}
@@ -127,8 +118,8 @@ export default function TextEditor() {
             />
         </div>
       </div>
-      <div className='row mt-4'>
-        <div className='col-md-12'>
+      <div className='row mt-2'>
+        <div className='col-md-12 pl-2 pr-1'>
           <Legends />
         </div>
       </div>
