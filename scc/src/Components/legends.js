@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Legends = () => {
     const classes = useStyles();
+
     return (
         <Card>
             <CardContent>
@@ -70,9 +71,10 @@ const Legends = () => {
                                 { item : "'Ctrl' + M : Find Meronyms"},
                                 { item : "'Alt' + N : Find Nouns"},
                                 { item : "'Alt' + P : Find Prefix Hints"},
+                                { item : "'Alt' + 'Shift' + P : Find Portmanteaus"},
                                 { item : "'Ctrl' + R : Find Rhymes"},
                                 { item : "'Ctrl' + 'Shift' + R : Find Advance Rhymes"},
-                                { item : "'Ctrl' + 'Shift' + S : Find Similar Words"},
+                                // { item : "'Ctrl' + 'Shift' + S : Find Similar Words"},
                                 // { item : "'Shift' + 'Alt' + T: Find Trigger"},
                                 ].map((x,index) => <li key={index} >{x.item}</li>)
                             }
@@ -96,7 +98,8 @@ const Legends = () => {
                                 // { item : "'Alt' + P : Find Prefix Hints"},
                                 // { item : "'Ctrl' + R : Find Rhymes"},
                                 // { item : "'Ctrl' + 'Shift' + R : Find Advance Rhymes"},
-                                // { item : "'Ctrl' + 'Shift' + S : Find Similar Words"},
+                                { item : "'Ctrl' + 'Shift' + S : Find Similar Words"},
+                                { item : "'Alt' + S : Find Similar Sounding Words"},
                                 { item : "'Shift' + 'Alt' + T: Find Trigger"},
                                 ].map((x,index) => <li key={index} >{x.item}</li>)
                             }

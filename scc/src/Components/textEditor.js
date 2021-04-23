@@ -47,21 +47,30 @@ export default function TextEditor() {
   const [type, setType] = useState()
   const [repText, setRepText] = useState()
   const [definitions, setDefinitions] = useState([])
+  const [portmanteaus, setPortmanteaus] = useState([])
 
-  const setRep = e => setRepText(e) 
-
-  const setChange = e => setWords(e)  
+  const setRep = e => {
+    console.log(e)
+    setRepText(e) }
 
   const typeChange = e => setType(e)
 
   const handleDataChange = (command,newData) => {
-    const URL = "http://localhost:8088/scc/api/"+command+"?word="+newData.trim()
-    fetch(URL)
-        .then(res => res.json())
-        .then(wordList => setChange(wordList))
-        .catch(err => {console.log(err)})
-    
     setDefinitions([])
+    const URL = "http://localhost:8088/scc/api/"+command+"?word="+newData.trim()
+    if (command === 'findPortmanteaus'){
+      setWords([])
+      fetch(URL)
+        .then(res => res.json())
+        .then(wordList => setPortmanteaus(wordList))
+        .catch(err => {console.log(err)})
+    } else {
+      setPortmanteaus([])
+      fetch(URL)
+          .then(res => res.json())
+          .then(wordList => setWords(wordList))
+          .catch(err => {console.log(err)})
+    }
   }
 
   const handleDefinitionChange = (command, newData) => {
@@ -113,6 +122,7 @@ export default function TextEditor() {
           <Suggestions
             type = {type}
             dataList = {dataList}
+            portmanteaus = {portmanteaus}
             definitions = {definitions}
             onClick = {setRep}
             />

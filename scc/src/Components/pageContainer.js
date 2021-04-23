@@ -95,9 +95,11 @@ class PageContainer extends React.Component {
 		else if (e.key === 'm' && hasCommandModifier(e)) return 'find-meronyms'
 		else if (e.key === 'n' && e.altKey) 			 return 'find-nouns'
 		else if (e.key === 'p' && e.altKey) 			 return 'find-prefix-hints'
+		else if (e.key === 'P' && e.altKey)				 return 'find-portmanteaus'
 		else if (e.key === 'r' && hasCommandModifier(e)) return 'find-rhymes'
 		else if (e.key === 'R' && hasCommandModifier(e)) return 'find-advance-rhymes'
 		else if (e.key === 'S' && hasCommandModifier(e)) return 'find-similar'
+		else if (e.key === 's' && e.altKey) 			 return 'find-similar-sound'
 		else if (e.key === 'T' && e.altKey) 			 return 'find-triggers'
 		else if (e.key === 'p' && hasCommandModifier(e)) return 'replace'
 		return getDefaultKeyBinding(e)
@@ -170,6 +172,9 @@ class PageContainer extends React.Component {
 
 		if (command === 'find-nouns') 					
 			this.handleCommand('findNouns', 'Nouns')
+		
+		if (command === 'find-portmanteaus') 					
+			this.handleCommand('findPortmanteaus', 'Portmanteaus')
 
 		if (command === 'find-prefix-hints') 			
 			this.handleCommand('prefixHintSuggestions', 'Prefix Hints')
@@ -182,6 +187,9 @@ class PageContainer extends React.Component {
 
 		if (command === 'find-similar') 			
 			this.handleCommand('findSimilar', 'Similar Words')
+
+		if (command === 'find-similar-sound') 			
+			this.handleCommand('soundsSimilar', 'Similar Sounding Words')
 
 		if (command === 'find-triggers') 				
 			this.handleCommand('findTriggers', 'Triggers')

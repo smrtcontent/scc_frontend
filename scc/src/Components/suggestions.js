@@ -1,8 +1,9 @@
 import React,{useState} from 'react'
-import { Card, CardContent, Typography , Button, Snackbar } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core';
+import { Card, CardContent, Typography , Button, Snackbar } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 import Alert from './alert'
 import Definitions from './definitions'
+import Portmanteaus from './portmanteaus'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -57,6 +58,7 @@ const Suggestions = (props) => {
                 >
                     You have selected <strong>{ selected }</strong> please 
                     use " ctrl " + p to paste it in the editor
+
                 </Alert>
             </Snackbar>
             <Card 
@@ -77,6 +79,14 @@ const Suggestions = (props) => {
                     </Typography>
                     <Definitions 
                         meanings = {props.definitions} 
+                    />
+                    <Portmanteaus 
+                        portmanteaus = {props.portmanteaus}
+                        onClick = { (e) => {
+                            setSelected(e)
+                            props.onClick(e)
+                            handleClick()
+                        }}
                     />
                     <div 
                         className='suggestions'
@@ -100,7 +110,7 @@ const Suggestions = (props) => {
                                 {data.word} 
                             </Button>
                         ))
-                            }
+                    }
                     </div>
                 </CardContent>
             </Card>
