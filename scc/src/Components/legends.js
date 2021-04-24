@@ -99,6 +99,8 @@ const Legends = () => {
                                 // { item : "'Ctrl' + R : Find Rhymes"},
                                 // { item : "'Ctrl' + 'Shift' + R : Find Advance Rhymes"},
                                 { item : "'Ctrl' + 'Shift' + S : Find Similar Words"},
+                                { item : "'Alt' + 'Shift' + D : Find Spelt Similar Words"},
+                                { item : "'Ctrl' + 'H' : Find Hyponyms Words"},
                                 { item : "'Alt' + S : Find Similar Sounding Words"},
                                 { item : "'Shift' + 'Alt' + T: Find Trigger"},
                                 ].map((x,index) => <li key={index} >{x.item}</li>)

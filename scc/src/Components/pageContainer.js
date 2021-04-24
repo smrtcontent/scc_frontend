@@ -1,19 +1,21 @@
 import React from "react";
 import getFragmentFromSelection from 'draft-js/lib/getFragmentFromSelection';
-import { Editor, EditorState, RichUtils, 
-		 Modifier, getDefaultKeyBinding, KeyBindingUtil} from "draft-js";
+import {
+	Editor, EditorState, RichUtils,
+	Modifier, getDefaultKeyBinding, KeyBindingUtil
+} from "draft-js";
 import 'draft-js/dist/Draft.css'
 import { Button, ButtonGroup } from '@material-ui/core'
 
-const {hasCommandModifier} = KeyBindingUtil
+const { hasCommandModifier } = KeyBindingUtil
 
 class PageContainer extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleKeyCommand = this.handleKeyCommand.bind(this)
-		this.state = { 
+		this.state = {
 			editorState: EditorState.createEmpty(),
-			selected: '' 
+			selected: ''
 		}
 	}
 
@@ -25,22 +27,22 @@ class PageContainer extends React.Component {
 			editorState: EditorState.moveFocusToEnd(this.state.editorState)
 		})
 
-	/**
-	 * This function is to set the selected text in the selected state
-	 */
-	this.onSearch = (selectedText) => {
-		this.setState({selected : selectedText})
-		this.props.onSearch(selectedText)
-	}
-	
-	/**
-	 * This function updates the editorState
-	 * 
-	 * @param {*} editorState 
-	 * @returns {void}
-	 */
-	this.onChange = (editorState) => this.setState({editorState})
-		
+		/**
+		 * This function is to set the selected text in the selected state
+		 */
+		this.onSearch = (selectedText) => {
+			this.setState({ selected: selectedText })
+			this.props.onSearch(selectedText)
+		}
+
+		/**
+		 * This function updates the editorState
+		 * 
+		 * @param {*} editorState 
+		 * @returns {void}
+		 */
+		this.onChange = (editorState) => this.setState({ editorState })
+
 	}
 
 	/**
@@ -53,19 +55,19 @@ class PageContainer extends React.Component {
 	 */
 	insertCharacter = (characterToInsert, editorState) => {
 		const currentContent = editorState.getCurrentContent(),
-				currentSelection = editorState.getSelection();
-		
+			currentSelection = editorState.getSelection();
+
 		const newContent = Modifier.replaceText(
 			currentContent,
 			currentSelection,
 			characterToInsert
 		);
-		
+
 		const newEditorState = EditorState.push(editorState, newContent, 'insert-characters');
-		
-		return  newEditorState;
+
+		return newEditorState;
 	}
-	  
+
 	/**
 	 * Function that calls the insertCharacter function and then pushes the new state in the  
 	 * setState function which in turn sets the new state of the editor.
@@ -73,7 +75,7 @@ class PageContainer extends React.Component {
 	replace = e => {
 		const newEditorState = this.insertCharacter(e, this.state.editorState);
 		this.setState({
-		editorState: newEditorState
+			editorState: newEditorState
 		})
 	}
 
@@ -82,25 +84,27 @@ class PageContainer extends React.Component {
 	 * 
 	 */
 	suggestionsKeyBinding = (e) => {
-			 if (e.key === 'a' && hasCommandModifier(e)) return 'find-antonyms'
+		if (e.key === 'a' && hasCommandModifier(e)) return 'find-antonyms'
 		else if (e.key === 'A' && hasCommandModifier(e)) return 'find-adjectives'
-		else if (e.key === 'A' && e.altKey) 			 return 'find-approximate-rhymes'
+		else if (e.key === 'A' && e.altKey) return 'find-approximate-rhymes'
 		else if (e.key === 'C' && hasCommandModifier(e)) return 'find-consonant-match'
 		else if (e.key === 'd' && hasCommandModifier(e)) return 'find-definitions'
+		else if (e.key === 'D' && e.altKey) return 'find-spelt-similar'
 		else if (e.key === 'F' && hasCommandModifier(e)) return 'find-frequent-follower'
 		else if (e.key === 'f' && e.ctrlKey && e.altKey) return 'find-frequent-predecessors'
 		else if (e.key === 'H' && hasCommandModifier(e)) return 'find-holonyms'
-		else if (e.key === 'h' && e.altKey) 			 return 'find-homophones'
-		else if (e.key === 'H' && e.altKey) 			 return 'find-hypernyms'
+		else if (e.key === 'h' && e.altKey) return 'find-homophones'
+		else if (e.key === 'H' && e.altKey) return 'find-hypernyms'
+		else if (e.key === 'h' && hasCommandModifier(e)) return 'find-hyponyms'
 		else if (e.key === 'm' && hasCommandModifier(e)) return 'find-meronyms'
-		else if (e.key === 'n' && e.altKey) 			 return 'find-nouns'
-		else if (e.key === 'p' && e.altKey) 			 return 'find-prefix-hints'
-		else if (e.key === 'P' && e.altKey)				 return 'find-portmanteaus'
+		else if (e.key === 'n' && e.altKey) return 'find-nouns'
+		else if (e.key === 'p' && e.altKey) return 'find-prefix-hints'
+		else if (e.key === 'P' && e.altKey) return 'find-portmanteaus'
 		else if (e.key === 'r' && hasCommandModifier(e)) return 'find-rhymes'
 		else if (e.key === 'R' && hasCommandModifier(e)) return 'find-advance-rhymes'
 		else if (e.key === 'S' && hasCommandModifier(e)) return 'find-similar'
-		else if (e.key === 's' && e.altKey) 			 return 'find-similar-sound'
-		else if (e.key === 'T' && e.altKey) 			 return 'find-triggers'
+		else if (e.key === 's' && e.altKey) return 'find-similar-sound'
+		else if (e.key === 'T' && e.altKey) return 'find-triggers'
 		else if (e.key === 'p' && hasCommandModifier(e)) return 'replace'
 		return getDefaultKeyBinding(e)
 	}
@@ -115,16 +119,16 @@ class PageContainer extends React.Component {
 	handleCommand = (command, query) => {
 		const selected = getFragmentFromSelection(this.state.editorState);
 		var Selected = selected ? selected.map(x => x.getText()).join('\n') : ''
-			if(Selected.trim().split(' ').length > 1){
-				alert('Please select only one word to search ' + query + ' for!')
-				return "handled"
-			}
-			if (query === 'Definitions')
-				this.props.onDefChange(command,Selected)
-			else
-				this.props.onSearch(command,Selected)
-			this.props.onChange(query)
+		if (Selected.trim().split(' ').length > 1 && query != "Spelt Similar") {
+			alert('Please select only one word to search ' + query + ' for!')
 			return "handled"
+		}
+		if (query === 'Definitions')
+			this.props.onDefChange(command, Selected)
+		else
+			this.props.onSearch(command, Selected)
+		this.props.onChange(query)
+		return "handled"
 	}
 
 	/**
@@ -135,69 +139,75 @@ class PageContainer extends React.Component {
 	 * @returns {Void}
 	 */
 	handleKeyCommand = command => {
-		const newState = RichUtils.handleKeyCommand(this.state.editorState,command)
+		const newState = RichUtils.handleKeyCommand(this.state.editorState, command)
 
-		if (command === 'find-antonyms') 				
+		if (command === 'find-antonyms')
 			this.handleCommand('findAntonyms', 'Antonyms')
 
-		if (command === 'find-adjectives') 				
+		if (command === 'find-adjectives')
 			this.handleCommand('findAdjectives', 'Adjectives')
 
-		if (command === 'find-approximate-rhymes') 		
+		if (command === 'find-approximate-rhymes')
 			this.handleCommand('findApproximateRhymes', 'Approximate Rhymes')
 
-		if (command === 'find-consonant-match') 		
+		if (command === 'find-consonant-match')
 			this.handleCommand('findConsonantMatch', 'Consonant Match')
 
-		if (command === 'find-definitions') 			
+		if (command === 'find-definitions')
 			this.handleCommand('findDefinitions', 'Definitions')
 
-		if (command === 'find-frequent-follower') 		
+		if (command === 'find-frequent-follower')
 			this.handleCommand('findFrequentFollower', 'Frequent Followers')
 
-		if (command === 'find-frequent-predecessors') 	
+		if (command === 'find-hyponyms')
+			this.handleCommand('findHyponyms', 'Hyponyms')
+
+		if (command === 'find-frequent-predecessors')
 			this.handleCommand('findFrequentPredecessors', 'Frequent Predecessors')
 
-		if (command === 'find-holonyms') 				
+		if (command === 'find-holonyms')
 			this.handleCommand('findHolonyms', 'Holonyms')
 
-		if (command === 'find-homophones') 				
+		if (command === 'find-homophones')
 			this.handleCommand('findHomophones', 'Homophones')
 
-		if (command === 'find-hypernyms') 				
+		if (command === 'find-hypernyms')
 			this.handleCommand('findHypernyms', 'Hypernyms')
 
-		if (command === 'find-meronyms') 				
+		if (command === 'find-meronyms')
 			this.handleCommand('findMeronyms', 'Meronyms')
 
-		if (command === 'find-nouns') 					
+		if (command === 'find-nouns')
 			this.handleCommand('findNouns', 'Nouns')
-		
-		if (command === 'find-portmanteaus') 					
+
+		if (command === 'find-portmanteaus')
 			this.handleCommand('findPortmanteaus', 'Portmanteaus')
 
-		if (command === 'find-prefix-hints') 			
+		if (command === 'find-prefix-hints')
 			this.handleCommand('prefixHintSuggestions', 'Prefix Hints')
 
-		if (command === 'find-rhymes') 					
+		if (command === 'find-rhymes')
 			this.handleCommand('findRhymes', 'Rhymes')
 
-		if (command === 'find-advance-rhymes') 			
+		if (command === 'find-advance-rhymes')
 			this.handleCommand('findRhymesAdvance', 'Advance Rhymes')
 
-		if (command === 'find-similar') 			
+		if (command === 'find-similar')
 			this.handleCommand('findSimilar', 'Similar Words')
 
-		if (command === 'find-similar-sound') 			
+		if (command === 'find-similar-sound')
 			this.handleCommand('soundsSimilar', 'Similar Sounding Words')
 
-		if (command === 'find-triggers') 				
+		if (command === 'find-spelt-similar')
+			this.handleCommand('speltSimilar', 'Spelt Similar')
+
+		if (command === 'find-triggers')
 			this.handleCommand('findTriggers', 'Triggers')
 
-		if (command === 'replace') 						
+		if (command === 'replace')
 			this.replace(this.props.reptext)
 
-		if(newState) {
+		if (newState) {
 			this.onChange(newState);
 			return 'handled'
 		}
@@ -225,32 +235,32 @@ class PageContainer extends React.Component {
 		return (
 			<div className="editorContainer">
 				<ButtonGroup>
-					<Button 
+					<Button
 						onClick={this.onUnderlineClick}
-						style = {{backgroundColor:'#f6f6f6'}}
-						variant= "contained"
+						style={{ backgroundColor: '#f6f6f6' }}
+						variant="contained"
 						size="small"
-						>U</Button>
-					<Button 
+					>U</Button>
+					<Button
 						onClick={this.onBoldClick}
-						variant= "contained"
-						style = {{backgroundColor:'#f6f6f6'}}
+						variant="contained"
+						style={{ backgroundColor: '#f6f6f6' }}
 						size="small"
-						>
+					>
 						<b>B</b>
 					</Button>
-					<Button 
+					<Button
 						onClick={this.onItalicClick}
-						variant= "contained"
-						style = {{backgroundColor:'#f6f6f6'}}
+						variant="contained"
+						style={{ backgroundColor: '#f6f6f6' }}
 						size="small"
-						>
+					>
 						<em>I</em>
 					</Button>
 				</ButtonGroup>
-				<div 
+				<div
 					className="editors"
-					>
+				>
 					<Editor
 						editorState={this.state.editorState}
 						handleKeyCommand={this.handleKeyCommand}

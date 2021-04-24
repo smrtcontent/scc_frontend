@@ -1,4 +1,4 @@
-import React,{ useState } from  'react'
+import React, { useState } from 'react'
 import PageContainer from './pageContainer'
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Typography } from '@material-ui/core';
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 42,
     fontWeight: 700,
     color: '#ffffff',
-    margin: theme.spacing(0,2,0,2),
+    margin: theme.spacing(0, 2, 0, 2),
     padding: theme.spacing(0),
     shadow: `0 2px 1.8px -19px rgba(0, 0, 0, 0.028),
     0 4.9px 4.3px -19px rgba(0, 0, 0, 0.04),
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   secondary: {
     fontSize: 16,
-    padding: theme.spacing(1,1,0,1),
+    padding: theme.spacing(1, 1, 0, 1),
   },
   secondaryTitle: {
     fontSize: 26,
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
   subHeading: {
     fontSize: 16,
-    padding: theme.spacing(1,0),
+    padding: theme.spacing(1, 0),
     color: '#4756ca',
   },
   pos: {
@@ -51,35 +51,36 @@ export default function TextEditor() {
 
   const setRep = e => {
     console.log(e)
-    setRepText(e) }
+    setRepText(e)
+  }
 
   const typeChange = e => setType(e)
 
-  const handleDataChange = (command,newData) => {
+  const handleDataChange = (command, newData) => {
     setDefinitions([])
-    const URL = "http://localhost:8088/scc/api/"+command+"?word="+newData.trim()
-    if (command === 'findPortmanteaus'){
+    const URL = "http://localhost:8088/scc/api/" + command + "?word=" + newData.trim()
+    if (command === 'findPortmanteaus') {
       setWords([])
       fetch(URL)
         .then(res => res.json())
         .then(wordList => setPortmanteaus(wordList))
-        .catch(err => {console.log(err)})
+        .catch(err => { console.log(err) })
     } else {
       setPortmanteaus([])
       fetch(URL)
-          .then(res => res.json())
-          .then(wordList => setWords(wordList))
-          .catch(err => {console.log(err)})
+        .then(res => res.json())
+        .then(wordList => setWords(wordList))
+        .catch(err => { console.log(err) })
     }
   }
 
   const handleDefinitionChange = (command, newData) => {
     setWords([])
-    const URL = "http://localhost:8088/scc/api/"+command+"?word="+newData
+    const URL = "http://localhost:8088/scc/api/" + command + "?word=" + newData
     fetch(URL)
-        .then(res => res.json())
-        .then(wordList => setDefinitions(wordList))
-        .catch(err => {console.log(err)})
+      .then(res => res.json())
+      .then(wordList => setDefinitions(wordList))
+      .catch(err => { console.log(err) })
   }
 
   return (
@@ -88,18 +89,18 @@ export default function TextEditor() {
         color='textSecondary'
         className={classes.secondary}
       >
-        * Type the content you want to and once you feel the need, select the word and 
+        * Type the content you want to and once you feel the need, select the word and
         press the specific key to get the type of suggestion you desire.
       </Typography>
       <div className="row" >
         <div className="col-md-8 col-12 mt-2 pl-2 pr-1">
           <Card className={classes.root}>
             <CardContent>
-              <PageContainer 
-                onSearch = {handleDataChange}
-                onDefChange = {handleDefinitionChange}
-                onChange = {typeChange}
-                reptext = {repText}
+              <PageContainer
+                onSearch={handleDataChange}
+                onDefChange={handleDefinitionChange}
+                onChange={typeChange}
+                reptext={repText}
               />
             </CardContent>
             {/* <Box 
@@ -120,12 +121,12 @@ export default function TextEditor() {
         </div>
         <div className="col-md-4 col-12 mt-2 pl-2 pr-1">
           <Suggestions
-            type = {type}
-            dataList = {dataList}
-            portmanteaus = {portmanteaus}
-            definitions = {definitions}
-            onClick = {setRep}
-            />
+            type={type}
+            dataList={dataList}
+            portmanteaus={portmanteaus}
+            definitions={definitions}
+            onClick={setRep}
+          />
         </div>
       </div>
       <div className='row mt-2'>
