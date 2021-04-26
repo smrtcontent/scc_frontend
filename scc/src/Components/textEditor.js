@@ -43,34 +43,56 @@ const useStyles = makeStyles((theme) => ({
 export default function TextEditor() {
   const classes = useStyles();
 
-  const [dataList, setWords] = useState([]);
-  const [type, setType] = useState()
-  const [repText, setRepText] = useState()
-  const [definitions, setDefinitions] = useState([])
-  const [portmanteaus, setPortmanteaus] = useState([])
+  const [dataList, setWords] = useState([])   // Stores the words fetched by the api
+  const [type, setType] = useState()  // Stores the type of fetch that was made
+  const [repText, setRepText] = useState()  // Stores the text that can be pasted
+  const [definitions, setDefinitions] = useState([])  // Stores definitions featched by the api
+  const [portmanteaus, setPortmanteaus] = useState([])  // Stores portamanteaus
+  const [funChange, setFunChange] = useState()  // Stores the function to chnage focus to the editor
 
-  const setRep = e => {
-    console.log(e)
-    setRepText(e)
-  }
-
+  const setRep = e => setRepText(e)
   const typeChange = e => setType(e)
 
   const handleDataChange = (command, newData) => {
     setDefinitions([])
-    const URL = "http://localhost:8088/scc/api/" + command + "?word=" + newData.trim()
-    if (command === 'findPortmanteaus') {
-      setWords([])
-      fetch(URL)
-        .then(res => res.json())
-        .then(wordList => setPortmanteaus(wordList))
-        .catch(err => { console.log(err) })
+    setPortmanteaus([])
+    setWords([])
+
+    if ( command === 'findSimilarEndsWith' || command === 'findSimilarStartsWith' || command === 'wordsStartingWithEndingWith') {
+      
+      if (command === 'findSimilarEndsWith'){
+        const URL = "http://localhost:8088/scc/api/" + command + "?endLetter=" + newData[0] + "&word=" + newData[1]
+        fetch(URL)
+          .then(res => res.json())
+          .then(wordList => setWords(wordList))
+          .catch(err => { console.log(err) })
+      } else if(command === 'wordsStartingWithEndingWith') {
+        const URL = "http://localhost:8088/scc/api/" + command + "?endLetter=" + newData[0] + "&startLetter=" + newData[1]
+        fetch(URL)
+          .then(res => res.json())
+          .then(wordList => setWords(wordList))
+          .catch(err => { console.log(err) })
+      } else {
+        const URL = "http://localhost:8088/scc/api/" + command + "?startLetter=" + newData[0] + "&word=" + newData[1]
+        fetch(URL)
+          .then(res => res.json())
+          .then(wordList => setWords(wordList))
+          .catch(err => { console.log(err) })
+      }
+
     } else {
-      setPortmanteaus([])
-      fetch(URL)
-        .then(res => res.json())
-        .then(wordList => setWords(wordList))
-        .catch(err => { console.log(err) })
+      const URL = "http://localhost:8088/scc/api/" + command + "?word=" + newData.trim()
+      if (command === 'findPortmanteaus') {
+        fetch(URL)
+          .then(res => res.json())
+          .then(wordList => setPortmanteaus(wordList))
+          .catch(err => { console.log(err) })
+      } else {
+        fetch(URL)
+          .then(res => res.json())
+          .then(wordList => setWords(wordList))
+          .catch(err => { console.log(err) })
+      }
     }
   }
 
@@ -101,6 +123,7 @@ export default function TextEditor() {
                 onDefChange={handleDefinitionChange}
                 onChange={typeChange}
                 reptext={repText}
+                changeFun = {setFunChange}
               />
             </CardContent>
             {/* <Box 
@@ -126,6 +149,7 @@ export default function TextEditor() {
             portmanteaus={portmanteaus}
             definitions={definitions}
             onClick={setRep}
+            funChange = {funChange}
           />
         </div>
       </div>

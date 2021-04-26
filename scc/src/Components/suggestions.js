@@ -57,12 +57,12 @@ const Suggestions = (props) => {
                     severity="info"
                 >
                     You have selected <strong>{selected}</strong> please
-                    use " ctrl " + p to paste it in the editor
+                    use " Alt " + V to paste it in the editor
 
                 </Alert>
             </Snackbar>
             <Card
-                className={classes.root }
+                className={classes.root + ' suggestion-box' }
             >
                 <CardContent>
                     <Typography
@@ -102,10 +102,11 @@ const Suggestions = (props) => {
                                     // value={data.word}
                                     onClick={() => {
                                         props.onClick(data.word)
+                                        props.funChange()
                                         setSelected(data.word)
                                         handleClick()
                                     }
-                                    }
+                                }
                                 >
                                     {data.word}
                                 </Button>

@@ -5,20 +5,36 @@ import {
 	Modifier, getDefaultKeyBinding, KeyBindingUtil
 } from "draft-js";
 import 'draft-js/dist/Draft.css'
+import SimilarWordEnd from './similarWordEnd'
+import SimilarWordStart from './similarWordStart'
+import SimilarWordStartEnd from './similarWordStartEnd'
 import { Button, ButtonGroup } from '@material-ui/core'
 
 const { hasCommandModifier } = KeyBindingUtil
 
 class PageContainer extends React.Component {
+
+	setFocus = () =>  {
+		this.setState({
+			editorState: EditorState.moveFocusToEnd(this.state.editorState)
+		})
+	}
+
 	constructor(props) {
 		super(props);
 		this.handleKeyCommand = this.handleKeyCommand.bind(this)
 		this.state = {
 			editorState: EditorState.createEmpty(),
-			selected: ''
+			selected: '',
+			openEnd: false,
+			openStart: false,
+			openStartEnd: false,
 		}
+		
+		props.changeFun(() => this.setFocus)
 	}
 
+	
 	/**
 	 *  Sets the focus to the editor when component is loaded
 	 */
@@ -45,6 +61,10 @@ class PageContainer extends React.Component {
 
 	}
 
+	setOpenEnd = (e) => this.setState({ openEnd: e })
+	setOpenStart = (e) => this.setState({ openStart: e })
+	setOpenStartEnd = (e) => this.setState({ openStartEnd: e })
+	
 	/**
 	 * Gets the current Editor State and the character to insert and then inserts
 	 * the character in the editorState
@@ -84,12 +104,14 @@ class PageContainer extends React.Component {
 	 * 
 	 */
 	suggestionsKeyBinding = (e) => {
-		if (e.key === 'a' && hasCommandModifier(e)) return 'find-antonyms'
+		if (e.key === 'a' && e.altKey) return 'find-antonyms'
 		else if (e.key === 'A' && hasCommandModifier(e)) return 'find-adjectives'
 		else if (e.key === 'A' && e.altKey) return 'find-approximate-rhymes'
 		else if (e.key === 'C' && hasCommandModifier(e)) return 'find-consonant-match'
 		else if (e.key === 'd' && hasCommandModifier(e)) return 'find-definitions'
 		else if (e.key === 'D' && e.altKey) return 'find-spelt-similar'
+		else if (e.key === 'e' && hasCommandModifier(e)) return 'find-similar-end'
+		else if (e.key === 'E' && hasCommandModifier(e)) return 'find-similar-start-end'
 		else if (e.key === 'F' && hasCommandModifier(e)) return 'find-frequent-follower'
 		else if (e.key === 'f' && e.ctrlKey && e.altKey) return 'find-frequent-predecessors'
 		else if (e.key === 'H' && hasCommandModifier(e)) return 'find-holonyms'
@@ -104,8 +126,9 @@ class PageContainer extends React.Component {
 		else if (e.key === 'R' && hasCommandModifier(e)) return 'find-advance-rhymes'
 		else if (e.key === 'S' && hasCommandModifier(e)) return 'find-similar'
 		else if (e.key === 's' && e.altKey) return 'find-similar-sound'
+		else if (e.key === 'S' && e.altKey) return 'find-similar-start'
 		else if (e.key === 'T' && e.altKey) return 'find-triggers'
-		else if (e.key === 'p' && hasCommandModifier(e)) return 'replace'
+		else if (e.key === 'v' && e.altKey) return 'replace'
 		return getDefaultKeyBinding(e)
 	}
 
@@ -119,7 +142,7 @@ class PageContainer extends React.Component {
 	handleCommand = (command, query) => {
 		const selected = getFragmentFromSelection(this.state.editorState);
 		var Selected = selected ? selected.map(x => x.getText()).join('\n') : ''
-		if (Selected.trim().split(' ').length > 1 && query != "Spelt Similar") {
+		if (Selected.trim().split(' ').length > 1 && query !== "Spelt Similar") {
 			alert('Please select only one word to search ' + query + ' for!')
 			return "handled"
 		}
@@ -127,6 +150,12 @@ class PageContainer extends React.Component {
 			this.props.onDefChange(command, Selected)
 		else
 			this.props.onSearch(command, Selected)
+		this.props.onChange(query)
+		return "handled"
+	}
+
+	handleCommandNoVal = (command, data, query) => {
+		this.props.onSearch(command, data)
 		this.props.onChange(query)
 		return "handled"
 	}
@@ -201,6 +230,15 @@ class PageContainer extends React.Component {
 		if (command === 'find-spelt-similar')
 			this.handleCommand('speltSimilar', 'Spelt Similar')
 
+		if (command === 'find-similar-start')
+			this.setOpenStart(true)
+
+		if (command === 'find-similar-end')
+			this.setOpenEnd(true)
+
+		if (command === 'find-similar-start-end')
+			this.setOpenStartEnd(true)
+
 		if (command === 'find-triggers')
 			this.handleCommand('findTriggers', 'Triggers')
 
@@ -270,6 +308,21 @@ class PageContainer extends React.Component {
 						placeholder='Begin typing here...'
 					/>
 				</div>
+				<SimilarWordStart 
+					open = {this.state.openStart}
+					setOpen = {this.setOpenStart}
+					handleCommand = {this.handleCommandNoVal}
+				/>
+				<SimilarWordEnd 
+					open = {this.state.openEnd}
+					setOpen = {this.setOpenEnd}
+					handleCommand = {this.handleCommandNoVal}
+				/>
+				<SimilarWordStartEnd 
+					open = {this.state.openStartEnd}
+					setOpen = {this.setOpenStartEnd}
+					handleCommand = {this.handleCommandNoVal}
+				/>
 			</div>
 		)
 	}
