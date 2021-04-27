@@ -47,6 +47,7 @@ export default function TextEditor() {
   const [type, setType] = useState()  // Stores the type of fetch that was made
   const [repText, setRepText] = useState()  // Stores the text that can be pasted
   const [definitions, setDefinitions] = useState([])  // Stores definitions featched by the api
+  const [information, setInformation] = useState([])  // Stores definitions featched by the api
   const [portmanteaus, setPortmanteaus] = useState([])  // Stores portamanteaus
   const [funChange, setFunChange] = useState()  // Stores the function to chnage focus to the editor
 
@@ -54,6 +55,7 @@ export default function TextEditor() {
   const typeChange = e => setType(e)
 
   const handleDataChange = (command, newData) => {
+    setInformation([])
     setDefinitions([])
     setPortmanteaus([])
     setWords([])
@@ -86,6 +88,11 @@ export default function TextEditor() {
         fetch(URL)
           .then(res => res.json())
           .then(wordList => setPortmanteaus(wordList))
+          .catch(err => { console.log(err) })
+      } if (command === 'findWordInformation') {
+        fetch(URL)
+          .then(res => res.json())
+          .then(wordList => setInformation(wordList))
           .catch(err => { console.log(err) })
       } else {
         fetch(URL)
@@ -148,6 +155,7 @@ export default function TextEditor() {
             dataList={dataList}
             portmanteaus={portmanteaus}
             definitions={definitions}
+            information={information}
             onClick={setRep}
             funChange = {funChange}
           />

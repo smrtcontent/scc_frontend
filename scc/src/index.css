@@ -19,11 +19,6 @@ body {
 
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
 .editorContainer {
   padding: 0.2rem;
 }
@@ -39,21 +34,19 @@ div.DraftEditor-root{
 
 div.DraftEditor-editorContainer, div.public-DraftEditor-content {
   height: 100%;
-  /* max-width: 140vh; */
-
 }
 
 .suggestion-box {
-  height: 64vh;
+  max-height: 64vh;
+  min-height: 64vh;
   width: 100%;
 }
 
 .suggestions {
-  height: 42vh;
+  height: 38vh;
   width: 100%;
   overflow-y: auto;
 }
-
 
 #scroll-blue::-webkit-scrollbar-track
 {
@@ -76,4 +69,5 @@ div.DraftEditor-editorContainer, div.public-DraftEditor-content {
                     color-stop(.5, rgba(255, 255, 255, .2)),
                     color-stop(.5, transparent), to(transparent));
 }
+
 

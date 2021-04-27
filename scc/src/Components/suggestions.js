@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core'
 import Alert from './alert'
 import Definitions from './definitions'
 import Portmanteaus from './portmanteaus'
+import Information from './information'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,9 +34,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Suggestions = (props) => {
-    const classes = useStyles();
-    const [open, setOpen] = useState(false);
+    const classes = useStyles()
+    const [open, setOpen] = useState(false)
     const [selected, setSelected] = useState()
+    var selectedStr = ''
 
     // Functions for handling SnackBar
     const handleClick = () => setOpen(true);
@@ -45,19 +47,49 @@ const Suggestions = (props) => {
         setOpen(false);
     }
 
+    const selectAll = () => {
+        console.log('here')
+        if(props.portmanteaus.length > 0){
+            props.portmanteaus.map(x => x.combined.split(',')
+            .map(x => (selectedStr += String(x) + ' ')))
+        } else {
+            props.dataList.map(x => selectedStr += String(x.word) + ' ')
+        }
+        console.log(selectedStr)
+        props.onClick(selectedStr)
+        props.funChange()
+        handleClick()
+        setSelected('All')
+    }
+     
+    const selectAllButton = () => {
+        if(props.dataList.length > 0 || props.portmanteaus.length > 0) 
+            return  (<Button
+                        size='small'
+                        className={classes.btn}
+                        variant='contained'
+                        color='primary'
+                        onClick={() => selectAll()}
+                        >
+                        Select All
+                    </Button>)
+
+        return <></>
+    }
+
     return (
         <div>
             <Snackbar
                 open={open}
-                autoHideDuration={6000}
+                autoHideDuration={3000}
                 onClose={handleClose}
             >
                 <Alert
                     onClose={handleClose}
                     severity="info"
                 >
-                    You have selected <strong>{selected}</strong> please
-                    use " Alt " + V to paste it in the editor
+                    You have selected <strong>{selected}</strong> <br/>
+                    please use " Alt " + V to paste it in the editor
 
                 </Alert>
             </Snackbar>
@@ -77,6 +109,7 @@ const Suggestions = (props) => {
                     >
                         {props.type}
                     </Typography>
+                    {selectAllButton()}
                     <Definitions
                         meanings={props.definitions}
                     />
@@ -85,9 +118,14 @@ const Suggestions = (props) => {
                         onClick={(e) => {
                             setSelected(e)
                             props.onClick(e)
+                            props.funChange()
                             handleClick()
                         }}
                     />
+                    <Information 
+                        information = {props.information}
+                    />
+                    
                     <div
                         className='suggestions'
                         id='scroll-blue'
@@ -99,7 +137,6 @@ const Suggestions = (props) => {
                                     className={classes.btn}
                                     variant='contained'
                                     color='primary'
-                                    // value={data.word}
                                     onClick={() => {
                                         props.onClick(data.word)
                                         props.funChange()

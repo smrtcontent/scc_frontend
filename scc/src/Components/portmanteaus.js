@@ -56,7 +56,8 @@ const Portmanteaus = (props) => {
     source()
 
     // This is the return module for the portmanteaus component 
-    if(props.portmanteaus.length > 0) // This will check if the props contain portmanteaus or not
+    // This will check if the props contain portmanteaus or not
+    if(props.portmanteaus.length > 0)
     {
         // This section will be returned only if the props contain portmanteaus
         return (

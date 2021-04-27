@@ -118,6 +118,7 @@ class PageContainer extends React.Component {
 		else if (e.key === 'h' && e.altKey) return 'find-homophones'
 		else if (e.key === 'H' && e.altKey) return 'find-hypernyms'
 		else if (e.key === 'h' && hasCommandModifier(e)) return 'find-hyponyms'
+		else if (e.key === 'I' && hasCommandModifier(e)) return 'find-information'
 		else if (e.key === 'm' && hasCommandModifier(e)) return 'find-meronyms'
 		else if (e.key === 'n' && e.altKey) return 'find-nouns'
 		else if (e.key === 'p' && e.altKey) return 'find-prefix-hints'
@@ -148,7 +149,7 @@ class PageContainer extends React.Component {
 		}
 		if (query === 'Definitions')
 			this.props.onDefChange(command, Selected)
-		else
+		else 
 			this.props.onSearch(command, Selected)
 		this.props.onChange(query)
 		return "handled"
@@ -202,6 +203,9 @@ class PageContainer extends React.Component {
 
 		if (command === 'find-hypernyms')
 			this.handleCommand('findHypernyms', 'Hypernyms')
+
+		if (command === 'find-information')
+			this.handleCommand('findWordInformation', 'Information')
 
 		if (command === 'find-meronyms')
 			this.handleCommand('findMeronyms', 'Meronyms')

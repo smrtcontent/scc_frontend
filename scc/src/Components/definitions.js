@@ -36,7 +36,7 @@ const Definitions = (props) => {
         return (
             <div 
                 id="scroll-blue"
-                className='suggestions pl-2'
+                className='suggestions ps-2'
                 >
                 {
                     definitions.map(
