@@ -31,15 +31,16 @@ code {
 div.DraftEditor-root{
   margin-top: 1rem;
   height: 50vh;
-  width: 100%;
   font-family: 'Roboto Slab', serif;
+  max-width: 140vh;
   font-size: 90%;
   overflow-y: auto;
 }
 
 div.DraftEditor-editorContainer, div.public-DraftEditor-content {
   height: 100%;
-  width: auto;
+  /* max-width: 140vh; */
+
 }
 
 .suggestion-box {
@@ -48,7 +49,7 @@ div.DraftEditor-editorContainer, div.public-DraftEditor-content {
 }
 
 .suggestions {
-  height: 43vh;
+  height: 42vh;
   width: 100%;
   overflow-y: auto;
 }

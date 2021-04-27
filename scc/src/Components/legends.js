@@ -31,10 +31,10 @@ const Legends = () => {
                     {'Legend'}
                 </Typography>
                 <div className="row">
-                    <div>
+                    <div className='col-md-4'>
                         <ul className={classes.listItem}>
                             {[
-                                { item : "'Ctrl' + A : Find Antonyms"}, 
+                                { item : "'Alt' + A : Find Antonyms"}, 
                                 { item : "'Ctrl' + 'Shift' + A : Find Adjectives"},
                                 { item : "'Alt' + 'Shift' + A : Find Approximate Rhymes"},
                                 { item : "'Ctrl' + 'Shift' + C : Find Consonant Match"},
@@ -55,7 +55,7 @@ const Legends = () => {
                             }
                         </ul>
                     </div>
-                    <div>
+                    <div className='col-md-3'>
                         <ul className={classes.listItem}>
                             {[
                                 // { item : "'Ctrl' + A : Find Antonyms"}, 
@@ -80,7 +80,7 @@ const Legends = () => {
                             }
                         </ul>
                     </div>
-                    <div>
+                    <div className='col-md-5'>
                         <ul className={classes.listItem}>
                             {[
                                 // { item : "'Ctrl' + A : Find Antonyms"}, 
@@ -99,8 +99,13 @@ const Legends = () => {
                                 // { item : "'Ctrl' + R : Find Rhymes"},
                                 // { item : "'Ctrl' + 'Shift' + R : Find Advance Rhymes"},
                                 { item : "'Ctrl' + 'Shift' + S : Find Similar Words"},
+                                { item : "'Alt' + 'Shift' + D : Find Spelt Similar Words"},
+                                { item : "'Ctrl' + 'H' : Find Hyponyms Words"},
                                 { item : "'Alt' + S : Find Similar Sounding Words"},
                                 { item : "'Shift' + 'Alt' + T: Find Trigger"},
+                                { item : "'Ctrl' + E : Search for similar words with specific Ending"},
+                                { item : "'Ctrl' + 'Shift' + E: Search for words with specific Start and End"},
+                                { item : "'Shift' + 'Alt' + S: Search for similar words with specific Start"},
                                 ].map((x,index) => <li key={index} >{x.item}</li>)
                             }
                         </ul>

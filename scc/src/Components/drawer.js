@@ -1,9 +1,11 @@
 import React from 'react'
 import clsx from 'clsx'
 import TextEditor from './textEditor'
-import { makeStyles, useTheme, Drawer, AppBar,
-         Toolbar, List, CssBaseline, Typography, Divider, IconButton, 
-          ListItem, ListItemIcon, ListItemText} from '@material-ui/core'
+import {
+  makeStyles, useTheme, Drawer, AppBar,
+  Toolbar, List, CssBaseline, Typography, Divider, IconButton,
+  ListItem, ListItemIcon, ListItemText
+} from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -76,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
   },
   content: {
-    backgroundColor:'#d6e4f4',
+    backgroundColor: '#d6e4f4',
     flexGrow: 1,
     // padding: theme.spacing(0),
   },
@@ -116,9 +118,9 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography 
-            variant="h5" 
-            style={{fontWeight:550}}
+          <Typography
+            variant="h5"
+            style={{ fontWeight: 550 }}
             noWrap>
             Smart Content Creator
           </Typography>
@@ -145,12 +147,12 @@ export default function MiniDrawer() {
         <Divider />
         <List>
           {['Home', 'My Documents', 'Help', 'About'].map((text, index) => (
-            <ListItem button key={text} onClick={()=>alert(text)}>
-                <ListItemIcon 
-                style={{color:'#163172'}}
-                >{index % 2 === 0 ? <HomeIcon/> : <DescriptionOutlinedIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
+            <ListItem button key={text} onClick={() => alert(text)}>
+              <ListItemIcon
+                style={{ color: '#163172' }}
+              >{index % 2 === 0 ? <HomeIcon /> : <DescriptionOutlinedIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
             </ListItem>
           ))}
         </List>
@@ -168,8 +170,8 @@ export default function MiniDrawer() {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-            <TextEditor />
-            <Footer />
+        <TextEditor />
+        <Footer />
       </main>
     </div>
   );
