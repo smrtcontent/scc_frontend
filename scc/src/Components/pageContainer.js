@@ -58,13 +58,23 @@ class PageContainer extends React.Component {
 		 * @returns {void}
 		 */
 		this.onChange = (editorState) => this.setState({ editorState })
-
 	}
+
+	componentDidUpdate() {
+		const selected = getFragmentFromSelection(this.state.editorState);
+		var Selected = selected ? selected.map(x => x.getText()).join('\n') : ''
+		if (Selected !== '' ) this.props.setSelectedText(Selected)
+		if (this.props.buttonCommand !== undefined) this.handleKeyCommand(this.props.buttonCommand)
+	}
+	
+	
 
 	setOpenEnd = (e) => this.setState({ openEnd: e })
 	setOpenStart = (e) => this.setState({ openStart: e })
 	setOpenStartEnd = (e) => this.setState({ openStartEnd: e })
 	
+
+
 	/**
 	 * Gets the current Editor State and the character to insert and then inserts
 	 * the character in the editorState
@@ -99,36 +109,38 @@ class PageContainer extends React.Component {
 		})
 	}
 
+
+
 	/**
 	 * Checks and returns the command for the text editor
 	 * 
 	 */
 	suggestionsKeyBinding = (e) => {
-		if (e.key === 'a' && e.altKey) return 'find-antonyms'
+			if (e.key === 'a' && e.altKey ) return 'find-antonyms'
 		else if (e.key === 'A' && hasCommandModifier(e)) return 'find-adjectives'
 		else if (e.key === 'A' && e.altKey) return 'find-approximate-rhymes'
-		else if (e.key === 'C' && hasCommandModifier(e)) return 'find-consonant-match'
-		else if (e.key === 'd' && hasCommandModifier(e)) return 'find-definitions'
-		else if (e.key === 'D' && e.altKey) return 'find-spelt-similar'
-		else if (e.key === 'e' && hasCommandModifier(e)) return 'find-similar-end'
-		else if (e.key === 'E' && hasCommandModifier(e)) return 'find-similar-start-end'
-		else if (e.key === 'F' && hasCommandModifier(e)) return 'find-frequent-follower'
-		else if (e.key === 'f' && e.ctrlKey && e.altKey) return 'find-frequent-predecessors'
-		else if (e.key === 'H' && hasCommandModifier(e)) return 'find-holonyms'
-		else if (e.key === 'h' && e.altKey) return 'find-homophones'
-		else if (e.key === 'H' && e.altKey) return 'find-hypernyms'
-		else if (e.key === 'h' && hasCommandModifier(e)) return 'find-hyponyms'
-		else if (e.key === 'I' && hasCommandModifier(e)) return 'find-information'
-		else if (e.key === 'm' && hasCommandModifier(e)) return 'find-meronyms'
-		else if (e.key === 'n' && e.altKey) return 'find-nouns'
-		else if (e.key === 'p' && e.altKey) return 'find-prefix-hints'
-		else if (e.key === 'P' && e.altKey) return 'find-portmanteaus'
-		else if (e.key === 'r' && hasCommandModifier(e)) return 'find-rhymes'
-		else if (e.key === 'R' && hasCommandModifier(e)) return 'find-advance-rhymes'
-		else if (e.key === 'S' && hasCommandModifier(e)) return 'find-similar'
-		else if (e.key === 's' && e.altKey) return 'find-similar-sound'
-		else if (e.key === 'S' && e.altKey) return 'find-similar-start'
-		else if (e.key === 'T' && e.altKey) return 'find-triggers'
+		else if (e.key === 'C' && hasCommandModifier(e) ) return 'find-consonant-match'
+		else if (e.key === 'd' && hasCommandModifier(e) ) return 'find-definitions'
+		else if (e.key === 'D' && e.altKey ) return 'find-spelt-similar'
+		else if (e.key === 'e' && hasCommandModifier(e) ) return 'find-similar-end'
+		else if (e.key === 'E' && hasCommandModifier(e) ) return 'find-similar-start-end'
+		else if (e.key === 'F' && hasCommandModifier(e) ) return 'find-frequent-follower'
+		else if (e.key === 'f' && e.ctrlKey && e.altKey ) return 'find-frequent-predecessors'
+		else if (e.key === 'H' && hasCommandModifier(e) ) return 'find-holonyms'
+		else if (e.key === 'h' && e.altKey ) return 'find-homophones'
+		else if (e.key === 'H' && e.altKey ) return 'find-hypernyms'
+		else if (e.key === 'h' && hasCommandModifier(e) ) return 'find-hyponyms'
+		else if (e.key === 'I' && hasCommandModifier(e) ) return 'find-information'
+		else if (e.key === 'm' && hasCommandModifier(e) ) return 'find-meronyms'
+		else if (e.key === 'n' && e.altKey ) return 'find-nouns'
+		else if (e.key === 'p' && e.altKey ) return 'find-prefix-hints'
+		else if (e.key === 'P' && e.altKey ) return 'find-portmanteaus'
+		else if (e.key === 'r' && hasCommandModifier(e) ) return 'find-rhymes'
+		else if (e.key === 'R' && hasCommandModifier(e) ) return 'find-advance-rhymes'
+		else if (e.key === 'S' && hasCommandModifier(e) ) return 'find-similar'
+		else if (e.key === 's' && e.altKey ) return 'find-similar-sound'
+		else if (e.key === 'S' && e.altKey ) return 'find-similar-start'
+		else if (e.key === 'T' && e.altKey ) return 'find-triggers'
 		else if (e.key === 'v' && e.altKey) return 'replace'
 		return getDefaultKeyBinding(e)
 	}
@@ -141,8 +153,11 @@ class PageContainer extends React.Component {
 	 * @returns 
 	 */
 	handleCommand = (command, query) => {
-		const selected = getFragmentFromSelection(this.state.editorState);
-		var Selected = selected ? selected.map(x => x.getText()).join('\n') : ''
+		var Selected = this.props.selectedText
+		if (Selected === undefined){
+			alert('Nothing Selected')
+			return 'not-handled'
+		}
 		if (Selected.trim().split(' ').length > 1 && query !== "Spelt Similar") {
 			alert('Please select only one word to search ' + query + ' for!')
 			return "handled"
@@ -171,13 +186,13 @@ class PageContainer extends React.Component {
 	handleKeyCommand = command => {
 		const newState = RichUtils.handleKeyCommand(this.state.editorState, command)
 
-		if (command === 'find-antonyms')
+		if (command === 'find-antonyms') 
 			this.handleCommand('findAntonyms', 'Antonyms')
 
 		if (command === 'find-adjectives')
 			this.handleCommand('findAdjectives', 'Adjectives')
 
-		if (command === 'find-approximate-rhymes')
+		if (command === 'find-approximate-rhymes') 
 			this.handleCommand('findApproximateRhymes', 'Approximate Rhymes')
 
 		if (command === 'find-consonant-match')
@@ -254,6 +269,7 @@ class PageContainer extends React.Component {
 			return 'handled'
 		}
 
+		this.props.setButtonCommand('')
 		return "not-handled"
 	}
 

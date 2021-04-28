@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PageContainer from './pageContainer'
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Typography } from '@material-ui/core';
+import ActionButtons from './actionButtons'
 import Legends from './legends'
 import Suggestions from './suggestions'
 
@@ -50,6 +51,8 @@ export default function TextEditor() {
   const [information, setInformation] = useState([])  // Stores definitions featched by the api
   const [portmanteaus, setPortmanteaus] = useState([])  // Stores portamanteaus
   const [funChange, setFunChange] = useState()  // Stores the function to chnage focus to the editor
+  const [buttonCommand, setButtonCommand] = useState()
+  const [selectedText, setSelectedText] = useState()
 
   const setRep = e => setRepText(e)
   const typeChange = e => setType(e)
@@ -83,22 +86,24 @@ export default function TextEditor() {
       }
 
     } else {
-      const URL = "http://localhost:8088/scc/api/" + command + "?word=" + newData.trim()
-      if (command === 'findPortmanteaus') {
-        fetch(URL)
-          .then(res => res.json())
-          .then(wordList => setPortmanteaus(wordList))
-          .catch(err => { console.log(err) })
-      } if (command === 'findWordInformation') {
-        fetch(URL)
-          .then(res => res.json())
-          .then(wordList => setInformation(wordList))
-          .catch(err => { console.log(err) })
-      } else {
-        fetch(URL)
-          .then(res => res.json())
-          .then(wordList => setWords(wordList))
-          .catch(err => { console.log(err) })
+        if(newData !== undefined) {
+          const URL = "http://localhost:8088/scc/api/" + command + "?word=" + newData.trim()
+          if (command === 'findPortmanteaus') {
+            fetch(URL)
+              .then(res => res.json())
+              .then(wordList => setPortmanteaus(wordList))
+              .catch(err => { console.log(err) })
+          } if (command === 'findWordInformation') {
+            fetch(URL)
+              .then(res => res.json())
+              .then(wordList => setInformation(wordList))
+              .catch(err => { console.log(err) })
+          } else {
+            fetch(URL)
+              .then(res => res.json())
+              .then(wordList => setWords(wordList))
+              .catch(err => { console.log(err) })
+        }
       }
     }
   }
@@ -130,7 +135,11 @@ export default function TextEditor() {
                 onDefChange={handleDefinitionChange}
                 onChange={typeChange}
                 reptext={repText}
+                buttonCommand = {buttonCommand}
+                setButtonCommand = {setButtonCommand}
                 changeFun = {setFunChange}
+                selectedText= {selectedText}
+                setSelectedText = {setSelectedText}
               />
             </CardContent>
             {/* <Box 
@@ -163,6 +172,10 @@ export default function TextEditor() {
       </div>
       <div className='row mt-2'>
         <div className='col-md-12 pl-2 pr-1'>
+          <ActionButtons 
+            onClick = {setButtonCommand}
+            // buttonCommand = {buttonCommand}
+          />
           <Legends />
         </div>
       </div>
