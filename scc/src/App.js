@@ -1,10 +1,16 @@
-// import TextEditor from './Components/textEditor'
+import { BrowserView,MobileView } from "react-device-detect";
 import MiniDrawer from './Components/drawer'
+import DrawerM from './Components/drawerM'
+
 function App() {
   return (
     <div className="App">
-      <MiniDrawer />
-      {/* <TextEditor /> */}
+      <BrowserView>
+        <MiniDrawer />
+      </BrowserView>
+      <MobileView>
+        <DrawerM/>
+      </MobileView>
     </div>
   );
 }

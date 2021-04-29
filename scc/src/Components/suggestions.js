@@ -17,12 +17,12 @@ const useStyles = makeStyles((theme) => ({
     secondaryTitle: {
         fontSize: 26,
         fontWeight: 700,
-        padding: theme.spacing(1),
+        padding: theme.spacing(1,1,0,1),
     },
     subHeading: {
         fontSize: 16,
         fontWeight: 600,
-        padding: theme.spacing(1),
+        padding: theme.spacing(0,1,1,1),
         color: '#1e56a0',
     },
     btn: {

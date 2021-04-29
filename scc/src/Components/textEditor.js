@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PageContainer from './pageContainer'
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Typography } from '@material-ui/core';
+import { isMobile } from "react-device-detect";
 import ActionButtons from './actionButtons'
 import Legends from './legends'
 import Suggestions from './suggestions'
@@ -117,8 +118,18 @@ export default function TextEditor() {
       .catch(err => { console.log(err) })
   }
 
+  const mobileHeading = () => {
+    if(isMobile) 
+      return (<h1 className='pt-5'>Smart Content Creator</h1>) 
+  }
+  const legends = () => {
+    if(!isMobile) 
+      return (<Legends/>) 
+  }
+
   return (
     <div className="container-fluid" >
+      <div>{mobileHeading()}</div>
       <Typography
         color='textSecondary'
         className={classes.secondary}
@@ -127,7 +138,7 @@ export default function TextEditor() {
         press the specific key to get the type of suggestion you desire.
       </Typography>
       <div className="row" >
-        <div className="col-md-8 col-12 mt-2 pl-2 pr-1">
+        <div className="col-md-8 col-12 mt-2 ps-2 pe-1">
           <Card className={classes.root}>
             <CardContent>
               <PageContainer
@@ -158,7 +169,7 @@ export default function TextEditor() {
             </Box> */}
           </Card>
         </div>
-        <div className="col-md-4 col-12 mt-2 pl-2 pr-1">
+        <div className="col-md-4 col-12 mt-2 ps-2 pe-1">
           <Suggestions
             type={type}
             dataList={dataList}
@@ -171,12 +182,11 @@ export default function TextEditor() {
         </div>
       </div>
       <div className='row mt-2'>
-        <div className='col-md-12 pl-2 pr-1'>
+        <div className='col-md-12 ps-2 pe-1'>
           <ActionButtons 
             onClick = {setButtonCommand}
-            // buttonCommand = {buttonCommand}
           />
-          <Legends />
+          {legends()}
         </div>
       </div>
     </div>

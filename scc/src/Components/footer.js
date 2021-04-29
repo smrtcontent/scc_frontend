@@ -15,7 +15,7 @@ const Footer = () => {
                 justifyContent='flex-start'
                 
             >
-                Made by Govindam Infosoft &#169;
+                Made by Govindam Infosoft Pvt Ltd &#169;
             </Box>
             <Box
                 display="block" 

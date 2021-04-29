@@ -6,14 +6,14 @@ import {
   Toolbar, List, CssBaseline, Typography, Divider, IconButton,
   ListItem, ListItemIcon, ListItemText
 } from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import HomeIcon from '@material-ui/icons/HomeOutlined';
-import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
+import MenuIcon from '@material-ui/icons/Menu'
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import HomeIcon from '@material-ui/icons/HomeOutlined'
+import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined'
 // import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 // import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
-import Footer from './footer';
+import Footer from './footer'
 
 const drawerWidth = 220
 
@@ -98,81 +98,72 @@ export default function MiniDrawer() {
   };
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h5"
-            style={{ fontWeight: 550 }}
-            noWrap>
-            Smart Content Creator
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        className={clsx(classes.drawer, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
-        })}
-        classes={{
-          paper: clsx({
+    <>
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar
+          position="fixed"
+          className={clsx(classes.appBar, {
+            [classes.appBarShift]: open,
+          })}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              className={clsx(classes.menuButton, {
+                [classes.hide]: open,
+              })}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography
+              variant="h5"
+              style={{ fontWeight: 550 }}
+              noWrap>
+              Smart Content Creator
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          variant="permanent"
+          className={clsx(classes.drawer, {
             [classes.drawerOpen]: open,
             [classes.drawerClose]: !open,
-          }),
-        }}
-      >
-        <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </div>
-        <Divider />
-        <List>
-          {['Home', 'My Documents', 'Help', 'About'].map((text, index) => (
-            <ListItem button key={text} onClick={() => alert(text)}>
-              <ListItemIcon
-                style={{ color: '#163172' }}
-              >{index % 2 === 0 ? <HomeIcon /> : <DescriptionOutlinedIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        {/* <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon
-                style={{color:'#163172'}}
-              >{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List> */}
-      </Drawer>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <TextEditor />
-        <Footer />
-      </main>
-    </div>
-  );
+          })}
+          classes={{
+            paper: clsx({
+              [classes.drawerOpen]: open,
+              [classes.drawerClose]: !open,
+            }),
+          }}
+        >
+          <div className={classes.toolbar}>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            </IconButton>
+          </div>
+          <Divider />
+          <List>
+            {['Home', 'My Documents', 'Help', 'About'].map((text, index) => (
+              <ListItem button key={text} onClick={() => alert(text)}>
+                <ListItemIcon
+                  style={{ color: '#163172' }}
+                >{index % 2 === 0 ? <HomeIcon /> : <DescriptionOutlinedIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            ))}
+          </List>
+        </Drawer>
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          <TextEditor />
+          <Footer />
+        </main>
+      </div>
+    </>
+  )
 }
