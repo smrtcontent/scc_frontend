@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PageContainer from './pageContainer'
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardContent, Typography } from '@material-ui/core';
+import { Card, CardContent, Typography} from '@material-ui/core';
 import { isMobile } from "react-device-detect";
 import ActionButtons from './actionButtons'
 import Legends from './legends'
@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     0 74px 65px -19px rgba(0, 0, 0, 0.1);`
   },
   secondary: {
+    color: '#141414',
     fontSize: 16,
     padding: theme.spacing(1, 1, 0, 1),
   },
@@ -73,7 +74,7 @@ export default function TextEditor() {
           .then(wordList => setWords(wordList))
           .catch(err => { console.log(err) })
       } else if(command === 'wordsStartingWithEndingWith') {
-        const URL = "http://localhost:8088/scc/api/" + command + "?endLetter=" + newData[0] + "&startLetter=" + newData[1]
+        const URL = "http://localhost:8088/scc/api/" + command + "?startLetter=" + newData[0] + "&endLetter=" + newData[1]
         fetch(URL)
           .then(res => res.json())
           .then(wordList => setWords(wordList))
@@ -120,27 +121,36 @@ export default function TextEditor() {
 
   const mobileHeading = () => {
     if(isMobile) 
-      return (<h1 className='pt-5'>Smart Content Creator</h1>) 
+      return (<h1 className='pt-5 text-white '>Smart Content Creator</h1>) 
   }
+
   const legends = () => {
     if(!isMobile) 
       return (<Legends/>) 
+  }
+  
+  const textColor = () => {
+    if(isMobile)
+      return (`* Type the content you want to and once you feel the need,
+      select the word and press the specific button to get the type of suggestion
+       you desire.`)
+    else return (`* Type the content you want to and once you feel the need,
+      select the word and press the specific key combination or the button 
+      to get the type of suggestion you desire.`)
   }
 
   return (
     <div className="container-fluid" >
       <div>{mobileHeading()}</div>
       <Typography
-        color='textSecondary'
-        className={classes.secondary}
+        className={classes.secondary + ' text-white'}
       >
-        * Type the content you want to and once you feel the need, select the word and
-        press the specific key to get the type of suggestion you desire.
+        {textColor()}
       </Typography>
       <div className="row" >
         <div className="col-md-8 col-12 mt-2 ps-2 pe-1">
           <Card className={classes.root}>
-            <CardContent>
+            <CardContent className='TextEditor'>
               <PageContainer
                 onSearch={handleDataChange}
                 onDefChange={handleDefinitionChange}

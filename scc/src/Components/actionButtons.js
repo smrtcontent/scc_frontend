@@ -1,9 +1,20 @@
 import React from 'react'
-import {Button, Card, CardContent} from '@material-ui/core'
+import {Button, Card, CardContent, createMuiTheme, ThemeProvider} from '@material-ui/core'
+import { indigo, orange } from '@material-ui/core/colors'
 
 const ActionButtons = props => {
 
     const handleClick = value => props.onClick(value)
+
+    const themes = createMuiTheme({
+        palette: {
+            primary: {
+            main: orange[900],
+        },
+        secondary: {
+            main: indigo[700],
+        }},
+    })
     
     return (
         <>
@@ -11,6 +22,7 @@ const ActionButtons = props => {
                 <CardContent className='p-1'>
                     <div className='row my-1'>
                         <div className='col-12'>
+                        <ThemeProvider theme={themes}>
                             {[
                                 {command:'find-antonyms',val: 'Antonyms'},
                                 {command:'find-adjectives',val: 'Adjectives'}, 
@@ -42,11 +54,12 @@ const ActionButtons = props => {
                                 size = 'small'
                                 key = {index}
                                 onClick = {() => handleClick(x.command)}
+                                color='primary'
                                 variant = 'contained'
-                                color = 'primary'
                             >
                                 {x.val}
                             </Button>)}
+                        </ThemeProvider>
                         </div>
                     </div>
                 </CardContent>

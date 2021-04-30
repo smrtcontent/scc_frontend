@@ -7,7 +7,6 @@
 
 */
 
-
 body {
   margin: 0;
   padding: 0;
@@ -15,7 +14,7 @@ body {
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #d6e4f4;
+  background-color: #1e56a0;
 
 }
 
@@ -36,15 +35,20 @@ div.DraftEditor-editorContainer, div.public-DraftEditor-content {
   height: 100%;
 }
 
+.TextEditor {
+  max-height: 64vh;
+}
+
+
 .suggestion-box {
   max-height: 64vh;
   min-height: 64vh;
-  width: 100%;
+  width: auto;
 }
 
 .suggestions {
-  height: 40vh;
-  width: 100%;
+  height: 46vh;
+  width: auto;
   overflow-y: auto;
 }
 

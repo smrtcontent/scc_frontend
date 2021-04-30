@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Card, CardContent, Typography, Button, Snackbar } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core'
+import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core'
+import { indigo, orange} from '@material-ui/core/colors'
 import Alert from './alert'
 import Definitions from './definitions'
 import Portmanteaus from './portmanteaus'
@@ -34,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Suggestions = (props) => {
+
     const classes = useStyles()
     const [open, setOpen] = useState(false)
     const [selected, setSelected] = useState()
@@ -64,7 +66,8 @@ const Suggestions = (props) => {
      
     const selectAllButton = () => {
         if(props.dataList.length > 0 || props.portmanteaus.length > 0) 
-            return  (<Button
+            return  (
+                    <Button
                         size='small'
                         className={classes.btn}
                         variant='contained'
@@ -72,7 +75,8 @@ const Suggestions = (props) => {
                         onClick={() => selectAll()}
                         >
                         Select All
-                    </Button>)
+                    </Button>
+                    )
 
         return <></>
     }
@@ -98,18 +102,17 @@ const Suggestions = (props) => {
             >
                 <CardContent>
                     <Typography
-                        className={classes.secondaryTitle}
-                        color="textPrimary"
-                        gutterBottom={true}
+                        className={classes.secondaryTitle + ' d-flex justify-content-between pe-3'}
+                        gutterBottom
                     >
                         Suggestions
+                        {selectAllButton()}
                     </Typography>
                     <Typography
                         className={classes.subHeading}
                     >
                         {props.type}
                     </Typography>
-                    {selectAllButton()}
                     <Definitions
                         meanings={props.definitions}
                     />
@@ -136,7 +139,7 @@ const Suggestions = (props) => {
                                     size='small'
                                     className={classes.btn}
                                     variant='contained'
-                                    color='primary'
+                                    color='secondary'
                                     onClick={() => {
                                         props.onClick(data.word)
                                         props.funChange()

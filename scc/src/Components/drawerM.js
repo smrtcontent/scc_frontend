@@ -72,7 +72,7 @@ export default function DrawerM() {
                     zIndex:2
                 }}
             >
-                <MenuIcon/>
+                <MenuIcon />
             </Button>
             <SwipeableDrawer
                 anchor='left'
@@ -82,9 +82,7 @@ export default function DrawerM() {
             >
                 {list()}
             </SwipeableDrawer>
-            {/* <main className={classes.content}> */}
             <main>
-                {/* <div className={classes.toolbar} /> */}
                 <TextEditor />
                 <Footer />
             </main>

@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Roboto, sans-serif',
   },
   appBar: {
-    backgroundColor: '#163172',
+    backgroundColor: '#1a237e',
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
   },
   content: {
-    backgroundColor: '#d6e4f4',
+    backgroundColor: '#1e56a0',
     flexGrow: 1,
     // padding: theme.spacing(0),
   },

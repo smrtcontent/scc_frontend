@@ -3,7 +3,7 @@ import {Box} from '@material-ui/core'
 
 const Footer = () => {
     return(
-    <div style={{ width: '100%', backgroundColor: '#d6e4f4' }}>
+    <div style={{ width: '100%', color: 'white', backgroundColor: 'inherit' }}>
         <Box 
             display="flex" 
             >
