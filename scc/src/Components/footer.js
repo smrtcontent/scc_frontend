@@ -15,16 +15,15 @@ const Footer = () => {
                 justifyContent='flex-start'
                 
             >
-                Made by Govindam Infosoft Pvt Ltd &#169;
+                Copyright &#169; 2021 Surgestreams. Designed and Developed by Surgestreams IT Team
             </Box>
-            <Box
+            {/* <Box
                 display="block" 
                 p={1} 
                 m={1}
                 justifyContent='flex-end'
             >
-                2021
-            </Box>
+            </Box> */}
         </Box>
     </div>
     )
