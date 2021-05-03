@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Card, CardContent, Typography, Button, Snackbar } from '@material-ui/core'
-import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core'
-import { indigo, orange} from '@material-ui/core/colors'
+import { makeStyles } from '@material-ui/core'
 import Alert from './alert'
 import Definitions from './definitions'
 import Portmanteaus from './portmanteaus'
@@ -70,9 +69,9 @@ const Suggestions = (props) => {
                     <Button
                         size='small'
                         className={classes.btn}
-                        variant='contained'
                         color='primary'
                         onClick={() => selectAll()}
+                        style={{fontSize: '0.75rem'}}
                         >
                         Select All
                     </Button>
@@ -138,8 +137,9 @@ const Suggestions = (props) => {
                                     key={index}
                                     size='small'
                                     className={classes.btn}
-                                    variant='contained'
+                                    variant='outlined'
                                     color='secondary'
+                                    style={{fontSize: '0.65rem', borderRadius:'2px'}}
                                     onClick={() => {
                                         props.onClick(data.word)
                                         props.funChange()

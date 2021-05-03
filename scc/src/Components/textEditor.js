@@ -6,6 +6,7 @@ import { isMobile } from "react-device-detect";
 import ActionButtons from './actionButtons'
 import Legends from './legends'
 import Suggestions from './suggestions'
+import Save from './Modals/saveButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,8 +54,9 @@ export default function TextEditor() {
   const [information, setInformation] = useState([])  // Stores definitions featched by the api
   const [portmanteaus, setPortmanteaus] = useState([])  // Stores portamanteaus
   const [funChange, setFunChange] = useState()  // Stores the function to chnage focus to the editor
-  const [buttonCommand, setButtonCommand] = useState()
-  const [selectedText, setSelectedText] = useState()
+  const [buttonCommand, setButtonCommand] = useState() // Stores the command of the pressed button
+  const [selectedText, setSelectedText] = useState() // Stores the selected text 
+  const [content, setContent] = useState() // Stores the content of text editor 
 
   const setRep = e => setRepText(e)
   const typeChange = e => setType(e)
@@ -129,7 +131,7 @@ export default function TextEditor() {
       return (<Legends/>) 
   }
   
-  const textColor = () => {
+  const description = () => {
     if(isMobile)
       return (`* Type the content you want to and once you feel the need,
       select the word and press the specific button to get the type of suggestion
@@ -144,8 +146,9 @@ export default function TextEditor() {
       <div>{mobileHeading()}</div>
       <Typography
         className={classes.secondary + ' text-white'}
+        style={{fontSize:'0.75rem'}}
       >
-        {textColor()}
+        {description()}
       </Typography>
       <div className="row" >
         <div className="col-md-8 col-12 mt-2 ps-2 pe-1">
@@ -158,9 +161,13 @@ export default function TextEditor() {
                 reptext={repText}
                 buttonCommand = {buttonCommand}
                 setButtonCommand = {setButtonCommand}
+                setContent = {setContent}
                 changeFun = {setFunChange}
                 selectedText= {selectedText}
                 setSelectedText = {setSelectedText}
+              />
+              <Save 
+                content = {content}
               />
             </CardContent>
             {/* <Box 

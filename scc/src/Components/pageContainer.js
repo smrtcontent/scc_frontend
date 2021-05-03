@@ -34,7 +34,7 @@ class PageContainer extends React.Component {
 		props.changeFun(() => this.setFocus)
 	}
 
-	
+
 	/**
 	 *  Sets the focus to the editor when component is loaded
 	 */
@@ -65,6 +65,9 @@ class PageContainer extends React.Component {
 		var Selected = selected ? selected.map(x => x.getText()).join('\n') : ''
 		if (Selected !== '' ) this.props.setSelectedText(Selected)
 		if (this.props.buttonCommand !== undefined) this.handleKeyCommand(this.props.buttonCommand)
+		if(this.state.editorState !== undefined)
+			this.props.setContent(this.state.editorState.getCurrentContent().getPlainText())
+			// console.log()
 	}
 	
 	
@@ -73,8 +76,6 @@ class PageContainer extends React.Component {
 	setOpenStart = (e) => this.setState({ openStart: e })
 	setOpenStartEnd = (e) => this.setState({ openStartEnd: e })
 	
-
-
 	/**
 	 * Gets the current Editor State and the character to insert and then inserts
 	 * the character in the editorState

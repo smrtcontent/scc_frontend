@@ -1,6 +1,6 @@
 import React from 'react'
 import {Button, Card, CardContent, createMuiTheme, ThemeProvider} from '@material-ui/core'
-import { indigo, orange } from '@material-ui/core/colors'
+import { cyan, red, purple } from '@material-ui/core/colors'
 
 const ActionButtons = props => {
 
@@ -9,11 +9,16 @@ const ActionButtons = props => {
     const themes = createMuiTheme({
         palette: {
             primary: {
-            main: orange[900],
+            main: cyan[600],
         },
         secondary: {
-            main: indigo[700],
-        }},
+            main: red[500],
+        },
+        textPrimary: {
+            main: purple[500],
+        },
+        
+    },
     })
     
     return (
@@ -56,6 +61,7 @@ const ActionButtons = props => {
                                 onClick = {() => handleClick(x.command)}
                                 color='primary'
                                 variant = 'contained'
+                                style={{fontSize: '0.65rem', color: 'white', borderRadius:'2px'}}
                             >
                                 {x.val}
                             </Button>)}
