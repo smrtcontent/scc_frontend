@@ -3,10 +3,11 @@ import PageContainer from './pageContainer'
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Typography} from '@material-ui/core';
 import { isMobile } from "react-device-detect";
-import ActionButtons from './actionButtons'
+import ActionButtons from './Search/actionButtons'
 import Legends from './legends'
-import Suggestions from './suggestions'
+import Suggestions from './Suggestions/suggestions'
 import Save from './Modals/saveButton';
+import customCard from '../app/themes/customCard';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function TextEditor() {
-  const classes = useStyles();
+  const classes = useStyles()
+  const customCards = customCard()
 
   const [dataList, setWords] = useState([])   // Stores the words fetched by the api
   const [type, setType] = useState()  // Stores the type of fetch that was made
@@ -152,7 +154,7 @@ export default function TextEditor() {
       </Typography>
       <div className="row" >
         <div className="col-md-8 col-12 mt-2 ps-2 pe-1">
-          <Card className={classes.root}>
+          <Card className={classes.root + ' ' + customCards.root}>
             <CardContent className='TextEditor'>
               <PageContainer
                 onSearch={handleDataChange}
@@ -170,20 +172,6 @@ export default function TextEditor() {
                 content = {content}
               />
             </CardContent>
-            {/* <Box 
-              display='flex'
-              justifyContent='center'
-            >
-              <CardActions>
-                <Button 
-                  variant='contained'
-                  color='primary'
-                  size="small"
-                  >
-                    Save
-                </Button>
-              </CardActions>
-            </Box> */}
           </Card>
         </div>
         <div className="col-md-4 col-12 mt-2 ps-2 pe-1">

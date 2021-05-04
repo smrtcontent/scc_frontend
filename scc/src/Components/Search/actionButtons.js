@@ -1,33 +1,21 @@
 import React from 'react'
-import {Button, Card, CardContent, createMuiTheme, ThemeProvider} from '@material-ui/core'
-import { cyan, red, purple } from '@material-ui/core/colors'
+import {Button, Card, CardContent, ThemeProvider} from '@material-ui/core'
+import btnTheme from '../../app/themes/buttonTheme'
+import customButton from '../../app/themes/customButton'
+import customCard from '../../app/themes/customCard'
 
 const ActionButtons = props => {
-
+    const customCards = customCard()
+    const classes = customButton()
     const handleClick = value => props.onClick(value)
-
-    const themes = createMuiTheme({
-        palette: {
-            primary: {
-            main: cyan[600],
-        },
-        secondary: {
-            main: red[500],
-        },
-        textPrimary: {
-            main: purple[500],
-        },
-        
-    },
-    })
     
     return (
         <>
-            <Card className='mb-2'>
+            <Card className={customCards.root}>
                 <CardContent className='p-1'>
                     <div className='row my-1'>
                         <div className='col-12'>
-                        <ThemeProvider theme={themes}>
+                        <ThemeProvider theme={btnTheme}>
                             {[
                                 {command:'find-antonyms',val: 'Antonyms'},
                                 {command:'find-adjectives',val: 'Adjectives'}, 
@@ -55,13 +43,12 @@ const ActionButtons = props => {
                                 {command:'find-similar-start-end',val: 'Similar Start & End'}, 
                                 {command: 'find-triggers', val:'Triggers'}
                             ].map((x,index) => <Button
-                                className = 'm-1'
                                 size = 'small'
                                 key = {index}
                                 onClick = {() => handleClick(x.command)}
                                 color='primary'
                                 variant = 'contained'
-                                style={{fontSize: '0.65rem', color: 'white', borderRadius:'2px'}}
+                                className = {classes.root}
                             >
                                 {x.val}
                             </Button>)}

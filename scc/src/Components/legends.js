@@ -1,6 +1,7 @@
 import React from 'react'
 import { Card, CardContent, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
+import customCard from '../app/themes/customCard';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,9 +22,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Legends = () => {
     const classes = useStyles();
+    const customCards = customCard()
 
     return (
-        <Card>
+        <Card className = {customCards.legends}>
             <CardContent>
                 <Typography
                     className={classes.secondaryTitle}

@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { Card, CardContent, Typography, Button, Snackbar } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core'
-import Alert from './alert'
-import Definitions from './definitions'
-import Portmanteaus from './portmanteaus'
-import Information from './information'
+import Alert from './../Alerts/alert'
+import Definitions from './../Suggestions/definitions'
+import Portmanteaus from './../Suggestions/portmanteaus'
+import Information from './../Suggestions/information'
+import customCard from './../../app/themes/customCard'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 const Suggestions = (props) => {
 
     const classes = useStyles()
+    const customCards = customCard()
     const [open, setOpen] = useState(false)
     const [selected, setSelected] = useState()
     var selectedStr = ''
@@ -89,7 +91,7 @@ const Suggestions = (props) => {
             >
                 <Alert
                     onClose={handleClose}
-                    severity="info"
+                    severity="success"
                 >
                     You have selected <strong>{selected}</strong> <br/>
                     please use " Alt " + V to paste it in the editor
@@ -97,7 +99,7 @@ const Suggestions = (props) => {
                 </Alert>
             </Snackbar>
             <Card
-                className={classes.root + ' suggestion-box' }
+                className={classes.root + ' ' + customCards.suggestions}
             >
                 <CardContent>
                     <Typography

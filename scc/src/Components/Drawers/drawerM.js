@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import TextEditor from './textEditor'
+import TextEditor from '../textEditor'
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -12,7 +12,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import Footer from './footer'
+import Footer from '../footer'
 
 const useStyles = makeStyles({
   list: {

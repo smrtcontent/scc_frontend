@@ -1,6 +1,6 @@
 import { BrowserView,MobileView } from "react-device-detect";
-import MiniDrawer from './Components/drawer'
-import DrawerM from './Components/drawerM'
+import MiniDrawer from './Components/Drawers/drawer'
+import DrawerM from './Components/Drawers/drawerM'
 
 function App() {
   return (

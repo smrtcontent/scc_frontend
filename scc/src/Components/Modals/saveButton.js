@@ -5,6 +5,7 @@ import {Modal, TextField} from '@material-ui/core/';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import save from './../../features/Save/save'
+import customButton from '../../app/themes/customButton';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -22,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
   
 
 const Save = (props) => {
-    const classes = useStyles();
+    const classes = useStyles()
+    const customButtons = customButton()
     const [open, setOpen] = useState(false)
     const [name, setName] = useState()
 
@@ -38,7 +40,7 @@ const Save = (props) => {
             <Button 
                 variant='contained'
                 color='secondary'
-                style={{fontSize: '0.65rem', color: 'white', borderRadius: '2px'}}
+                className={customButtons.root}
                 onClick = {
                     // save(props.content)
                     handleOpen
@@ -73,13 +75,14 @@ const Save = (props) => {
                     {/* </p> */}
                     <Button
                         variant='contained'
-                        className = 'mt-2'
+                        color='secondary'
+                        className={customButtons.root}
                         onClick = { () => {
                             save(props.content, name) 
                             setOpen(false)
                         }}
                         size='small'
-                        style = {{color:'#f44336'}}
+                        validate
                     >
                         Submit
                     </Button>

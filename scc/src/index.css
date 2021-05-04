@@ -15,8 +15,6 @@ body {
   font-size: 80%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #1e56a0;
-
 }
 
 .editorContainer {
@@ -27,8 +25,9 @@ div.DraftEditor-root{
   margin-top: 1rem;
   height: 48vh;
   font-family: 'Roboto Slab', serif;
+  font-size: 0.75rem;
+  -webkit-font-smoothing: antialiased;
   max-width: 140vh;
-  font-size: 80%;
   overflow-y: auto;
 }
 
@@ -40,12 +39,11 @@ div.DraftEditor-editorContainer, div.public-DraftEditor-content {
   max-height: 64vh;
 }
 
-
-.suggestion-box {
+/* .suggestion-box {
   max-height: 64vh;
   min-height: 64vh;
   width: auto;
-}
+} */
 
 .suggestions {
   height: 46vh;

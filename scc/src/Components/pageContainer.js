@@ -5,9 +5,9 @@ import {
 	Modifier, getDefaultKeyBinding, KeyBindingUtil
 } from "draft-js";
 import 'draft-js/dist/Draft.css'
-import SimilarWordEnd from './similarWordEnd'
-import SimilarWordStart from './similarWordStart'
-import SimilarWordStartEnd from './similarWordStartEnd'
+import SimilarWordEnd from './Modals/similarWordEnd'
+import SimilarWordStart from './Modals/similarWordStart'
+import SimilarWordStartEnd from './Modals/similarWordStartEnd'
 import { Button, ButtonGroup } from '@material-ui/core'
 
 const { hasCommandModifier } = KeyBindingUtil
