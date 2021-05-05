@@ -70,31 +70,17 @@ const customDrawer = makeStyles((theme) => ({
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
     },
+    
+    items: {
+        margin: '-4px',
+        // zIndex: 1,
+    },
 
     content: {
         backgroundColor: '#1e56a0',
         flexGrow: 1,
         // padding: theme.spacing(0),
     },
-
-    items: {
-        margin: '-2px',
-        // zIndex: 1,
-    },
-
-    itemIcon: {
-        margin: theme.spacing(0,2,0,0),
-        color: '#163172',
-        fontWeight: 100,
-        height: '18px',
-        width: 'auto',
-    },
-
-    itemText: {
-    color: '#141414',
-    fontSize: '0.80rem',
-    paddingTop: '8px',
-  }
 }));
 
 export default customDrawer

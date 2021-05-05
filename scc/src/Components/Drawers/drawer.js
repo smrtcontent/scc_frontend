@@ -1,39 +1,23 @@
-import React from 'react'
+import {React, useState } from 'react'
 import clsx from 'clsx'
 import TextEditor from '../textEditor'
 import {
-  withStyles, useTheme, Drawer, AppBar,
+  useTheme, Drawer, AppBar,
   Toolbar, List, CssBaseline, Typography, Divider, IconButton,
-  ListItem, ThemeProvider,
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import SaveAltIcon from '@material-ui/icons/SaveAlt';
-import PostAddIcon from '@material-ui/icons/PostAdd';
-import { indigo } from '@material-ui/core/colors';
 import Footer from '../footer'
 import customDrawer from '../../app/themes/customDrawer'
-import customListItem from './../../app/themes/customListItem'
+import SaveFile from './DrawerButtons/saveFile'
 
 export default function MiniDrawer() {
   const classes = customDrawer()
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-
-  const ListItems = withStyles({
-    root: {
-      "&$selected": {
-        backgroundColor: "red",
-        color: "white"
-      },
-      "&:hover": {
-        backgroundColor: indigo[100],
-        backdropFilter: 'blur(1px)',
-      }
-    },
-    selected: {}
-  })(ListItem);
+  const [name, setName] = useState('')
+  const [content, setContent] = useState() 
+  const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -63,13 +47,14 @@ export default function MiniDrawer() {
                 [classes.hide]: open,
               })}
             >
-              <MenuIcon />
+              <MenuIcon style = {{ color: 'white' }}/>
             </IconButton>
             <Typography
               variant="h5"
               style={{ 
                 fontWeight: 550,
                 marginLeft: '-18px',
+                color: 'white',
               }}
               noWrap>
               Smart Content Creator
@@ -89,7 +74,6 @@ export default function MiniDrawer() {
             }),
           }}
         >
-          <ThemeProvider theme={customListItem}>
             <div className={classes.toolbar}>
               <IconButton onClick={handleDrawerClose}>
                 {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -97,30 +81,20 @@ export default function MiniDrawer() {
             </div>
             <Divider />
             <List className={classes.items}>
-              {[{text : 'Open New', icon : <PostAddIcon/>}, 
-                {text : 'Open New', icon : <SaveAltIcon />},
-              ].map((x, index) => (
-                <ListItems 
-                  button 
-                  key={index} 
-                  onClick={() => alert(x.text)}>
-                  <span
-                    className = {classes.itemIcon}
-                  >{x.icon}
-                  </span>
-                  <span 
-                    className={classes.itemText}
-                  >
-                    {x.text}
-                  </span>
-                </ListItems>
-              ))}
+              <SaveFile 
+                content={content}
+                name = {name}
+                setName = {setName}
+            />
             </List>
-          </ThemeProvider>
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <TextEditor />
+          <TextEditor 
+            setContent = {setContent}
+            name = {name}
+            setName = {setName}
+          />
           <Footer />
         </main>
       </div>

@@ -24,7 +24,7 @@ const Portmanteaus = (props) => {
                         key={index}
                         size='small'
                         className={classes.btn}
-                        variant='contained'
+                        variant='outlined'
                         color='secondary'
                         onClick={() => props.onClick(x.combined.split(',')[0])}
                     > {x.combined.split(',')[0]} </Button>
@@ -32,7 +32,7 @@ const Portmanteaus = (props) => {
                         key={index + 100000}
                         size='small'
                         className={classes.btn}
-                        variant='contained'
+                        variant='outlined'
                         color='secondary'
                         onClick={() => props.onClick(x.combined.split(',')[1])}
                     > {x.combined.split(',')[1]} </Button>
@@ -43,7 +43,7 @@ const Portmanteaus = (props) => {
                         key={index}
                         size='small'
                         className={classes.btn + ' offset-md-2 col-5 '}
-                        variant='contained'
+                        variant='outlined'
                         color='secondary'
                         onClick={() => props.onClick(x.combined.split(',')[0])}
                     > {x.combined.split(',')[0]} </Button>

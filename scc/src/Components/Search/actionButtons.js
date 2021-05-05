@@ -1,6 +1,5 @@
 import React from 'react'
-import {Button, Card, CardContent, ThemeProvider} from '@material-ui/core'
-import btnTheme from '../../app/themes/buttonTheme'
+import {Button, Card, CardContent} from '@material-ui/core'
 import customButton from '../../app/themes/customButton'
 import customCard from '../../app/themes/customCard'
 
@@ -15,7 +14,6 @@ const ActionButtons = props => {
                 <CardContent className='p-1'>
                     <div className='row my-1'>
                         <div className='col-12'>
-                        <ThemeProvider theme={btnTheme}>
                             {[
                                 {command:'find-antonyms',val: 'Antonyms'},
                                 {command:'find-adjectives',val: 'Adjectives'}, 
@@ -52,7 +50,6 @@ const ActionButtons = props => {
                             >
                                 {x.val}
                             </Button>)}
-                        </ThemeProvider>
                         </div>
                     </div>
                 </CardContent>

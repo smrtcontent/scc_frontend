@@ -1,4 +1,4 @@
-const save = (content, name) => {
+const save = (content, name, setSuccess) => {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -11,8 +11,8 @@ const save = (content, name) => {
     };
     fetch('http://localhost:8088/scc/api/saveFile/', requestOptions)
         .then(res => res.json())
-        .then(result => console.log(result))
-        .catch(err => console.log(err))
+        .then(result => setSuccess(true))
+        .catch(err => {console.log(err); setSuccess(false)})
 }
 
 export default save 

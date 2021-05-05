@@ -6,7 +6,6 @@ import { isMobile } from "react-device-detect";
 import ActionButtons from './Search/actionButtons'
 import Legends from './legends'
 import Suggestions from './Suggestions/suggestions'
-import Save from './Modals/saveButton';
 import customCard from '../app/themes/customCard';
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function TextEditor() {
+export default function TextEditor(props) {
   const classes = useStyles()
   const customCards = customCard()
 
@@ -58,7 +57,6 @@ export default function TextEditor() {
   const [funChange, setFunChange] = useState()  // Stores the function to chnage focus to the editor
   const [buttonCommand, setButtonCommand] = useState() // Stores the command of the pressed button
   const [selectedText, setSelectedText] = useState() // Stores the selected text 
-  const [content, setContent] = useState() // Stores the content of text editor 
 
   const setRep = e => setRepText(e)
   const typeChange = e => setType(e)
@@ -163,13 +161,12 @@ export default function TextEditor() {
                 reptext={repText}
                 buttonCommand = {buttonCommand}
                 setButtonCommand = {setButtonCommand}
-                setContent = {setContent}
+                setContent = {props.setContent}
                 changeFun = {setFunChange}
                 selectedText= {selectedText}
                 setSelectedText = {setSelectedText}
-              />
-              <Save 
-                content = {content}
+                name = {props.name}
+                setName = {props.setName}
               />
             </CardContent>
           </Card>

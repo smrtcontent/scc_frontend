@@ -9,6 +9,7 @@ import SimilarWordEnd from './Modals/similarWordEnd'
 import SimilarWordStart from './Modals/similarWordStart'
 import SimilarWordStartEnd from './Modals/similarWordStartEnd'
 import { Button, ButtonGroup } from '@material-ui/core'
+import SaveFiles from "./Modals/saveFiles";
 
 const { hasCommandModifier } = KeyBindingUtil
 
@@ -26,6 +27,7 @@ class PageContainer extends React.Component {
 		this.state = {
 			editorState: EditorState.createEmpty(),
 			selected: '',
+			open: false,
 			openEnd: false,
 			openStart: false,
 			openStartEnd: false,
@@ -67,11 +69,11 @@ class PageContainer extends React.Component {
 		if (this.props.buttonCommand !== undefined) this.handleKeyCommand(this.props.buttonCommand)
 		if(this.state.editorState !== undefined)
 			this.props.setContent(this.state.editorState.getCurrentContent().getPlainText())
-			// console.log()
+		
 	}
 	
 	
-
+	setOpen = (e) => this.setState({ open: e })
 	setOpenEnd = (e) => this.setState({ openEnd: e })
 	setOpenStart = (e) => this.setState({ openStart: e })
 	setOpenStartEnd = (e) => this.setState({ openStartEnd: e })
@@ -98,6 +100,7 @@ class PageContainer extends React.Component {
 
 		return newEditorState;
 	}
+
 
 	/**
 	 * Function that calls the insertCharacter function and then pushes the new state in the  
@@ -134,6 +137,7 @@ class PageContainer extends React.Component {
 		else if (e.key === 'I' && hasCommandModifier(e) ) return 'find-information'
 		else if (e.key === 'm' && hasCommandModifier(e) ) return 'find-meronyms'
 		else if (e.key === 'n' && e.altKey ) return 'find-nouns'
+		else if (e.key === 'N' && e.altKey ) this.setOpen(true)
 		else if (e.key === 'p' && e.altKey ) return 'find-prefix-hints'
 		else if (e.key === 'P' && e.altKey ) return 'find-portmanteaus'
 		else if (e.key === 'r' && hasCommandModifier(e) ) return 'find-rhymes'
@@ -343,6 +347,10 @@ class PageContainer extends React.Component {
 					open = {this.state.openStartEnd}
 					setOpen = {this.setOpenStartEnd}
 					handleCommand = {this.handleCommandNoVal}
+				/>
+				<SaveFiles 
+					open = {this.props.open} 
+					setOpen = {this.props.setOpen}
 				/>
 			</div>
 		)

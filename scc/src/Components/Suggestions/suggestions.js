@@ -86,14 +86,14 @@ const Suggestions = (props) => {
         <div>
             <Snackbar
                 open={open}
-                autoHideDuration={3000}
+                autoHideDuration={6000}
                 onClose={handleClose}
             >
                 <Alert
                     onClose={handleClose}
-                    severity="success"
+                    severity="info"
                 >
-                    You have selected <strong>{selected}</strong> <br/>
+                    You have selected <strong>{selected}</strong>
                     please use " Alt " + V to paste it in the editor
 
                 </Alert>
@@ -103,7 +103,8 @@ const Suggestions = (props) => {
             >
                 <CardContent>
                     <Typography
-                        className={classes.secondaryTitle + ' d-flex justify-content-between pe-3'}
+                        className={classes.secondaryTitle + 
+                            ' d-flex justify-content-between pe-3'}
                         gutterBottom
                     >
                         Suggestions
@@ -134,26 +135,26 @@ const Suggestions = (props) => {
                         className='suggestions'
                         id='scroll-blue'
                     >{
-                            props.dataList.map((data, index) => (
-                                <Button
-                                    key={index}
-                                    size='small'
-                                    className={classes.btn}
-                                    variant='outlined'
-                                    color='secondary'
-                                    style={{fontSize: '0.65rem', borderRadius:'2px'}}
-                                    onClick={() => {
-                                        props.onClick(data.word)
-                                        props.funChange()
-                                        setSelected(data.word)
-                                        handleClick()
-                                    }
+                        props.dataList.map((data, index) => (
+                            <Button
+                                key={index}
+                                size='small'
+                                className={classes.btn}
+                                variant='outlined'
+                                color='secondary'
+                                style={{fontSize: '0.65rem', borderRadius:'2px'}}
+                                onClick={() => {
+                                    props.onClick(data.word)
+                                    props.funChange()
+                                    setSelected(data.word)
+                                    handleClick()
                                 }
-                                >
-                                    {data.word}
-                                </Button>
-                            ))
-                        }
+                            }
+                            >
+                                {data.word}
+                            </Button>
+                        ))
+                    }
                     </div>
                 </CardContent>
             </Card>
