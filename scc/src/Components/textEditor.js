@@ -57,6 +57,7 @@ export default function TextEditor(props) {
   const [funChange, setFunChange] = useState()  // Stores the function to chnage focus to the editor
   const [buttonCommand, setButtonCommand] = useState() // Stores the command of the pressed button
   const [selectedText, setSelectedText] = useState() // Stores the selected text 
+  const [isLoading, setIsLoading] = useState(false)
 
   const setRep = e => setRepText(e)
   const typeChange = e => setType(e)
@@ -73,19 +74,28 @@ export default function TextEditor(props) {
         const URL = "http://localhost:8088/scc/api/" + command + "?endLetter=" + newData[0] + "&word=" + newData[1]
         fetch(URL)
           .then(res => res.json())
-          .then(wordList => setWords(wordList))
+          .then(wordList => {
+              setWords(wordList)
+              setIsLoading(false)
+            })
           .catch(err => { console.log(err) })
       } else if(command === 'wordsStartingWithEndingWith') {
         const URL = "http://localhost:8088/scc/api/" + command + "?startLetter=" + newData[0] + "&endLetter=" + newData[1]
         fetch(URL)
           .then(res => res.json())
-          .then(wordList => setWords(wordList))
+          .then(wordList => {
+            setWords(wordList)
+            setIsLoading(false)
+          })
           .catch(err => { console.log(err) })
       } else {
         const URL = "http://localhost:8088/scc/api/" + command + "?startLetter=" + newData[0] + "&word=" + newData[1]
         fetch(URL)
           .then(res => res.json())
-          .then(wordList => setWords(wordList))
+          .then(wordList => {
+            setWords(wordList)
+            setIsLoading(false)
+          })
           .catch(err => { console.log(err) })
       }
 
@@ -95,21 +105,31 @@ export default function TextEditor(props) {
           if (command === 'findPortmanteaus') {
             fetch(URL)
               .then(res => res.json())
-              .then(wordList => setPortmanteaus(wordList))
+              .then(wordList => {
+                setPortmanteaus(wordList)
+                setIsLoading(false)
+              })
               .catch(err => { console.log(err) })
           } if (command === 'findWordInformation') {
             fetch(URL)
               .then(res => res.json())
-              .then(wordList => setInformation(wordList))
+              .then(wordList => {
+                setInformation(wordList)
+                setIsLoading(false)
+              })
               .catch(err => { console.log(err) })
           } else {
             fetch(URL)
               .then(res => res.json())
-              .then(wordList => setWords(wordList))
+              .then(wordList => {
+                setWords(wordList)
+                setIsLoading(false)
+              })
               .catch(err => { console.log(err) })
         }
       }
     }
+    
   }
 
   const handleDefinitionChange = (command, newData) => {
@@ -167,6 +187,9 @@ export default function TextEditor(props) {
                 setSelectedText = {setSelectedText}
                 name = {props.name}
                 setName = {props.setName}
+                saved = {props.saved}
+					      setSaved = {props.setSaved}
+                setIsLoading = {setIsLoading}
               />
             </CardContent>
           </Card>
@@ -179,6 +202,7 @@ export default function TextEditor(props) {
             definitions={definitions}
             information={information}
             onClick={setRep}
+            isLoading = {isLoading}
             funChange = {funChange}
           />
         </div>

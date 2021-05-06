@@ -20,34 +20,18 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         backgroundColor: theme.palette.background.paper,
-        border: '2px solid #fff',
+        border: '0px solid #fff',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
     },
-
-    itemIcon: {
-        margin: theme.spacing(0,2,0,0),
-        color: 'secondary',
-        fontWeight: 100,
-        height: '18px',
-        width: 'auto',
-    },
-
-    itemText: {
-        color: '#141414',
-        fontSize: '0.80rem',
-        paddingTop: '8px',
-    }
 }));
 
-  
 
 const SaveFiles = (props) => {
     const classes = useStyles()
     const customButtons = customButton()
     const [openS, setOpenS] = useState(false)
-    const [success, setSuccess] = useState()
-    const [saved, setSaved] = useState(false)
+    const [success, setSuccess] = useState(false)
 
     const handleClose = () => {
         props.setOpen(false);
@@ -61,21 +45,9 @@ const SaveFiles = (props) => {
         setSuccess(false);
     }
 
-    const snackbar = () => {
-        if(success){
-            return (
-                <Snackbar open={openS} autoHideDuration={6000} onClose={handleCloseSnack}>
-                    <Alert onClose={handleCloseSnack} severity="success">
-                        File has been saved successfully !
-                    </Alert>
-                </Snackbar>
-            )
-        }
-    }
-    
     const modal = () => {
-            // alert('here')
-            return(
+            // alert(props.open)
+            return (
                 <Modal
                     aria-labelledby="transition-modal-title"
                     className={classes.modal}
@@ -107,9 +79,10 @@ const SaveFiles = (props) => {
                                     alert('Please Enter a file name!')
                                     return 
                                 }
-                                save(props.content, props.name, setSuccess) 
-                                setSaved(true)
+                                save(props.content, props.name, setSuccess)
+                                props.setSaved(true)
                                 props.setOpen(false)
+                                setOpenS(true)
                             }}
                             size='small'
                             validate
@@ -117,15 +90,31 @@ const SaveFiles = (props) => {
                             Submit
                         </Button>
                     </div>
-                    </Fade>
+                    </Fade>        
                 </Modal>
             )
     }
 
+    const snackbar = () => {
+        if(success){
+            return (
+                <Snackbar open={openS} autoHideDuration={6000} onClose={handleCloseSnack}>
+                    <Alert onClose={handleCloseSnack} severity="success">
+                        File has been saved successfully !
+                    </Alert>
+                </Snackbar>
+            )
+        }
+    }
+
+    // const saveType = () => !(props.saved) ? modal() : save(props.content, props.name, setSuccess)
+
     return (
         <>
             <div>
-                { !saved ? modal() : save(props.content, props.name, setSuccess) }
+                { modal() }
+            </div>
+            <div>
                 { snackbar() }
             </div>
         </>

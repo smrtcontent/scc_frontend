@@ -10,6 +10,8 @@ import SimilarWordStart from './Modals/similarWordStart'
 import SimilarWordStartEnd from './Modals/similarWordStartEnd'
 import { Button, ButtonGroup } from '@material-ui/core'
 import SaveFiles from "./Modals/saveFiles";
+import SuccessSnackbar from './Modals/successSnackbar'
+import save from "../features/Save/save";
 
 const { hasCommandModifier } = KeyBindingUtil
 
@@ -27,7 +29,9 @@ class PageContainer extends React.Component {
 		this.state = {
 			editorState: EditorState.createEmpty(),
 			selected: '',
+			show: true,
 			open: false,
+			openS: false,
 			openEnd: false,
 			openStart: false,
 			openStartEnd: false,
@@ -72,8 +76,9 @@ class PageContainer extends React.Component {
 		
 	}
 	
-	
+	setShow = (e) => this.setState({ show: e })
 	setOpen = (e) => this.setState({ open: e })
+	setOpenS = (e) => this.setState({ openS: e })
 	setOpenEnd = (e) => this.setState({ openEnd: e })
 	setOpenStart = (e) => this.setState({ openStart: e })
 	setOpenStartEnd = (e) => this.setState({ openStartEnd: e })
@@ -137,7 +142,7 @@ class PageContainer extends React.Component {
 		else if (e.key === 'I' && hasCommandModifier(e) ) return 'find-information'
 		else if (e.key === 'm' && hasCommandModifier(e) ) return 'find-meronyms'
 		else if (e.key === 'n' && e.altKey ) return 'find-nouns'
-		else if (e.key === 'N' && e.altKey ) this.setOpen(true)
+		else if (e.key === 'N' && e.altKey ) return 'save-file'
 		else if (e.key === 'p' && e.altKey ) return 'find-prefix-hints'
 		else if (e.key === 'P' && e.altKey ) return 'find-portmanteaus'
 		else if (e.key === 'r' && hasCommandModifier(e) ) return 'find-rhymes'
@@ -158,6 +163,7 @@ class PageContainer extends React.Component {
 	 * @returns 
 	 */
 	handleCommand = (command, query) => {
+		this.props.setIsLoading(true)
 		var Selected = this.props.selectedText
 		if (Selected === undefined){
 			alert('Nothing Selected')
@@ -176,9 +182,52 @@ class PageContainer extends React.Component {
 	}
 
 	handleCommandNoVal = (command, data, query) => {
+		this.props.setIsLoading(true)
 		this.props.onSearch(command, data)
 		this.props.onChange(query)
 		return "handled"
+	}
+
+	handleSave = () => {
+		if (!this.props.saved) {
+			this.setOpenS(true)
+			this.setOpen(true)
+		} else {
+			save(
+				this.state.editorState.getCurrentContent().getPlainText(),
+				this.props.name,
+				this.setShow 
+			)
+			this.showSnacks = () => {
+				return (
+					<SuccessSnackbar 
+						show = {this.state.show}
+						setShow = {this.setShow}
+					/>
+				)
+			} 
+		}
+	}
+
+	showSnacks = () => {}
+
+	save = (state = false) => {
+		if (state){
+			return (
+				<SaveFiles 
+					saved = {this.props.saved}
+					open = {this.state.open}
+					openS = {this.state.openS}
+					name = {this.props.name}
+					content = {this.state.editorState.getCurrentContent().getPlainText()}
+					setOpen = {this.setOpen}
+					setOpenS = {this.setOpenS}
+					setSaved = {this.props.setSaved}
+					setName = {this.props.setName}
+				/>
+				)
+		}
+		else return (<></>)
 	}
 
 	/**
@@ -269,6 +318,9 @@ class PageContainer extends React.Component {
 		if (command === 'replace')
 			this.replace(this.props.reptext)
 
+		if (command === 'save-file')
+			this.handleSave()
+
 		if (newState) {
 			this.onChange(newState);
 			return 'handled'
@@ -297,6 +349,8 @@ class PageContainer extends React.Component {
 	render() {
 		return (
 			<div className="editorContainer">
+				{this.save(this.state.openS)}
+				<>{this.showSnacks()}</>
 				<ButtonGroup>
 					<Button
 						onClick={this.onUnderlineClick}
@@ -347,10 +401,6 @@ class PageContainer extends React.Component {
 					open = {this.state.openStartEnd}
 					setOpen = {this.setOpenStartEnd}
 					handleCommand = {this.handleCommandNoVal}
-				/>
-				<SaveFiles 
-					open = {this.props.open} 
-					setOpen = {this.props.setOpen}
 				/>
 			</div>
 		)

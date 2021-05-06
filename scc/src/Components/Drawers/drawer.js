@@ -17,7 +17,9 @@ export default function MiniDrawer() {
   const theme = useTheme();
   const [name, setName] = useState('')
   const [content, setContent] = useState() 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
+  const [saved, setSaved] = useState(false)
+
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -84,6 +86,8 @@ export default function MiniDrawer() {
               <SaveFile 
                 content={content}
                 name = {name}
+                saved = {saved}
+                setSaved = {setSaved}
                 setName = {setName}
             />
             </List>
@@ -93,6 +97,8 @@ export default function MiniDrawer() {
           <TextEditor 
             setContent = {setContent}
             name = {name}
+            saved = {saved}
+            setSaved = {setSaved}
             setName = {setName}
           />
           <Footer />

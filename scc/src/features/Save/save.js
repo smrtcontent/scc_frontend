@@ -5,13 +5,14 @@ const save = (content, name, setSuccess) => {
         body: JSON.stringify({
             "content": content,
             "fileName": name,
-            "id": 12,
             "userId": 34
           })
     };
     fetch('http://localhost:8088/scc/api/saveFile/', requestOptions)
         .then(res => res.json())
-        .then(result => setSuccess(true))
+        .then(result => {
+            setSuccess(true)
+        })
         .catch(err => {console.log(err); setSuccess(false)})
 }
 

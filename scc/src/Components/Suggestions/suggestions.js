@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Card, CardContent, Typography, Button, Snackbar } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core'
+import { makeStyles, CircularProgress } from '@material-ui/core'
 import Alert from './../Alerts/alert'
 import Definitions from './../Suggestions/definitions'
 import Portmanteaus from './../Suggestions/portmanteaus'
@@ -115,6 +115,14 @@ const Suggestions = (props) => {
                     >
                         {props.type}
                     </Typography>
+                    {props.isLoading?
+                    <div className='d-flex justify-content-center'>
+                        <CircularProgress 
+                        color='secondary'
+                        style={{ marginTop: '16vh'}}
+                     />
+                    </div>
+                     :<></>}
                     <Definitions
                         meanings={props.definitions}
                     />

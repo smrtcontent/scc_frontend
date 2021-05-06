@@ -7,7 +7,7 @@ import { indigo } from '@material-ui/core/colors';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import save from './../../../features/Save/save'
 import customButton from './../../../app/themes/customButton';
-import SaveFiles from './../DrawerButtons/saveFile'
+// import SaveFiles from './../DrawerButtons/saveFile'
 
 const Alert = (props) => {
     return <MuiAlert elevation={6} variant="filled" {...props} />
@@ -69,12 +69,12 @@ const SaveFile = (props) => {
     const [open, setOpen] = useState(false)
     const [openS, setOpenS] = useState(false)
     const [success, setSuccess] = useState()
-    const [saved, setSaved] = useState(false)
 
     const handleOpen = () => {
         setOpenS(true)
-        setOpen(true);
-    };
+        setOpen(true)
+        !props.saved ? modal() : save(props.content, props.name, setSuccess) 
+    }
 
     const handleClose = () => {
         setOpen(false);
@@ -135,7 +135,7 @@ const SaveFile = (props) => {
                                     return 
                                 }
                                 save(props.content, props.name, setSuccess) 
-                                setSaved(true)
+                                props.setSaved(true)
                                 setOpen(false)
                             }}
                             size='small'
@@ -167,7 +167,7 @@ const SaveFile = (props) => {
             </ListItems>
 
             <div>
-                { !saved ? modal() : save(props.content, props.name, setSuccess) }
+                {/* { !props.saved ? modal() : save(props.content, props.name, setSuccess) } */}
                 { snackbar() }
             </div>
 
