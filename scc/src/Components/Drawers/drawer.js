@@ -11,6 +11,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import Footer from '../footer'
 import customDrawer from '../../app/themes/customDrawer'
 import SaveFile from './DrawerButtons/saveFile'
+import OpenFile from './DrawerButtons/openFile'
 
 export default function MiniDrawer() {
   const classes = customDrawer()
@@ -19,6 +20,7 @@ export default function MiniDrawer() {
   const [content, setContent] = useState() 
   const [open, setOpen] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [openFileContent, setOpenFileContent] = useState('')
 
 
   const handleDrawerOpen = () => {
@@ -89,7 +91,14 @@ export default function MiniDrawer() {
                 saved = {saved}
                 setSaved = {setSaved}
                 setName = {setName}
-            />
+              />
+              <OpenFile 
+                name = {name}
+                setName = {setName}
+                setSaved = {setSaved}
+                openFileContent = {openFileContent}
+                setOpenFileContent = {setOpenFileContent}
+              />
             </List>
         </Drawer>
         <main className={classes.content}>
@@ -100,6 +109,8 @@ export default function MiniDrawer() {
             saved = {saved}
             setSaved = {setSaved}
             setName = {setName}
+            openFileContent = {openFileContent}
+            setOpenFileContent = {setOpenFileContent}
           />
           <Footer />
         </main>

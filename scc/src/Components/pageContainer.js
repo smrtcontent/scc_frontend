@@ -73,6 +73,11 @@ class PageContainer extends React.Component {
 		if (this.props.buttonCommand !== undefined) this.handleKeyCommand(this.props.buttonCommand)
 		if(this.state.editorState !== undefined)
 			this.props.setContent(this.state.editorState.getCurrentContent().getPlainText())
+		// if(this.props.openFileContent !== ''){
+		// 	alert('here')
+		// 	this.handleNewFile(this.props.openFileContent)
+		// 	this.props.setOpenFileContent('')
+		// }
 		
 	}
 	
@@ -83,6 +88,29 @@ class PageContainer extends React.Component {
 	setOpenStart = (e) => this.setState({ openStart: e })
 	setOpenStartEnd = (e) => this.setState({ openStartEnd: e })
 	
+	handleNewFile = (content) => {
+		let selection = undefined;
+
+		let currentContent = this.state.editorState.getCurrentContent();
+		
+		selection = this.state.editorState.getSelection().merge({
+		anchorKey: currentContent.getFirstBlock().getKey(),
+		anchorOffset: 0,  
+
+		focusOffset: currentContent.getLastBlock().getText().length, 
+		focusKey: currentContent.getLastBlock().getKey(),
+		})
+		const newContent = Modifier.replaceText(
+			this.editorState.getCurrentContent(),
+			selection,
+			content
+		)
+		const newEditorState = EditorState.push(this.editorState, newContent, 'insert-characters');
+
+		return newEditorState
+	}
+
+
 	/**
 	 * Gets the current Editor State and the character to insert and then inserts
 	 * the character in the editorState

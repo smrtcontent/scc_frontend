@@ -1,12 +1,12 @@
 import {React, useState} from 'react'
 import { Button } from '@material-ui/core'
 import {Modal, TextField, withStyles, ListItem, Backdrop, Fade,
-        Snackbar, makeStyles} from '@material-ui/core/';
-import MuiAlert from '@material-ui/lab/Alert';
-import { indigo } from '@material-ui/core/colors';
-import SaveIcon from '@material-ui/icons/Save';
-import save from './../../../features/Save/save'
-import customButton from './../../../app/themes/customButton';
+        Snackbar, makeStyles} from '@material-ui/core/'
+import MuiAlert from '@material-ui/lab/Alert'
+import { indigo } from '@material-ui/core/colors'
+import PostAddIcon from '@material-ui/icons/PostAdd'
+import customButton from './../../../app/themes/customButton'
+import OpenFiles from '../../Modals/openFiles'
 
 const Alert = (props) => {
     return <MuiAlert elevation={6} variant="filled" {...props} />
@@ -60,30 +60,26 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-  
-
-const SaveFile = (props) => {
+const OpenFile = (props) => {
     const classes = useStyles()
     const customButtons = customButton()
+    const [name, setName] = useState('')
     const [open, setOpen] = useState(false)
     const [openS, setOpenS] = useState(false)
     const [success, setSuccess] = useState()
+    const [fileModal, setFileModal] = useState(<></>)
+    const [openModalInner, setOpenModalInner] = useState(false)
 
     const handleOpen = () => {
-        if (!props.saved) {
-            setOpenS(true)
-            setOpen(true)
-        } else {
-            save(props.content, props.name, setSuccess)
-        }
-        
+        setOpenS(true)
+        setOpen(true)
     }
 
-
+    const fileOpenModal = (e=<></>) => setFileModal(e)
 
     const handleClose = () => {
         setOpen(false)
-    };
+    }
 
     const handleCloseSnack = (event, reason) => {
         if (reason === 'clickaway') {
@@ -121,13 +117,12 @@ const SaveFile = (props) => {
                     <Fade in={open}>
                     <div className={classes.paper}>
                         <h4 id="transition-modal-title">File Name</h4>
-                        {/* <p id="transition-modal-description"> */}
                         <form className={classes.root} autoComplete="off">
                             <TextField 
                                 id="standard-basic" 
                                 label="" 
-                                value = { props.name }
-                                onChange = { e => props.setName(e.target.value) }    
+                                value = { name }
+                                onChange = { e => setName(e.target.value) }    
                             />
                         </form>
                         <Button
@@ -135,12 +130,18 @@ const SaveFile = (props) => {
                             color='secondary'
                             className={customButtons.root}
                             onClick = { () => {
-                                if(props.name === ''){
-                                    alert('Please Enter a file name!')
+                                if(name === ''){
+                                    alert('Please Enter the file name!')
                                     return 
                                 }
-                                save(props.content, props.name, setSuccess) 
-                                props.setSaved(true)
+                                // props.setSaved(true)
+                                fileOpenModal(<OpenFiles 
+                                    open = {openModalInner}
+                                    setOpen = {setOpenModalInner}
+                                    setName = {props.setName}
+                                    openFileContent = {props.openFileContent}
+                                    setOpenFileContent = {props.setOpenFileContent}
+                                />)
                                 setOpen(false)
                             }}
                             size='small'
@@ -161,25 +162,25 @@ const SaveFile = (props) => {
                 <span
                 className = {classes.itemIcon}
                 >
-                    <SaveIcon color='secondary'/>
+                    <PostAddIcon color='secondary'/>
                 </span>
                 <span 
                 className={classes.itemText}
                 >
-                Save File
+                Open File
                 </span>
             </ListItems>
-
             <div>
-                { modal() }
+                {modal()}
+            </div>
+            <div>
+                { fileModal }
             </div>
             <div>
                 { snackbar() }
             </div>
-
-            {/* <SaveFiles name={name} setName={setName} /> */}
         </>
     )
 }
 
-export default SaveFile
+export default OpenFile

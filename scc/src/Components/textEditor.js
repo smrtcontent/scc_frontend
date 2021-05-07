@@ -137,7 +137,10 @@ export default function TextEditor(props) {
     const URL = "http://localhost:8088/scc/api/" + command + "?word=" + newData
     fetch(URL)
       .then(res => res.json())
-      .then(wordList => setDefinitions(wordList))
+      .then(wordList => {
+        setDefinitions(wordList)
+        setIsLoading(false)
+      })
       .catch(err => { console.log(err) })
   }
 
@@ -190,6 +193,8 @@ export default function TextEditor(props) {
                 saved = {props.saved}
 					      setSaved = {props.setSaved}
                 setIsLoading = {setIsLoading}
+                openFileContent = {props.openFileContent}
+                setOpenFileContent = {props.setOpenFileContent}
               />
             </CardContent>
           </Card>
