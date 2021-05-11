@@ -73,11 +73,11 @@ class PageContainer extends React.Component {
 		if (this.props.buttonCommand !== undefined) this.handleKeyCommand(this.props.buttonCommand)
 		if(this.state.editorState !== undefined)
 			this.props.setContent(this.state.editorState.getCurrentContent().getPlainText())
-		// if(this.props.openFileContent !== ''){
-		// 	alert('here')
-		// 	this.handleNewFile(this.props.openFileContent)
-		// 	this.props.setOpenFileContent('')
-		// }
+		if(this.props.openFileContent !== ''){
+			this.handleNewFile(this.props.openFileContent)
+			// this.setFocus()
+			this.props.setOpenFileContent('')
+		}
 		
 	}
 	
@@ -88,26 +88,34 @@ class PageContainer extends React.Component {
 	setOpenStart = (e) => this.setState({ openStart: e })
 	setOpenStartEnd = (e) => this.setState({ openStartEnd: e })
 	
+	setFocus = () => {
+		this.setState({
+			editorState: EditorState.moveFocusToEnd(this.state.editorState)
+		})
+	}
+
 	handleNewFile = (content) => {
-		let selection = undefined;
+		let selection = undefined
 
 		let currentContent = this.state.editorState.getCurrentContent();
-		
 		selection = this.state.editorState.getSelection().merge({
 		anchorKey: currentContent.getFirstBlock().getKey(),
 		anchorOffset: 0,  
 
 		focusOffset: currentContent.getLastBlock().getText().length, 
 		focusKey: currentContent.getLastBlock().getKey(),
+		hasFocus: true,
 		})
+
 		const newContent = Modifier.replaceText(
-			this.editorState.getCurrentContent(),
+			this.state.editorState.getCurrentContent(),
 			selection,
 			content
 		)
-		const newEditorState = EditorState.push(this.editorState, newContent, 'insert-characters');
 
-		return newEditorState
+		const newEditorState = EditorState.push(this.state.editorState, newContent, 'insert-characters');
+		this.setState({ editorState: newEditorState })
+		return true
 	}
 
 
@@ -231,6 +239,7 @@ class PageContainer extends React.Component {
 					<SuccessSnackbar 
 						show = {this.state.show}
 						setShow = {this.setShow}
+						message = {'File has been save successfully!'}
 					/>
 				)
 			} 

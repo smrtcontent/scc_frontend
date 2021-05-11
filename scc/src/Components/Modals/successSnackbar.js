@@ -15,7 +15,7 @@ const SuccessSnackbar = (props) => {
         <>
             <Snackbar open={props.show} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="success">
-                    File has been saved successfully !
+                    {props.message}
                 </Alert>
             </Snackbar>
         </>

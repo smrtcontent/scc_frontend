@@ -1,9 +1,10 @@
-import { Card, CardContent, List, ListItem } from '@material-ui/core'
-import React,{useState} from 'react'
-import { Button } from '@material-ui/core'
+import React, {useState} from 'react'
+import { Card, CardContent, Divider, List, ListItem, Typography } from '@material-ui/core'
 import {Modal, withStyles, Backdrop, Fade,
         makeStyles} from '@material-ui/core/'
+import DescriptionIcon from '@material-ui/icons/Description'
 import { indigo } from '@material-ui/core/colors'
+import SuccessSnackbar from './successSnackbar'
 import Open from './../../features/Open/open'
 
 const ListItems = withStyles({
@@ -27,16 +28,24 @@ const useStyles = makeStyles((theme) => ({
           marginTop: theme.spacing(2),
         },
       },
+
     modal: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
     },
+
     paper: {
-        backgroundColor: theme.palette.background.paper,
+        // backgroundColor: theme.palette.background.paper,
+        backgroundColor: 'rgba(255,255,255,0.97)',
+        backdropFilter: 'blur(2px)',
         border: '2px solid #fff',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
+        height: '90%',
+        width: '90%',
+        borderRadius: '3px',
+
     },
 
     itemIcon: {
@@ -56,62 +65,75 @@ const useStyles = makeStyles((theme) => ({
 
 const OpenFiles = (props) => {
     const classes = useStyles()
-    const [files, setFiles] = useState([])
-
-    const URL = 'http://localhost:8088/scc/api/getFileByUserId?userId=34'
-    fetch(URL)
-    .then(res=>res.json())
-    .then(result => {
-        setFiles(result)
-        alert('here')
-    })
-    .catch(err=>console.log(err))
+    const [open, setOpen] = useState(false)
 
     const handleClose = () => {
         props.setOpen(false)
     }
 
     return (
-        <Modal
-            aria-labelledby="transition-modal-title"
-            className={classes.modal}
-            open={props.open}
-            onClose={handleClose}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-            timeout: 500,
-            }}
-        >
-            <Fade in={props.open}>
-            <Card className={classes.paper}>
-                <CardContent>
-                    <p id="transition-modal-title">
-                        Please select the file of your choice
-                    </p>
-                    <List>
-                        <ListItems>
-                            {
-                                files.map(x => {
-                                    return (
-                                    <Button
-                                        style={{width:'100%'}}
-                                        onClick = {
-                                            Open(x.filename,props.seOpenFileContent, props.setName)
-                                        } 
-                                    >
-                                        x.fileName
-                                    </Button>
-                                    )
-                                })
-                            }
-                        </ListItems>
-                    </List>
-                    
-                </CardContent>
-            </Card>
-            </Fade>
-        </Modal>
+        <>
+            <Modal
+                aria-labelledby="transition-modal-title"
+                className={classes.modal}
+                open={props.open}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                timeout: 500,
+                }}
+            >
+                <Fade in={props.open}>
+                    <Card className={classes.paper}>
+                        <CardContent>
+                            <Typography 
+                                id="transition-modal-title"
+                                variant='h5'
+                                >
+                                Please select the file of your choice
+                            </Typography>
+                            <List>
+                                {
+                                    props.files.map((x,index) => (
+                                        <>
+                                            <ListItems
+                                                button
+                                                className = {classes.itemText}
+                                                style={{color:'black'}}
+                                                key = {index}
+                                                onClick = { () =>{
+                                                    Open(x.fileName,props.setOpenFileContent, props.setName)
+                                                    props.setOpen(false)
+                                                    setOpen(true)
+                                                } }
+                                            >
+                                                <DescriptionIcon 
+                                                    className={classes.itemIcon}
+                                                    color = 'primary'
+                                                />
+                                                {x.fileName}
+                                            </ListItems>
+                                            <Divider 
+                                                flexItem
+                                                variant='fullWidth'
+                                                style={{backgroundColor:'black'}}
+                                            />
+                                        </>
+                                    ))
+                                }
+                            </List>
+                            
+                        </CardContent>
+                    </Card>
+                </Fade>
+            </Modal>
+            <SuccessSnackbar 
+                show = {open}
+                setShow = {setOpen}
+                message = {'The selected file has been successfully loaded !'}
+            />
+        </>
         
     )
 }

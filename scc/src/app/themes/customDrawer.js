@@ -44,6 +44,7 @@ const customDrawer = makeStyles((theme) => ({
 
     drawerOpen: {
         width: drawerWidth,
+        overflowX: 'hidden',
         transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,

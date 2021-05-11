@@ -75,6 +75,8 @@ const SaveFile = (props) => {
             setOpen(true)
         } else {
             save(props.content, props.name, setSuccess)
+            props.setSaved(true)
+            setOpenS(true)
         }
         
     }
