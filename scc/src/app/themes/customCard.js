@@ -8,6 +8,7 @@ const customCard = makeStyles((theme) => ({
     },
     suggestions: {
         borderRadius: '0px',
+        userSelect: 'none',
         maxHeight: '64vh',
         minHeight: '64vh',
         width: 'auto',
@@ -15,6 +16,7 @@ const customCard = makeStyles((theme) => ({
     },
     legends: {
         borderRadius: '0px',
+        userSelect: 'none',
         fontSize: '0.65rem',
         margin: '10px 1px 1px 1px',
     }

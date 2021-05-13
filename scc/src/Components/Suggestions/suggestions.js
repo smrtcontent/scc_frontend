@@ -5,6 +5,7 @@ import Alert from './../Alerts/alert'
 import Definitions from './../Suggestions/definitions'
 import Portmanteaus from './../Suggestions/portmanteaus'
 import Information from './../Suggestions/information'
+import DualRhyme from './dualRhyme'
 import customCard from './../../app/themes/customCard'
 
 const useStyles = makeStyles((theme) => ({
@@ -128,6 +129,15 @@ const Suggestions = (props) => {
                     />
                     <Portmanteaus
                         portmanteaus={props.portmanteaus}
+                        onClick={(e) => {
+                            setSelected(e)
+                            props.onClick(e)
+                            props.funChange()
+                            handleClick()
+                        }}
+                    />
+                    <DualRhyme
+                        rhymes={props.rhymes}
                         onClick={(e) => {
                             setSelected(e)
                             props.onClick(e)

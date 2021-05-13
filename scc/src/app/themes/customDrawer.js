@@ -8,7 +8,20 @@ const customDrawer = makeStyles((theme) => ({
         display: 'flex',
         overflowX: 'hidden',
     },
-
+    title: {
+        fontWeight: 550,
+        marginLeft: '-18px',
+        userSelect: 'none',
+        color: 'white',
+        margin: theme.spacing(0, 2, 0, 2),
+        padding: theme.spacing(0),
+        shadow: `0 2px 1.8px -19px rgba(0, 0, 0, 0.028),
+        0 4.9px 4.3px -19px rgba(0, 0, 0, 0.04),
+        0 9.3px 8.1px -19px rgba(0, 0, 0, 0.05),
+        0 16.5px 14.5px -19px rgba(0, 0, 0, 0.06),
+        0 30.9px 27.2px -19px rgba(0, 0, 0, 0.072),
+        0 74px 65px -19px rgba(0, 0, 0, 0.1);`
+      },
     appBar: {
         backgroundColor: '#1a237e',
         zIndex: theme.zIndex.drawer + 1,

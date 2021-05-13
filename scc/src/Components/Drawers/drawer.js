@@ -55,11 +55,12 @@ export default function MiniDrawer() {
             </IconButton>
             <Typography
               variant="h5"
-              style={{ 
-                fontWeight: 550,
-                marginLeft: '-18px',
-                color: 'white',
-              }}
+              className={classes.title}
+              // style={{ 
+              //   fontWeight: 550,
+              //   marginLeft: '-18px',
+              //   color: 'white',
+              // }}
               noWrap>
               Smart Content Creator
             </Typography>

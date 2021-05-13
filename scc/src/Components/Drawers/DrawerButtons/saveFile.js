@@ -1,16 +1,12 @@
 import {React, useState} from 'react'
 import { Button } from '@material-ui/core'
 import {Modal, TextField, withStyles, ListItem, Backdrop, Fade,
-        Snackbar, makeStyles} from '@material-ui/core/';
-import MuiAlert from '@material-ui/lab/Alert';
+        makeStyles} from '@material-ui/core/';
 import { indigo } from '@material-ui/core/colors';
 import SaveIcon from '@material-ui/icons/Save';
 import save from './../../../features/Save/save'
 import customButton from './../../../app/themes/customButton';
-
-const Alert = (props) => {
-    return <MuiAlert elevation={6} variant="filled" {...props} />
-}
+import SuccessSnackbar from './../../Modals/successSnackbar'
 
 const ListItems = withStyles({
     root: {
@@ -24,7 +20,7 @@ const ListItems = withStyles({
       }
     },
     selected: {}
-})(ListItem);
+})(ListItem)
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -58,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '0.80rem',
         paddingTop: '8px',
     }
-}));
+}))
 
   
 
@@ -67,93 +63,21 @@ const SaveFile = (props) => {
     const customButtons = customButton()
     const [open, setOpen] = useState(false)
     const [openS, setOpenS] = useState(false)
-    const [success, setSuccess] = useState()
 
     const handleOpen = () => {
-        if (!props.saved) {
-            setOpenS(true)
+        if (!props.saved) 
             setOpen(true)
-        } else {
-            save(props.content, props.name, setSuccess)
+        else {
+            save(props.content, props.name, setOpenS)
             props.setSaved(true)
-            setOpenS(true)
         }
         
     }
 
-
-
     const handleClose = () => {
         setOpen(false)
-    };
-
-    const handleCloseSnack = (event, reason) => {
-        if (reason === 'clickaway') {
-            return
-        }
-        setOpenS(false)
-        setSuccess(false)
     }
 
-    const snackbar = () => {
-        if(success){
-            return (
-                <Snackbar open={openS} autoHideDuration={6000} onClose={handleCloseSnack}>
-                    <Alert onClose={handleCloseSnack} severity="success">
-                        File has been saved successfully !
-                    </Alert>
-                </Snackbar>
-            )
-        }
-    }
-    
-    const modal = () => {
-            return(
-                <Modal
-                    aria-labelledby="transition-modal-title"
-                    className={classes.modal}
-                    open={open}
-                    onClose={handleClose}
-                    closeAfterTransition
-                    BackdropComponent={Backdrop}
-                    BackdropProps={{
-                    timeout: 500,
-                    }}
-                >
-                    <Fade in={open}>
-                    <div className={classes.paper}>
-                        <h4 id="transition-modal-title">File Name</h4>
-                        {/* <p id="transition-modal-description"> */}
-                        <form className={classes.root} autoComplete="off">
-                            <TextField 
-                                id="standard-basic" 
-                                label="" 
-                                value = { props.name }
-                                onChange = { e => props.setName(e.target.value) }    
-                            />
-                        </form>
-                        <Button
-                            variant='contained'
-                            color='secondary'
-                            className={customButtons.root}
-                            onClick = { () => {
-                                if(props.name === ''){
-                                    alert('Please Enter a file name!')
-                                    return 
-                                }
-                                save(props.content, props.name, setSuccess) 
-                                props.setSaved(true)
-                                setOpen(false)
-                            }}
-                            size='small'
-                        >
-                            Submit
-                        </Button>
-                    </div>
-                    </Fade>
-                </Modal>
-            )
-    }
 
     return (
         <>
@@ -173,13 +97,54 @@ const SaveFile = (props) => {
             </ListItems>
 
             <div>
-                { modal() }
+                <Modal
+                    aria-labelledby="transition-modal-title"
+                    className={classes.modal}
+                    open={open}
+                    onClose={handleClose}
+                    closeAfterTransition
+                    BackdropComponent={Backdrop}
+                    BackdropProps={{
+                    timeout: 500,
+                    }}
+                >
+                    <Fade in={open}>
+                    <div className={classes.paper}>
+                        <h4 id="transition-modal-title">File Name</h4>
+                        <form className={classes.root} autoComplete="off">
+                            <TextField 
+                                id="standard-basic" 
+                                label="" 
+                                value = { props.name }
+                                onChange = { e => props.setName(e.target.value) }    
+                            />
+                        </form>
+                        <Button
+                            variant='contained'
+                            color='secondary'
+                            className={customButtons.root}
+                            onClick = { () => {
+                                if(props.name === ''){
+                                    alert('Please Enter a file name!')
+                                    return 
+                                }
+                                save(props.content, props.name, setOpenS)  
+                                props.setSaved(true)
+                                setOpen(false)
+                            }}
+                            size='small'
+                        >
+                            Save
+                        </Button>
+                    </div>
+                    </Fade>
+                </Modal>
             </div>
-            <div>
-                { snackbar() }
-            </div>
-
-            {/* <SaveFiles name={name} setName={setName} /> */}
+            <SuccessSnackbar 
+                show = {openS}
+                setShow = {setOpenS}
+                message = {'The selected file has been successfully saved !'}
+            />
         </>
     )
 }

@@ -35,15 +35,12 @@ class PageContainer extends React.Component {
 			openEnd: false,
 			openStart: false,
 			openStartEnd: false,
+			openDualRhymeSearch: false,
 		}
 		
 		props.changeFun(() => this.setFocus)
 	}
 
-
-	/**
-	 *  Sets the focus to the editor when component is loaded
-	 */
 	componentDidMount() {
 		this.setState({
 			editorState: EditorState.moveFocusToEnd(this.state.editorState)
@@ -75,7 +72,6 @@ class PageContainer extends React.Component {
 			this.props.setContent(this.state.editorState.getCurrentContent().getPlainText())
 		if(this.props.openFileContent !== ''){
 			this.handleNewFile(this.props.openFileContent)
-			// this.setFocus()
 			this.props.setOpenFileContent('')
 		}
 		
@@ -87,6 +83,7 @@ class PageContainer extends React.Component {
 	setOpenEnd = (e) => this.setState({ openEnd: e })
 	setOpenStart = (e) => this.setState({ openStart: e })
 	setOpenStartEnd = (e) => this.setState({ openStartEnd: e })
+	setOpenDualSearch = e => this.setState({ openDualRhymeSearch: e })
 	
 	setFocus = () => {
 		this.setState({
@@ -118,14 +115,10 @@ class PageContainer extends React.Component {
 		return true
 	}
 
-
 	/**
 	 * Gets the current Editor State and the character to insert and then inserts
 	 * the character in the editorState
 	 * 
-	 * @param {*} characterToInsert 
-	 * @param {*} editorState 
-	 * @returns 
 	 */
 	insertCharacter = (characterToInsert, editorState) => {
 		const currentContent = editorState.getCurrentContent(),
@@ -142,7 +135,6 @@ class PageContainer extends React.Component {
 		return newEditorState;
 	}
 
-
 	/**
 	 * Function that calls the insertCharacter function and then pushes the new state in the  
 	 * setState function which in turn sets the new state of the editor.
@@ -153,8 +145,6 @@ class PageContainer extends React.Component {
 			editorState: newEditorState
 		})
 	}
-
-
 
 	/**
 	 * Checks and returns the command for the text editor
@@ -183,6 +173,7 @@ class PageContainer extends React.Component {
 		else if (e.key === 'P' && e.altKey ) return 'find-portmanteaus'
 		else if (e.key === 'r' && hasCommandModifier(e) ) return 'find-rhymes'
 		else if (e.key === 'R' && hasCommandModifier(e) ) return 'find-advance-rhymes'
+		else if (e.key === 'r' && e.altKey ) return 'find-dual-rhymes'
 		else if (e.key === 'S' && hasCommandModifier(e) ) return 'find-similar'
 		else if (e.key === 's' && e.altKey ) return 'find-similar-sound'
 		else if (e.key === 'S' && e.altKey ) return 'find-similar-start'
@@ -194,18 +185,18 @@ class PageContainer extends React.Component {
 	/**
 	 * Handles the shortcut commands and updates the parent states
 	 * 
-	 * @param {*} command 
-	 * @param {*} query 
-	 * @returns 
 	 */
 	handleCommand = (command, query) => {
 		this.props.setIsLoading(true)
 		var Selected = this.props.selectedText
 		if (Selected === undefined){
 			alert('Nothing Selected')
+			this.props.setIsLoading(false)
 			return 'not-handled'
 		}
-		if (Selected.trim().split(' ').length > 1 && query !== "Spelt Similar") {
+		if (Selected.trim().split(' ').length > 1 
+			&& query !== "Spelt Similar"
+			&& query !== "Dual Rhymes") {
 			alert('Please select only one word to search ' + query + ' for!')
 			return "handled"
 		}
@@ -217,6 +208,7 @@ class PageContainer extends React.Component {
 		return "handled"
 	}
 
+	// Handles the commands with no validation check for one word exact
 	handleCommandNoVal = (command, data, query) => {
 		this.props.setIsLoading(true)
 		this.props.onSearch(command, data)
@@ -224,6 +216,7 @@ class PageContainer extends React.Component {
 		return "handled"
 	}
 
+	// Handles the saving of file in the database
 	handleSave = () => {
 		if (!this.props.saved) {
 			this.setOpenS(true)
@@ -248,6 +241,7 @@ class PageContainer extends React.Component {
 
 	showSnacks = () => {}
 
+	// Returns the modal to enable saving file
 	save = (state = false) => {
 		if (state){
 			return (
@@ -270,9 +264,6 @@ class PageContainer extends React.Component {
 	/**
 	 * Handles the input command given to the editor and maps it to the specific
 	 * function and sets the state of selection at textEditor.js
-	 * 
-	 * @param {*} command 
-	 * @returns {Void}
 	 */
 	handleKeyCommand = command => {
 		const newState = RichUtils.handleKeyCommand(this.state.editorState, command)
@@ -330,6 +321,9 @@ class PageContainer extends React.Component {
 
 		if (command === 'find-advance-rhymes')
 			this.handleCommand('findRhymesAdvance', 'Advance Rhymes')
+		
+		if (command === 'find-dual-rhymes')
+			this.handleCommand('findDualRhymes', 'Dual Rhymes')
 
 		if (command === 'find-similar')
 			this.handleCommand('findSimilar', 'Similar Words')
@@ -371,18 +365,15 @@ class PageContainer extends React.Component {
 	 * The formatting options
 	 */
 
-	onUnderlineClick = () => {
+	onUnderlineClick = () => 
 		this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, "UNDERLINE"))
-	}
-
-	onBoldClick = () => {
+	
+	onBoldClick = () => 
 		this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, "BOLD"))
-	}
-
-	onItalicClick = () => {
+	
+	onItalicClick = () => 
 		this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, "ITALIC"))
-	}
-
+	
 	render() {
 		return (
 			<div className="editorContainer">
@@ -439,6 +430,11 @@ class PageContainer extends React.Component {
 					setOpen = {this.setOpenStartEnd}
 					handleCommand = {this.handleCommandNoVal}
 				/>
+				{/* <SimilarWordStartEnd 
+					open = {this.state.openStartEnd}
+					setOpen = {this.setOpenStartEnd}
+					handleCommand = {this.handleCommand}
+				/> */}
 			</div>
 		)
 	}

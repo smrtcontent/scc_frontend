@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
+import { Card, CardContent, Typography, makeStyles} from '@material-ui/core';
 import PageContainer from './pageContainer'
-import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardContent, Typography} from '@material-ui/core';
 import { isMobile } from "react-device-detect";
 import ActionButtons from './Search/actionButtons'
 import Legends from './legends'
@@ -12,29 +11,19 @@ const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: 275,
   },
-  title: {
-    fontSize: 42,
-    fontWeight: 700,
-    color: '#ffffff',
-    margin: theme.spacing(0, 2, 0, 2),
-    padding: theme.spacing(0),
-    shadow: `0 2px 1.8px -19px rgba(0, 0, 0, 0.028),
-    0 4.9px 4.3px -19px rgba(0, 0, 0, 0.04),
-    0 9.3px 8.1px -19px rgba(0, 0, 0, 0.05),
-    0 16.5px 14.5px -19px rgba(0, 0, 0, 0.06),
-    0 30.9px 27.2px -19px rgba(0, 0, 0, 0.072),
-    0 74px 65px -19px rgba(0, 0, 0, 0.1);`
-  },
   secondary: {
     color: '#141414',
     fontSize: 16,
+    userSelect: 'none',
     padding: theme.spacing(1, 1, 0, 1),
   },
   secondaryTitle: {
     fontSize: 26,
+    userSelect: 'none',
     padding: theme.spacing(1),
   },
   subHeading: {
+    userSelect: 'none',
     fontSize: 16,
     padding: theme.spacing(1, 0),
     color: '#4756ca',
@@ -54,54 +43,46 @@ export default function TextEditor(props) {
   const [definitions, setDefinitions] = useState([])  // Stores definitions featched by the api
   const [information, setInformation] = useState([])  // Stores definitions featched by the api
   const [portmanteaus, setPortmanteaus] = useState([])  // Stores portamanteaus
+  const [rhymes, setRhymes] = useState([])  // Stores dual rhymes
   const [funChange, setFunChange] = useState()  // Stores the function to chnage focus to the editor
   const [buttonCommand, setButtonCommand] = useState() // Stores the command of the pressed button
   const [selectedText, setSelectedText] = useState() // Stores the selected text 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false) // Stores if the component results are being loaded
 
   const setRep = e => setRepText(e)
   const typeChange = e => setType(e)
+
 
   const handleDataChange = (command, newData) => {
     setInformation([])
     setDefinitions([])
     setPortmanteaus([])
     setWords([])
+    setRhymes([])
+
+    const baseUrl = "http://localhost:8088/scc/api/" + command
+    let URL = undefined
 
     if ( command === 'findSimilarEndsWith' || command === 'findSimilarStartsWith' || command === 'wordsStartingWithEndingWith') {
       
-      if (command === 'findSimilarEndsWith'){
-        const URL = "http://localhost:8088/scc/api/" + command + "?endLetter=" + newData[0] + "&word=" + newData[1]
-        fetch(URL)
-          .then(res => res.json())
-          .then(wordList => {
-              setWords(wordList)
-              setIsLoading(false)
-            })
-          .catch(err => { console.log(err) })
-      } else if(command === 'wordsStartingWithEndingWith') {
-        const URL = "http://localhost:8088/scc/api/" + command + "?startLetter=" + newData[0] + "&endLetter=" + newData[1]
-        fetch(URL)
-          .then(res => res.json())
-          .then(wordList => {
-            setWords(wordList)
-            setIsLoading(false)
-          })
-          .catch(err => { console.log(err) })
-      } else {
-        const URL = "http://localhost:8088/scc/api/" + command + "?startLetter=" + newData[0] + "&word=" + newData[1]
-        fetch(URL)
-          .then(res => res.json())
-          .then(wordList => {
-            setWords(wordList)
-            setIsLoading(false)
-          })
-          .catch(err => { console.log(err) })
-      }
+      if (command === 'findSimilarEndsWith')
+        URL = baseUrl + "?endLetter=" + newData[0] + "&word=" + newData[1]
+      else if (command === 'wordsStartingWithEndingWith') 
+        URL = baseUrl + "?startLetter=" + newData[0] + "&endLetter=" + newData[1]
+      else
+        URL = baseUrl + "?startLetter=" + newData[0] + "&word=" + newData[1]
+      
+      fetch(URL)
+        .then(res => res.json())
+        .then(wordList => {
+          setWords(wordList)
+          setIsLoading(false)
+        })
+        .catch(err => { console.log(err) })
 
     } else {
         if(newData !== undefined) {
-          const URL = "http://localhost:8088/scc/api/" + command + "?word=" + newData.trim()
+          const URL = baseUrl + "?word=" + newData.trim()
           if (command === 'findPortmanteaus') {
             fetch(URL)
               .then(res => res.json())
@@ -110,11 +91,21 @@ export default function TextEditor(props) {
                 setIsLoading(false)
               })
               .catch(err => { console.log(err) })
-          } if (command === 'findWordInformation') {
+          } else if (command === 'findWordInformation') {
             fetch(URL)
               .then(res => res.json())
               .then(wordList => {
                 setInformation(wordList)
+                setIsLoading(false)
+              })
+              .catch(err => { console.log(err) })
+          } else if (command === 'findDualRhymes') {
+            let data = newData.split(' ')
+            let newURL = baseUrl + "?firstWord=" + data[0] + "&secondWord=" + data[1]
+            fetch(newURL)
+              .then(res => res.json())
+              .then(wordList => {
+                setRhymes(wordList)
                 setIsLoading(false)
               })
               .catch(err => { console.log(err) })
@@ -206,6 +197,7 @@ export default function TextEditor(props) {
             portmanteaus={portmanteaus}
             definitions={definitions}
             information={information}
+            rhymes={rhymes}
             onClick={setRep}
             isLoading = {isLoading}
             funChange = {funChange}

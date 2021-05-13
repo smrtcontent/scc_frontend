@@ -7,10 +7,10 @@ const Definitions = (props) => {
     /**
      * Maps through the prop to find the definition of each record
      */
-    const meaning = () => {
-    props.meanings.map(x => x.meanings.map(x => x.definitions.map(
-                        x => definitions.push(x.definition))))
-    }
+    const meaning = () => 
+        props.meanings.map(x => x.meanings.map(x => x.definitions.map(
+                            x => definitions.push(x.definition))))
+    
 
     /**
      * The function maps through the values of the prop and returns the 

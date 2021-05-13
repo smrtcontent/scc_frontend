@@ -25,6 +25,7 @@ const ActionButtons = props => {
                                 {command:'find-frequent-predecessors',val: 'Frequent Predecessors'},
                                 {command:'find-nouns',val: 'Nouns'}, 
                                 {command:'find-rhymes',val: 'Rhymes'}, 
+                                {command:'find-dual-rhymes',val: 'Dual Rhymes'}, 
                                 {command:'find-holonyms',val: 'Holonyms'}, 
                                 {command:'find-homophones',val: 'Homophones'}, 
                                 {command:'find-hypernyms',val: 'Hypernyms'},
