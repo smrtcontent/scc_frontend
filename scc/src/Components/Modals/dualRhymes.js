@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Modal, Backdrop, Fade, TextField, Box, Button } from '@material-ui/core';
+import customButton from './../../app/themes/customButton'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -13,11 +14,12 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        border: '3px solid #fff',
 
     },
     paper: {
         backgroundColor: theme.palette.background.paper,
-        // border: '2px solid #000',
+        border: '3px solid #fff',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
         borderRadius: 3,
@@ -25,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export const DualRhymes = (props) => {
+const DualRhymes = (props) => {
   const classes = useStyles();
   const [word1, setWord1] = useState()
   const [word2, setWord2] = useState()
@@ -34,11 +36,13 @@ export const DualRhymes = (props) => {
   const handleChangeW1 = e => setWord1(e.target.value)
   const handleChangeW2 = e => setWord2(e.target.value);
 
-  const handleSearch = () =>{
-    const data = {word1} + ' ' + {word2}
+  const handleSearch = e =>{
+    e.preventDefault()
+    const data = word1 + ' ' + word2
     props.handleCommand('findDualRhymes', data, 'Dual Rhymes')
     setWord1('')
     setWord2('')
+    handleClose()
   }
 
   return (
@@ -57,44 +61,45 @@ export const DualRhymes = (props) => {
       >
         <Fade in={props.open}>
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">Dual Rhyme Search</h2>
+            <h4 id="transition-modal-title">Dual Rhymes Search</h4>
             <form 
                 id="transition-modal-description"
                 className={classes.root} 
+                onSubmit={ handleSearch }
                 noValidate 
                 autoComplete="off">
                 <TextField 
                     id="standard-basic" 
-                    label="Starting Letter" 
-                    value = {Word1}
+                    label="First Word" 
+                    value = {word1}
                     onChange = {handleChangeW1}
+                    autoFocus
                 />
                 <br/>
                 <TextField 
                     id="standard-basic"
-                    label="Word"
-                    value = {Word2}
+                    label="Second Word"
+                    value = {word2}
                     onChange = {handleChangeW2}
                     />
-            </form>
             <Box 
                 justifyContent='center'
                 >
                 <Button
+                    type = 'submit'
                     variant = 'contained'
                     color = 'primary'
-                    onClick = {() => {
-                        handleSearch()
-                        handleClose()
-                    }
-                    }
+                    className = {customButton().root}
                 >
                     Search
                 </Button>
             </Box>
+            </form>
           </div>
         </Fade>
       </Modal>
     </div>
   );
 }
+
+export default DualRhymes

@@ -8,14 +8,16 @@ import {
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import {isMobile} from 'react-device-detect'
 import Footer from '../footer'
 import customDrawer from '../../app/themes/customDrawer'
+import customDrawerMobile from '../../app/themes/customDrawerMobile'
 import SaveFile from './DrawerButtons/saveFile'
 import OpenFile from './DrawerButtons/openFile'
 
 export default function MiniDrawer() {
-  const classes = customDrawer()
-  const theme = useTheme();
+  const classes = isMobile?customDrawerMobile():customDrawer()
+  const theme = useTheme()
   const [name, setName] = useState('')
   const [content, setContent] = useState() 
   const [open, setOpen] = useState(false)
@@ -25,11 +27,11 @@ export default function MiniDrawer() {
 
   const handleDrawerOpen = () => {
     setOpen(true);
-  };
+  }
 
   const handleDrawerClose = () => {
     setOpen(false);
-  };
+  }
 
   return (
     <>
@@ -47,31 +49,26 @@ export default function MiniDrawer() {
               aria-label="open drawer"
               onClick={handleDrawerOpen}
               edge="start"
-              className={clsx(classes.menuButton, {
-                [classes.hide]: open,
-              })}
+              className={clsx(classes.menuButton, open && classes.hide)}
             >
               <MenuIcon style = {{ color: 'white' }}/>
             </IconButton>
             <Typography
               variant="h5"
               className={classes.title}
-              // style={{ 
-              //   fontWeight: 550,
-              //   marginLeft: '-18px',
-              //   color: 'white',
-              // }}
               noWrap>
               Smart Content Creator
             </Typography>
           </Toolbar>
         </AppBar>
         <Drawer
-          variant="permanent"
+          variant={isMobile?"persistent":"permanent"}
           className={clsx(classes.drawer, {
             [classes.drawerOpen]: open,
             [classes.drawerClose]: !open,
           })}
+          anchor = 'left'
+          open={open}
           classes={{
             paper: clsx({
               [classes.drawerOpen]: open,
@@ -81,7 +78,7 @@ export default function MiniDrawer() {
         >
             <div className={classes.toolbar}>
               <IconButton onClick={handleDrawerClose}>
-                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
               </IconButton>
             </div>
             <Divider />

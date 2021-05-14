@@ -1,26 +1,26 @@
 import { makeStyles } from "@material-ui/core";
 // import customButton from "./customButton";
 
-const drawerWidth = 180
+const drawerWidth = 180 
 
 const customDrawerMobile = makeStyles((theme) => ({
     root: {
         display: 'flex',
-        overflowX: 'hidden',
-
+        // overflowX: 'hidden',
     },
     title: {
-        display: 'hidden',
+        color: 'white',
     },
     appBar: {
         backgroundColor: '#1a237e',
+        zIndex: theme.zIndex.drawer,
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
     },
     appBarShift: {
-        width: `calc(100% - ${drawerWidth}px)`,
+        width: `calc(117vw - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.easeOut,
@@ -28,7 +28,7 @@ const customDrawerMobile = makeStyles((theme) => ({
         }),
     },
     menuButton: {
-        marginRight: 25,
+        marginRight: 3,
         paddingLeft: 3,
     },
     hide: {
@@ -52,7 +52,7 @@ const customDrawerMobile = makeStyles((theme) => ({
     content: {
         backgroundColor: '#1e56a0',
         flexGrow: 1,
-        padding: theme.spacing(3),
+        padding: theme.spacing(1),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,

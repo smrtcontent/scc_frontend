@@ -135,11 +135,6 @@ export default function TextEditor(props) {
       .catch(err => { console.log(err) })
   }
 
-  const mobileHeading = () => {
-    if(isMobile) 
-      return (<h1 className='pt-5 text-white '>Smart Content Creator</h1>) 
-  }
-
   const legends = () => {
     if(!isMobile) 
       return (<Legends/>) 
@@ -147,22 +142,25 @@ export default function TextEditor(props) {
   
   const description = () => {
     if(isMobile)
-      return (`* Type the content you want to and once you feel the need,
-      select the word and press the specific button to get the type of suggestion
-       you desire.`)
-    else return (`* Type the content you want to and once you feel the need,
-      select the word and press the specific key combination or the button 
-      to get the type of suggestion you desire.`)
+      return ({ 
+        text:`* Type the content you want to and once you feel the need,
+              select the word and press the specific button to get the 
+              type of suggestion you desire.`, 
+        style: classes.secondary + ' text-white mt-5'})
+    else return ({ 
+      text: `* Type the content you want to and once you feel the need,
+            select the word and press the specific key combination or 
+            the button to get the type of suggestion you desire.`,
+      style: classes.secondary + ' text-white'})
   }
 
   return (
     <div className="container-fluid" >
-      <div>{mobileHeading()}</div>
       <Typography
-        className={classes.secondary + ' text-white'}
+        className={description().style}
         style={{fontSize:'0.75rem'}}
       >
-        {description()}
+        {description().text}
       </Typography>
       <div className="row" >
         <div className="col-md-8 col-12 mt-2 ps-2 pe-1">

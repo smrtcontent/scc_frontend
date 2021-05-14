@@ -8,6 +8,7 @@ import 'draft-js/dist/Draft.css'
 import SimilarWordEnd from './Modals/similarWordEnd'
 import SimilarWordStart from './Modals/similarWordStart'
 import SimilarWordStartEnd from './Modals/similarWordStartEnd'
+import DualRhymes from './Modals/dualRhymes'
 import { Button, ButtonGroup } from '@material-ui/core'
 import SaveFiles from "./Modals/saveFiles";
 import SuccessSnackbar from './Modals/successSnackbar'
@@ -35,7 +36,7 @@ class PageContainer extends React.Component {
 			openEnd: false,
 			openStart: false,
 			openStartEnd: false,
-			openDualRhymeSearch: false,
+			openDualRhymesSearch: false,
 		}
 		
 		props.changeFun(() => this.setFocus)
@@ -83,7 +84,7 @@ class PageContainer extends React.Component {
 	setOpenEnd = (e) => this.setState({ openEnd: e })
 	setOpenStart = (e) => this.setState({ openStart: e })
 	setOpenStartEnd = (e) => this.setState({ openStartEnd: e })
-	setOpenDualSearch = e => this.setState({ openDualRhymeSearch: e })
+	setOpenDualRhymesSearch = e => this.setState({ openDualRhymesSearch: e })
 	
 	setFocus = () => {
 		this.setState({
@@ -174,6 +175,7 @@ class PageContainer extends React.Component {
 		else if (e.key === 'r' && hasCommandModifier(e) ) return 'find-rhymes'
 		else if (e.key === 'R' && hasCommandModifier(e) ) return 'find-advance-rhymes'
 		else if (e.key === 'r' && e.altKey ) return 'find-dual-rhymes'
+		else if (e.key === 'R' && e.altKey ) return 'find-dual-Rhymes'
 		else if (e.key === 'S' && hasCommandModifier(e) ) return 'find-similar'
 		else if (e.key === 's' && e.altKey ) return 'find-similar-sound'
 		else if (e.key === 'S' && e.altKey ) return 'find-similar-start'
@@ -324,6 +326,9 @@ class PageContainer extends React.Component {
 		
 		if (command === 'find-dual-rhymes')
 			this.handleCommand('findDualRhymes', 'Dual Rhymes')
+			
+		if (command === 'find-dual-Rhymes')
+			this.setOpenDualRhymesSearch(true)
 
 		if (command === 'find-similar')
 			this.handleCommand('findSimilar', 'Similar Words')
@@ -430,11 +435,11 @@ class PageContainer extends React.Component {
 					setOpen = {this.setOpenStartEnd}
 					handleCommand = {this.handleCommandNoVal}
 				/>
-				{/* <SimilarWordStartEnd 
-					open = {this.state.openStartEnd}
-					setOpen = {this.setOpenStartEnd}
-					handleCommand = {this.handleCommand}
-				/> */}
+				< DualRhymes
+					open  = {this.state.openDualRhymesSearch}
+					setOpen = {this.setOpenDualRhymesSearch}
+					handleCommand = {this.handleCommandNoVal}
+				/>
 			</div>
 		)
 	}
