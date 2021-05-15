@@ -33,6 +33,10 @@ const useStyles = makeStyles((theme) => ({
     pos: {
         marginBottom: 12,
     },
+    listText:{
+        textAlign: 'center',
+        paddingTop:theme.spacing(5)
+    }
 }))
 
 const Suggestions = (props) => {
@@ -152,7 +156,7 @@ const Suggestions = (props) => {
                     <div
                         className='suggestions'
                         id='scroll-blue'
-                    >{
+                    >{props.dataList.length!=0?
                         props.dataList.map((data, index) => (
                             <Button
                                 key={index}
@@ -171,7 +175,7 @@ const Suggestions = (props) => {
                             >
                                 {data.word}
                             </Button>
-                        ))
+                        )):props.isLoading?<></>:<div className={classes.listText}><strong>Data Not Found</strong></div>
                     }
                     </div>
                 </CardContent>

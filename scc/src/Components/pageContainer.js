@@ -18,7 +18,7 @@ const { hasCommandModifier } = KeyBindingUtil
 
 class PageContainer extends React.Component {
 
-	setFocus = () =>  {
+	setFocus = () => {
 		this.setState({
 			editorState: EditorState.moveFocusToEnd(this.state.editorState)
 		})
@@ -38,7 +38,7 @@ class PageContainer extends React.Component {
 			openStartEnd: false,
 			openDualRhymesSearch: false,
 		}
-		
+
 		props.changeFun(() => this.setFocus)
 	}
 
@@ -67,17 +67,17 @@ class PageContainer extends React.Component {
 	componentDidUpdate() {
 		const selected = getFragmentFromSelection(this.state.editorState);
 		var Selected = selected ? selected.map(x => x.getText()).join('\n') : ''
-		if (Selected !== '' ) this.props.setSelectedText(Selected)
+		if (Selected !== '') this.props.setSelectedText(Selected)
 		if (this.props.buttonCommand !== undefined) this.handleKeyCommand(this.props.buttonCommand)
-		if(this.state.editorState !== undefined)
+		if (this.state.editorState !== undefined)
 			this.props.setContent(this.state.editorState.getCurrentContent().getPlainText())
-		if(this.props.openFileContent !== ''){
+		if (this.props.openFileContent !== '') {
 			this.handleNewFile(this.props.openFileContent)
 			this.props.setOpenFileContent('')
 		}
-		
+
 	}
-	
+
 	setShow = (e) => this.setState({ show: e })
 	setOpen = (e) => this.setState({ open: e })
 	setOpenS = (e) => this.setState({ openS: e })
@@ -85,7 +85,7 @@ class PageContainer extends React.Component {
 	setOpenStart = (e) => this.setState({ openStart: e })
 	setOpenStartEnd = (e) => this.setState({ openStartEnd: e })
 	setOpenDualRhymesSearch = e => this.setState({ openDualRhymesSearch: e })
-	
+
 	setFocus = () => {
 		this.setState({
 			editorState: EditorState.moveFocusToEnd(this.state.editorState)
@@ -97,12 +97,12 @@ class PageContainer extends React.Component {
 
 		let currentContent = this.state.editorState.getCurrentContent();
 		selection = this.state.editorState.getSelection().merge({
-		anchorKey: currentContent.getFirstBlock().getKey(),
-		anchorOffset: 0,  
+			anchorKey: currentContent.getFirstBlock().getKey(),
+			anchorOffset: 0,
 
-		focusOffset: currentContent.getLastBlock().getText().length, 
-		focusKey: currentContent.getLastBlock().getKey(),
-		hasFocus: true,
+			focusOffset: currentContent.getLastBlock().getText().length,
+			focusKey: currentContent.getLastBlock().getKey(),
+			hasFocus: true,
 		})
 
 		const newContent = Modifier.replaceText(
@@ -152,34 +152,34 @@ class PageContainer extends React.Component {
 	 * 
 	 */
 	suggestionsKeyBinding = (e) => {
-			if (e.key === 'a' && e.altKey ) return 'find-antonyms'
+		if (e.key === 'a' && e.altKey) return 'find-antonyms'
 		else if (e.key === 'A' && hasCommandModifier(e)) return 'find-adjectives'
 		else if (e.key === 'A' && e.altKey) return 'find-approximate-rhymes'
-		else if (e.key === 'C' && hasCommandModifier(e) ) return 'find-consonant-match'
-		else if (e.key === 'd' && hasCommandModifier(e) ) return 'find-definitions'
-		else if (e.key === 'D' && e.altKey ) return 'find-spelt-similar'
-		else if (e.key === 'e' && hasCommandModifier(e) ) return 'find-similar-end'
-		else if (e.key === 'E' && hasCommandModifier(e) ) return 'find-similar-start-end'
-		else if (e.key === 'F' && hasCommandModifier(e) ) return 'find-frequent-follower'
-		else if (e.key === 'f' && e.ctrlKey && e.altKey ) return 'find-frequent-predecessors'
-		else if (e.key === 'H' && hasCommandModifier(e) ) return 'find-holonyms'
-		else if (e.key === 'h' && e.altKey ) return 'find-homophones'
-		else if (e.key === 'H' && e.altKey ) return 'find-hypernyms'
-		else if (e.key === 'h' && hasCommandModifier(e) ) return 'find-hyponyms'
-		else if (e.key === 'I' && hasCommandModifier(e) ) return 'find-information'
-		else if (e.key === 'm' && hasCommandModifier(e) ) return 'find-meronyms'
-		else if (e.key === 'n' && e.altKey ) return 'find-nouns'
-		else if (e.key === 'N' && e.altKey ) return 'save-file'
-		else if (e.key === 'p' && e.altKey ) return 'find-prefix-hints'
-		else if (e.key === 'P' && e.altKey ) return 'find-portmanteaus'
-		else if (e.key === 'r' && hasCommandModifier(e) ) return 'find-rhymes'
-		else if (e.key === 'R' && hasCommandModifier(e) ) return 'find-advance-rhymes'
-		else if (e.key === 'r' && e.altKey ) return 'find-dual-rhymes'
-		else if (e.key === 'R' && e.altKey ) return 'find-dual-Rhymes'
-		else if (e.key === 'S' && hasCommandModifier(e) ) return 'find-similar'
-		else if (e.key === 's' && e.altKey ) return 'find-similar-sound'
-		else if (e.key === 'S' && e.altKey ) return 'find-similar-start'
-		else if (e.key === 'T' && e.altKey ) return 'find-triggers'
+		else if (e.key === 'C' && hasCommandModifier(e)) return 'find-consonant-match'
+		else if (e.key === 'd' && hasCommandModifier(e)) return 'find-definitions'
+		else if (e.key === 'D' && e.altKey) return 'find-spelt-similar'
+		else if (e.key === 'e' && hasCommandModifier(e)) return 'find-similar-end'
+		else if (e.key === 'E' && hasCommandModifier(e)) return 'find-similar-start-end'
+		else if (e.key === 'F' && hasCommandModifier(e)) return 'find-frequent-follower'
+		else if (e.key === 'f' && e.ctrlKey && e.altKey) return 'find-frequent-predecessors'
+		else if (e.key === 'H' && hasCommandModifier(e)) return 'find-holonyms'
+		else if (e.key === 'h' && e.altKey) return 'find-homophones'
+		else if (e.key === 'H' && e.altKey) return 'find-hypernyms'
+		else if (e.key === 'h' && hasCommandModifier(e)) return 'find-hyponyms'
+		else if (e.key === 'I' && hasCommandModifier(e)) return 'find-information'
+		else if (e.key === 'm' && hasCommandModifier(e)) return 'find-meronyms'
+		else if (e.key === 'n' && e.altKey) return 'find-nouns'
+		else if (e.key === 'N' && e.altKey) return 'save-file'
+		else if (e.key === 'p' && e.altKey) return 'find-prefix-hints'
+		else if (e.key === 'P' && e.altKey) return 'find-portmanteaus'
+		else if (e.key === 'r' && hasCommandModifier(e)) return 'find-rhymes'
+		else if (e.key === 'R' && hasCommandModifier(e)) return 'find-advance-rhymes'
+		else if (e.key === 'r' && e.altKey) return 'find-dual-rhymes'
+		else if (e.key === 'R' && e.altKey) return 'find-dual-Rhymes'
+		else if (e.key === 'S' && hasCommandModifier(e)) return 'find-similar'
+		else if (e.key === 's' && e.altKey) return 'find-similar-sound'
+		else if (e.key === 'S' && e.altKey) return 'find-similar-start'
+		else if (e.key === 'T' && e.altKey) return 'find-triggers'
 		else if (e.key === 'v' && e.altKey) return 'replace'
 		return getDefaultKeyBinding(e)
 	}
@@ -191,20 +191,21 @@ class PageContainer extends React.Component {
 	handleCommand = (command, query) => {
 		this.props.setIsLoading(true)
 		var Selected = this.props.selectedText
-		if (Selected === undefined){
+		if (Selected === undefined) {
 			alert('Nothing Selected')
 			this.props.setIsLoading(false)
 			return 'not-handled'
 		}
-		if (Selected.trim().split(' ').length > 1 
+		if (Selected.trim().split(' ').length > 1
 			&& query !== "Spelt Similar"
 			&& query !== "Dual Rhymes") {
 			alert('Please select only one word to search ' + query + ' for!')
+			this.props.setIsLoading(false)
 			return "handled"
 		}
 		if (query === 'Definitions')
 			this.props.onDefChange(command, Selected)
-		else 
+		else
 			this.props.onSearch(command, Selected)
 		this.props.onChange(query)
 		return "handled"
@@ -227,38 +228,38 @@ class PageContainer extends React.Component {
 			save(
 				this.state.editorState.getCurrentContent().getPlainText(),
 				this.props.name,
-				this.setShow 
+				this.setShow
 			)
 			this.showSnacks = () => {
 				return (
-					<SuccessSnackbar 
-						show = {this.state.show}
-						setShow = {this.setShow}
-						message = {'File has been save successfully!'}
+					<SuccessSnackbar
+						show={this.state.show}
+						setShow={this.setShow}
+						message={'File has been save successfully!'}
 					/>
 				)
-			} 
+			}
 		}
 	}
 
-	showSnacks = () => {}
+	showSnacks = () => { }
 
 	// Returns the modal to enable saving file
 	save = (state = false) => {
-		if (state){
+		if (state) {
 			return (
-				<SaveFiles 
-					saved = {this.props.saved}
-					open = {this.state.open}
-					openS = {this.state.openS}
-					name = {this.props.name}
-					content = {this.state.editorState.getCurrentContent().getPlainText()}
-					setOpen = {this.setOpen}
-					setOpenS = {this.setOpenS}
-					setSaved = {this.props.setSaved}
-					setName = {this.props.setName}
+				<SaveFiles
+					saved={this.props.saved}
+					open={this.state.open}
+					openS={this.state.openS}
+					name={this.props.name}
+					content={this.state.editorState.getCurrentContent().getPlainText()}
+					setOpen={this.setOpen}
+					setOpenS={this.setOpenS}
+					setSaved={this.props.setSaved}
+					setName={this.props.setName}
 				/>
-				)
+			)
 		}
 		else return (<></>)
 	}
@@ -270,13 +271,13 @@ class PageContainer extends React.Component {
 	handleKeyCommand = command => {
 		const newState = RichUtils.handleKeyCommand(this.state.editorState, command)
 
-		if (command === 'find-antonyms') 
+		if (command === 'find-antonyms')
 			this.handleCommand('findAntonyms', 'Antonyms')
 
 		if (command === 'find-adjectives')
 			this.handleCommand('findAdjectives', 'Adjectives')
 
-		if (command === 'find-approximate-rhymes') 
+		if (command === 'find-approximate-rhymes')
 			this.handleCommand('findApproximateRhymes', 'Approximate Rhymes')
 
 		if (command === 'find-consonant-match')
@@ -323,10 +324,10 @@ class PageContainer extends React.Component {
 
 		if (command === 'find-advance-rhymes')
 			this.handleCommand('findRhymesAdvance', 'Advance Rhymes')
-		
+
 		if (command === 'find-dual-rhymes')
 			this.handleCommand('findDualRhymes', 'Dual Rhymes')
-			
+
 		if (command === 'find-dual-Rhymes')
 			this.setOpenDualRhymesSearch(true)
 
@@ -370,15 +371,15 @@ class PageContainer extends React.Component {
 	 * The formatting options
 	 */
 
-	onUnderlineClick = () => 
+	onUnderlineClick = () =>
 		this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, "UNDERLINE"))
-	
-	onBoldClick = () => 
+
+	onBoldClick = () =>
 		this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, "BOLD"))
-	
-	onItalicClick = () => 
+
+	onItalicClick = () =>
 		this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, "ITALIC"))
-	
+
 	render() {
 		return (
 			<div className="editorContainer">
@@ -420,25 +421,25 @@ class PageContainer extends React.Component {
 						placeholder='Begin typing here...'
 					/>
 				</div>
-				<SimilarWordStart 
-					open = {this.state.openStart}
-					setOpen = {this.setOpenStart}
-					handleCommand = {this.handleCommandNoVal}
+				<SimilarWordStart
+					open={this.state.openStart}
+					setOpen={this.setOpenStart}
+					handleCommand={this.handleCommandNoVal}
 				/>
-				<SimilarWordEnd 
-					open = {this.state.openEnd}
-					setOpen = {this.setOpenEnd}
-					handleCommand = {this.handleCommandNoVal}
+				<SimilarWordEnd
+					open={this.state.openEnd}
+					setOpen={this.setOpenEnd}
+					handleCommand={this.handleCommandNoVal}
 				/>
-				<SimilarWordStartEnd 
-					open = {this.state.openStartEnd}
-					setOpen = {this.setOpenStartEnd}
-					handleCommand = {this.handleCommandNoVal}
+				<SimilarWordStartEnd
+					open={this.state.openStartEnd}
+					setOpen={this.setOpenStartEnd}
+					handleCommand={this.handleCommandNoVal}
 				/>
 				< DualRhymes
-					open  = {this.state.openDualRhymesSearch}
-					setOpen = {this.setOpenDualRhymesSearch}
-					handleCommand = {this.handleCommandNoVal}
+					open={this.state.openDualRhymesSearch}
+					setOpen={this.setOpenDualRhymesSearch}
+					handleCommand={this.handleCommandNoVal}
 				/>
 			</div>
 		)
