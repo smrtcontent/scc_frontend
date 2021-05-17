@@ -38,7 +38,7 @@ const DualRhymes = (props) => {
 
   const handleSearch = e =>{
     e.preventDefault()
-    const data = word1 + ' ' + word2
+    const data = word1.trim() + ' ' + word2.trim()
     props.handleCommand('findDualRhymes', data, 'Dual Rhymes')
     setWord1('')
     setWord2('')
@@ -58,7 +58,7 @@ const DualRhymes = (props) => {
         BackdropProps={{
           timeout: 500,
         }}
-      >
+      > 
         <Fade in={props.open}>
           <div className={classes.paper}>
             <h4 id="transition-modal-title">Dual Rhymes Search</h4>

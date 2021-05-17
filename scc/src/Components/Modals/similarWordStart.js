@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Modal, Backdrop, Fade, TextField, Box, Button } from '@material-ui/core';
+import customButton from './../../app/themes/customButton'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,11 +35,13 @@ const SimilarWord = (props) => {
   const handleChangeL = e => setLetter(e.target.value)
   const handleChangeW = e => setWord(e.target.value);
 
-  const handleSearch = () =>{
+  const handleSearch = e =>{
+    e.preventDefault()
     const data = [Letter, Word]
     props.handleCommand('findSimilarStartsWith', data, 'Words with similar starting')
     setLetter('')
     setWord('')
+    handleClose()
   }
 
   return (
@@ -61,6 +64,7 @@ const SimilarWord = (props) => {
             <form 
                 id="transition-modal-description"
                 className={classes.root} 
+                onSubmit={handleSearch}
                 noValidate 
                 autoComplete="off">
                 <TextField 
@@ -68,6 +72,7 @@ const SimilarWord = (props) => {
                     label="Starting Letter" 
                     value = {Letter}
                     onChange = {handleChangeL}
+                    autoFocus
                 />
                 <br/>
                 <TextField 
@@ -76,22 +81,19 @@ const SimilarWord = (props) => {
                     value = {Word}
                     onChange = {handleChangeW}
                     />
+                <Box 
+                    justifyContent='center'
+                    >
+                    <Button
+                        variant = 'contained'
+                        color = 'primary'
+                        type='submit'
+                        className={customButton().root}
+                    >
+                        Search
+                    </Button>
+                </Box>
             </form>
-            <Box 
-                justifyContent='center'
-                >
-                <Button
-                    variant = 'contained'
-                    color = 'primary'
-                    onClick = {() => {
-                        handleSearch()
-                        handleClose()
-                    }
-                    }
-                >
-                    Search
-                </Button>
-            </Box>
           </div>
         </Fade>
       </Modal>

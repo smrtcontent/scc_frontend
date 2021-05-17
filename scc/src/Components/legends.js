@@ -111,6 +111,7 @@ const Legends = () => {
                                 { item : "'Shift' + 'Alt' + S: Search for similar words with specific Start"},
                                 { item : "'Shift' + 'Alt' + N: Save the current file"},
                                 { item : "'Alt' + R: Search for Dual Rhymes"},
+                                { item : "'Alt' + 'Shift' + R: Search for Dual Rhymes using custom inputs"},
                                 ].map((x,index) => <li key={index} >{x.item}</li>)
                             }
                         </ul>

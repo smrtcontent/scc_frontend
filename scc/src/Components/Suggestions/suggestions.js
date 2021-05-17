@@ -156,7 +156,7 @@ const Suggestions = (props) => {
                     <div
                         className='suggestions'
                         id='scroll-blue'
-                    >{props.dataList.length!=0?
+                    >{props.dataList.length!==0?
                         props.dataList.map((data, index) => (
                             <Button
                                 key={index}

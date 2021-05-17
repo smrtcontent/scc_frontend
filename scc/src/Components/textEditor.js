@@ -69,8 +69,9 @@ export default function TextEditor(props) {
         URL = baseUrl + "?endLetter=" + newData[0] + "&word=" + newData[1]
       else if (command === 'wordsStartingWithEndingWith') 
         URL = baseUrl + "?startLetter=" + newData[0] + "&endLetter=" + newData[1]
-      else
+      else {
         URL = baseUrl + "?startLetter=" + newData[0] + "&word=" + newData[1]
+      }
       
       fetch(URL)
         .then(res => res.json())

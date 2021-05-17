@@ -1,6 +1,7 @@
-import React,{useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React,{useState} from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 import { Modal, Backdrop, Fade, TextField, Box, Button } from '@material-ui/core';
+import customButton from './../../app/themes/customButton'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,11 +34,13 @@ const SimilarWordStartEnd = (props) => {
   const handleChangeL = e => setStartLetter(e.target.value)
   const handleChangeW = e => setEndLetter(e.target.value)
 
-  const handleSearch = () =>{
-    const data = [startLetter, endLetter]
+  const handleSearch = e =>{
+    e.preventDefault()
+    const data = [startLetter.trim(), endLetter.trim()]
     props.handleCommand('wordsStartingWithEndingWith', data, 'Words starting and ending with specific letters')
     setStartLetter('')
     setEndLetter('')
+    handleClose()
   }
 
   return (
@@ -60,6 +63,7 @@ const SimilarWordStartEnd = (props) => {
             <form 
                 id="transition-modal-description"
                 className={classes.root} 
+                onSubmit={ handleSearch }
                 noValidate 
                 autoComplete="off">
                 <TextField 
@@ -67,6 +71,7 @@ const SimilarWordStartEnd = (props) => {
                     label="Start Letter" 
                     value = {startLetter}
                     onChange = {handleChangeL}
+                    autoFocus
                 />
                 <br/>
                 <TextField 
@@ -75,22 +80,19 @@ const SimilarWordStartEnd = (props) => {
                     value = {endLetter}
                     onChange = {handleChangeW}
                     />
+                <Box 
+                    justifyContent='center'
+                    >
+                    <Button
+                        type = 'submit'
+                        variant = 'contained'
+                        color = 'primary'
+                        className = {customButton().root}
+                    >
+                        Search
+                    </Button>
+                </Box>
             </form>
-            <Box 
-                justifyContent='center'
-                >
-                <Button
-                    variant = 'contained'
-                    color = 'primary'
-                    onClick = {() => {
-                        handleSearch()
-                        handleClose()
-                    }
-                    }
-                >
-                    Search
-                </Button>
-            </Box>
           </div>
         </Fade>
       </Modal>

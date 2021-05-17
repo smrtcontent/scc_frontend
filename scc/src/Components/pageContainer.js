@@ -9,10 +9,11 @@ import SimilarWordEnd from './Modals/similarWordEnd'
 import SimilarWordStart from './Modals/similarWordStart'
 import SimilarWordStartEnd from './Modals/similarWordStartEnd'
 import DualRhymes from './Modals/dualRhymes'
-import { Button, ButtonGroup } from '@material-ui/core'
+import { Box, Button, ButtonGroup } from '@material-ui/core'
 import SaveFiles from "./Modals/saveFiles";
 import SuccessSnackbar from './Modals/successSnackbar'
-import save from "../features/Save/save";
+import save from "../features/Save/save"
+import {isMobile} from 'react-device-detect'
 
 const { hasCommandModifier } = KeyBindingUtil
 
@@ -385,30 +386,59 @@ class PageContainer extends React.Component {
 			<div className="editorContainer">
 				{this.save(this.state.openS)}
 				<>{this.showSnacks()}</>
-				<ButtonGroup>
-					<Button
-						onClick={this.onUnderlineClick}
-						style={{ backgroundColor: '#f6f6f6' }}
-						variant="contained"
-						size="small"
-					>U</Button>
-					<Button
-						onClick={this.onBoldClick}
-						variant="contained"
-						style={{ backgroundColor: '#f6f6f6' }}
-						size="small"
+				<Box
+					display='flex'
+					justifyContent='center'
+				>
+					<Box
+						display='flex'
+						justifyItems='center'
+						flexGrow={1}
 					>
-						<b>B</b>
-					</Button>
-					<Button
-						onClick={this.onItalicClick}
-						variant="contained"
-						style={{ backgroundColor: '#f6f6f6' }}
-						size="small"
-					>
-						<em>I</em>
-					</Button>
-				</ButtonGroup>
+						<ButtonGroup>
+							<Button
+								onClick={this.onUnderlineClick}
+								style={{ backgroundColor: '#f6f6f6' }}
+								variant="contained"
+								size="small"
+							>U</Button>
+							<Button
+								onClick={this.onBoldClick}
+								variant="contained"
+								style={{ backgroundColor: '#f6f6f6' }}
+								size="small"
+							>
+								<b>B</b>
+							</Button>
+							<Button
+								onClick={this.onItalicClick}
+								variant="contained"
+								style={{ backgroundColor: '#f6f6f6' }}
+								size="small"
+							>
+								<em>I</em>
+							</Button>
+						</ButtonGroup>
+					</Box>
+					{ (isMobile&&this.props.reptext!==undefined)?
+						<Box
+							justifyItems='end'
+						>
+							<Button
+								variant='contained'
+								size='small'
+								color='secondary'
+								onClick={()=>{
+									this.setFocus()
+									this.replace(this.props.reptext)
+								}}
+							>
+								Paste
+							</Button>
+						</Box>
+						:<></>
+					}
+				</Box>
 				<div
 					className="editors"
 				>
