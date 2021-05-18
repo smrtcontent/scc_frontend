@@ -1,7 +1,8 @@
-import React,{useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Modal, Backdrop, Fade, TextField, Box, Button } from '@material-ui/core';
+import React,{useState} from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import { Modal, Backdrop, Fade, TextField, Box, Button, Snackbar } from '@material-ui/core'
 import customButton from './../../app/themes/customButton'
+import WarningAlert from './../Alerts/warningAlert'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,25 +29,49 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DualRhymes = (props) => {
-  const classes = useStyles();
+  const classes = useStyles()
+  const [open, setOpen] = useState(false)
   const [word1, setWord1] = useState()
   const [word2, setWord2] = useState()
 
   const handleClose = () => props.setOpen(false)
   const handleChangeW1 = e => setWord1(e.target.value)
-  const handleChangeW2 = e => setWord2(e.target.value);
+  const handleChangeW2 = e => setWord2(e.target.value)
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') return
+    setOpen(false);
+  }
 
   const handleSearch = e =>{
     e.preventDefault()
+    console.log('here')
+    if(word1 === undefined || word2 === undefined) {
+      console.log('error logged')
+      setOpen(true)
+      return
+    }
+    console.log('here')
     const data = word1.trim() + ' ' + word2.trim()
+    console.log(`${word1} ${word2} ${data}`)
     props.handleCommand('findDualRhymes', data, 'Dual Rhymes')
-    setWord1('')
-    setWord2('')
+    setWord1(undefined)
+    setWord2(undefined)
     handleClose()
   }
 
   return (
     <div>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <WarningAlert
+          open={open}
+          onClose={handleCloseSnackbar}
+          message='Please Enter both the Words!'
+        />
+      </Snackbar>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -99,7 +124,7 @@ const DualRhymes = (props) => {
         </Fade>
       </Modal>
     </div>
-  );
+  )
 }
 
 export default DualRhymes

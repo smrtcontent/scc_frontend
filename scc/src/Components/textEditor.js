@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { Card, CardContent, Typography, makeStyles} from '@material-ui/core';
+import { Card, CardContent, Typography, makeStyles, Snackbar} from '@material-ui/core';
 import PageContainer from './pageContainer'
 import { isMobile } from "react-device-detect";
 import ActionButtons from './Search/actionButtons'
 import Legends from './legends'
 import Suggestions from './Suggestions/suggestions'
 import customCard from '../app/themes/customCard';
+import WarningAlert from './Alerts/warningAlert';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,9 +45,11 @@ export default function TextEditor(props) {
   const [information, setInformation] = useState([])  // Stores definitions featched by the api
   const [portmanteaus, setPortmanteaus] = useState([])  // Stores portamanteaus
   const [rhymes, setRhymes] = useState([])  // Stores dual rhymes
-  const [funChange, setFunChange] = useState()  // Stores the function to chnage focus to the editor
+  const [funChange, setFunChange] = useState()  // Stores the function to change focus to the editor
   const [buttonCommand, setButtonCommand] = useState() // Stores the command of the pressed button
   const [selectedText, setSelectedText] = useState() // Stores the selected text 
+  const [openWarningAlert, setOpenWarningAlert] = useState(false)
+  const [warningMessage, setWarningMessage] = useState()
   const [isLoading, setIsLoading] = useState(false) // Stores if the component results are being loaded
 
   const setRep = e => setRepText(e)
@@ -185,6 +188,8 @@ export default function TextEditor(props) {
                 setIsLoading = {setIsLoading}
                 openFileContent = {props.openFileContent}
                 setOpenFileContent = {props.setOpenFileContent}
+                setOpenWarningAlert = {setOpenWarningAlert}
+                setWarningMessage = {setWarningMessage}
               />
             </CardContent>
           </Card>
@@ -211,6 +216,24 @@ export default function TextEditor(props) {
           {legends()}
         </div>
       </div>
+      <Snackbar
+        open={openWarningAlert}
+        autoHideDuration={6000}
+        onClose={(event, reason) => {
+          if (reason === 'clickaway') return
+          setOpenWarningAlert(false)
+        }}
+      >
+        <WarningAlert 
+          open={openWarningAlert}
+          onClose={(event, reason) => {
+              if (reason === 'clickaway') return
+              setOpenWarningAlert(false)
+            }
+          }
+          message={warningMessage}
+        />
+      </Snackbar>
     </div>
   )
 }

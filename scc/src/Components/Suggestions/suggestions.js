@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Card, CardContent, Typography, Button, Snackbar } from '@material-ui/core'
 import { makeStyles, CircularProgress } from '@material-ui/core'
+import isMobile from 'react-device-detect'
 import Alert from './../Alerts/alert'
 import Definitions from './../Suggestions/definitions'
 import Portmanteaus from './../Suggestions/portmanteaus'
@@ -83,7 +84,6 @@ const Suggestions = (props) => {
                         Select All
                     </Button>
                     )
-
         return <></>
     }
 
@@ -94,14 +94,27 @@ const Suggestions = (props) => {
                 autoHideDuration={6000}
                 onClose={handleClose}
             >
-                <Alert
-                    onClose={handleClose}
-                    severity="info"
-                >
-                    You have selected <strong>{selected}</strong>
-                    please use " Alt " + V to paste it in the editor
+                {isMobile?
+                    <Alert
+                        onClose={handleClose}
+                        severity="info"
+                    >
+                        You have selected <strong>{selected} </strong> 
+                        please paste the word using the 'PASTE' button at 
+                        the top right corner of text-editor.
 
-                </Alert>
+                    </Alert>
+                :
+                    <Alert
+                        onClose={handleClose}
+                        severity="info"
+                    >
+                        You have selected <strong>{selected} </strong> 
+                        please use " Alt " + V to paste it in the editor
+
+                    </Alert>
+                }
+                
             </Snackbar>
             <Card
                 className={classes.root + ' ' + customCards.suggestions}
@@ -175,7 +188,7 @@ const Suggestions = (props) => {
                             >
                                 {data.word}
                             </Button>
-                        )):props.isLoading?<></>:<div className={classes.listText}><strong>Data Not Found</strong></div>
+                        )):props.isLoading?<></>:<div className={classes.listText}><strong>No data to display</strong></div>
                     }
                     </div>
                 </CardContent>

@@ -26,7 +26,7 @@ class PageContainer extends React.Component {
 	}
 
 	constructor(props) {
-		super(props);
+		super(props)
 		this.handleKeyCommand = this.handleKeyCommand.bind(this)
 		this.state = {
 			editorState: EditorState.createEmpty(),
@@ -39,7 +39,6 @@ class PageContainer extends React.Component {
 			openStartEnd: false,
 			openDualRhymesSearch: false,
 		}
-
 		props.changeFun(() => this.setFocus)
 	}
 
@@ -91,6 +90,11 @@ class PageContainer extends React.Component {
 		this.setState({
 			editorState: EditorState.moveFocusToEnd(this.state.editorState)
 		})
+	}
+
+	handleCloseSnackbar = (event, reason) => {
+		if (reason === 'clickaway') return
+		this.setOpenWarningAlert(false)
 	}
 
 	handleNewFile = (content) => {
@@ -192,15 +196,17 @@ class PageContainer extends React.Component {
 	handleCommand = (command, query) => {
 		this.props.setIsLoading(true)
 		var Selected = this.props.selectedText
-		if (Selected === undefined) {
-			alert('Nothing Selected')
+		if (Selected === undefined || Selected.trim() === '') {
+			this.props.setWarningMessage('Please select a word before making query search!')
+			this.props.setOpenWarningAlert(true)
 			this.props.setIsLoading(false)
-			return 'not-handled'
+			return 'handled'
 		}
 		if (Selected.trim().split(' ').length > 1
 			&& query !== "Spelt Similar"
 			&& query !== "Dual Rhymes") {
-			alert('Please select only one word to search ' + query + ' for!')
+			this.props.setWarningMessage('Please select exactly one word to search ' + query + ' for!')
+			this.props.setOpenWarningAlert(true)
 			this.props.setIsLoading(false)
 			return "handled"
 		}
@@ -243,6 +249,7 @@ class PageContainer extends React.Component {
 		}
 	}
 
+	// Empty function to hold the snackbar return from handleSave()
 	showSnacks = () => { }
 
 	// Returns the modal to enable saving file
@@ -384,6 +391,7 @@ class PageContainer extends React.Component {
 	render() {
 		return (
 			<div className="editorContainer">
+				
 				{this.save(this.state.openS)}
 				<>{this.showSnacks()}</>
 				<Box
