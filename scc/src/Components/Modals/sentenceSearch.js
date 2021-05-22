@@ -25,7 +25,6 @@ const SentenceSearch = () =>{
         return
       }
       console.log('here')
-    //   props.handleCommand('findDualRhymes', data, 'Dual Rhymes')
       setSyllable(undefined)
       handleClose()
     }
