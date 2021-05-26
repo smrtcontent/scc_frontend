@@ -1,27 +1,33 @@
-import {React, useState } from 'react'
-import clsx from 'clsx'
-import TextEditor from '../textEditor'
+import { React, useState } from "react";
+import clsx from "clsx";
+import TextEditor from "../textEditor";
 import {
-  useTheme, Drawer, AppBar,
-  Toolbar, List, CssBaseline, Typography, Divider, IconButton,
-} from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import Footer from '../footer'
-import customDrawerMobile from '../../app/themes/customDrawerMobile'
-import SaveFile from './DrawerButtons/saveFile'
-import OpenFile from './DrawerButtons/openFile'
+  useTheme,
+  Drawer,
+  AppBar,
+  Toolbar,
+  List,
+  CssBaseline,
+  Typography,
+  Divider,
+  IconButton,
+} from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import Footer from "../footer";
+import customDrawerMobile from "../../app/themes/customDrawerMobile";
+import SaveFile from "./DrawerButtons/saveFile";
+import OpenFile from "./DrawerButtons/openFile";
 
 export default function MiniDrawer() {
-  const classes = customDrawerMobile()
+  const classes = customDrawerMobile();
   const theme = useTheme();
-  const [name, setName] = useState('')
-  const [content, setContent] = useState() 
-  const [open, setOpen] = useState(false)
-  const [saved, setSaved] = useState(false)
-  const [openFileContent, setOpenFileContent] = useState('')
-
+  const [name, setName] = useState("");
+  const [content, setContent] = useState();
+  const [open, setOpen] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [openFileContent, setOpenFileContent] = useState("");
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -51,16 +57,17 @@ export default function MiniDrawer() {
                 [classes.hide]: open,
               })}
             >
-              <MenuIcon style = {{ color: 'white' }}/>
+              <MenuIcon style={{ color: "white" }} />
             </IconButton>
             <Typography
               variant="h5"
-              style={{ 
+              style={{
                 fontWeight: 550,
-                marginLeft: '-18px',
-                color: 'white',
+                marginLeft: "-18px",
+                color: "white",
               }}
-              noWrap>
+              noWrap
+            >
               Smart Content Creator
             </Typography>
           </Toolbar>
@@ -78,43 +85,47 @@ export default function MiniDrawer() {
             }),
           }}
         >
-            <div className={classes.toolbar}>
-              <IconButton onClick={handleDrawerClose}>
-                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-              </IconButton>
-            </div>
-            <Divider />
-            <List className={classes.items}>
-              <SaveFile 
-                content={content}
-                name = {name}
-                saved = {saved}
-                setSaved = {setSaved}
-                setName = {setName}
-              />
-              <OpenFile 
-                name = {name}
-                setName = {setName}
-                setSaved = {setSaved}
-                openFileContent = {openFileContent}
-                setOpenFileContent = {setOpenFileContent}
-              />
-            </List>
+          <div className={classes.toolbar}>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === "rtl" ? (
+                <ChevronRightIcon />
+              ) : (
+                <ChevronLeftIcon />
+              )}
+            </IconButton>
+          </div>
+          <Divider />
+          <List className={classes.items}>
+            <SaveFile
+              content={content}
+              name={name}
+              saved={saved}
+              setSaved={setSaved}
+              setName={setName}
+            />
+            <OpenFile
+              name={name}
+              setName={setName}
+              setSaved={setSaved}
+              openFileContent={openFileContent}
+              setOpenFileContent={setOpenFileContent}
+            />
+          </List>
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <TextEditor 
-            setContent = {setContent}
-            name = {name}
-            saved = {saved}
-            setSaved = {setSaved}
-            setName = {setName}
-            openFileContent = {openFileContent}
-            setOpenFileContent = {setOpenFileContent}
+          <TextEditor
+            setContent={setContent}
+            name={name}
+            saved={saved}
+            setSaved={setSaved}
+            setName={setName}
+            openFileContent={openFileContent}
+            setOpenFileContent={setOpenFileContent}
           />
           <Footer />
         </main>
       </div>
     </>
-  )
+  );
 }
