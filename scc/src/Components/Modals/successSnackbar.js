@@ -6,6 +6,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import Collapse from "@material-ui/core/Collapse";
 import SuccessAlert from "./../Alerts/successAlert";
 
+console.log('tried opening the snackbar')
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",

@@ -66,10 +66,12 @@ const Download = (props) => {
   
   const handleDownload = () => {
     if(props.content!=='' && props.content!==undefined) {
-      if(props.name!==undefined)
+      if(props.name!==undefined) {
+        console.log(props.name)
         saveAsDoc(props.content,props.name)
+      }
       else 
-        saveAsDoc(props.content)
+        saveAsDoc(props.content,'document')
       setOpenS(true)
     }
   }   

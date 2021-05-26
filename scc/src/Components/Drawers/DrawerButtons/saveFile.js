@@ -84,7 +84,11 @@ const SaveFile = (props) => {
       setErrMsg("Please Enter a file name");
       setDisable(true);
       return true;
-    } else if (!/^[a-zA-Z_]+$/.test(props.name)) {
+    } else if (/^[\d]+/.test(props.name)) {
+      setErrMsg("File name can not start with a digit");
+      setDisable(true);
+      return true;
+    } else if (!/^[a-zA-Z_]+\d*$/.test(props.name)) {
       setErrMsg("File name can only contain either alphabets or '_'");
       setDisable(true);
       return true;
@@ -98,24 +102,42 @@ const SaveFile = (props) => {
     if (!props.saved) setOpen(true);
     else {
       save(props.content, props.name, setOpenS);
+      console.log(openS)
       props.setSaved(true);
     }
   };
 
+  const handleCloseModal = () => setOpen(false);
   const handleClose = () => setOpen(false);
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    handleSave();
+    setOpenS(true);
+    handleCloseModal();
+    e.preventDefault();
+  };
+
+  const handleSave = () => {
     if (props.name === "") {
       alert("Please Enter a file name!");
       return;
     }
     save(props.content, props.name, setOpenS);
     props.setSaved(true);
-    props.setOpen(false);
-  };
-
+  }
+  
   return (
     <>
+      {openS?
+      <div>
+        <SuccessSnackbar
+          show={true}
+          setShow={setOpenS}
+          message={"The selected file has been saved successfully !"}
+        />
+      </div>:
+      <></>
+      }
       <ListItems button onClick={handleOpen}>
         <span className={classes.itemIcon}>
           <SaveIcon color="secondary" />
@@ -155,40 +177,36 @@ const SaveFile = (props) => {
                   onChange={(e) => props.setName(e.target.value)}
                   autoFocus
                 />
+                <Box align="center" className="mt-2">
+                  {Disable ? (
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      size="small"
+                      className={customButtons.center}
+                      disabled
+                    >
+                      Save
+                    </Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="secondary"
+                      size="small"
+                      className={customButtons.center}
+                    >
+                      Save
+                    </Button>
+                  )}
+                </Box>
               </form>
-              <Box align="center" className="mt-2">
-                {Disable ? (
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    className={customButtons.center}
-                    disabled
-                  >
-                    Save
-                  </Button>
-                ) : (
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="secondary"
-                    size="small"
-                    className={customButtons.center}
-                  >
-                    Save
-                  </Button>
-                )}
-              </Box>
             </div>
           </Fade>
         </Modal>
       </div>
-      <SuccessSnackbar
-        show={openS}
-        setShow={setOpenS}
-        message={"The selected file has been saved successfully !"}
-      />
+      
     </>
   );
 };

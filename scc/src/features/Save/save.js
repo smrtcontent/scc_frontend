@@ -11,6 +11,7 @@ const save = (content, name, setSuccess) => {
   fetch("http://localhost:8088/scc/api/saveFile/", requestOptions)
     .then((res) => res.json())
     .then((result) => {
+      console.log('uploaded')
       setSuccess(true);
     })
     .catch((err) => {
