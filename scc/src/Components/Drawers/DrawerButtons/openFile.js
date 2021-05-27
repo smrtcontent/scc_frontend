@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { withStyles, ListItem, makeStyles } from "@material-ui/core/";
-import PostAddIcon from "@material-ui/icons/PostAdd";
+import { withStyles, ListItem, makeStyles, Tooltip } from "@material-ui/core/";
+import NoteAddIcon from "@material-ui/icons/NoteAdd";
 import { indigo } from "@material-ui/core/colors";
-
 import OpenFiles from "./../../Modals/openFiles";
 
 const ListItems = withStyles({
@@ -55,9 +54,12 @@ const useStyles = makeStyles((theme) => ({
 
 const OpenFile = (props) => {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
-  const [files, setFiles] = useState([]);
+  const [open, setOpen] = useState(false); // Hook to toggle the modal
+  const [files, setFiles] = useState([]); // Hook to store fetched file names
 
+  /**
+   * Method to fetch file names from the database
+   */
   const fetchFiles = () => {
     const URL = "http://localhost:8088/scc/api/getFileByUserId?userId=34";
     fetch(URL)
@@ -76,8 +78,14 @@ const OpenFile = (props) => {
   return (
     <div>
       <ListItems button onClick={handleOpen}>
-        <span className={classes.itemIcon}>
-          <PostAddIcon color="secondary" />
+      <span className={classes.itemIcon}>
+          {props.open ? (
+            <NoteAddIcon color="secondary" />
+          ) : (
+            <Tooltip title="Open a file" arrow>
+              <NoteAddIcon color="secondary" />
+            </Tooltip>
+          )}
         </span>
         <span className={classes.itemText}>Open File</span>
       </ListItems>

@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { Button } from "@material-ui/core";
+import { Button, Snackbar } from "@material-ui/core";
 import {
   Modal,
   TextField,
@@ -10,8 +10,8 @@ import {
 } from "@material-ui/core/";
 import save from "./../../features/Save/save";
 import customButton from "./../../app/themes/customButton";
-import SuccessSnackbar from "./successSnackbar";
 import ErrorAlert from "./../Alerts/errorAlert";
+import Success from "../Alerts/success";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -141,11 +141,17 @@ const SaveFiles = (props) => {
         </Modal>
       </div>
       <div>
-        <SuccessSnackbar
-          show={openS}
-          setShow={setOpenS}
-          message={"The selected file has been saved successfully !"}
+      <Snackbar
+        open={openS}
+        autoHideDuration={6000}
+        onClose={() => setOpenS(false)}
+      >
+        <Success
+          open={openS}
+          setOpen={setOpenS}
+          message={"The file has been saved successfully !"}
         />
+      </Snackbar>
       </div>
     </>
   );

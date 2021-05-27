@@ -1,14 +1,11 @@
 import { React, useState } from "react";
-import {
-  withStyles,
-  ListItem,
-  makeStyles,
-} from "@material-ui/core/";
+import { withStyles, ListItem, makeStyles, Snackbar } from "@material-ui/core/";
 import { indigo } from "@material-ui/core/colors";
-import SaveAltIcon from '@material-ui/icons/SaveAlt';
-import SuccessSnackbar from "./../../Modals/successSnackbar";
-import saveAsDoc from "./../../../features/Save/saveAsDoc"
-import Tooltip from '@material-ui/core/Tooltip';
+import SaveAltIcon from "@material-ui/icons/SaveAlt";
+import saveAsDoc from "./../../../features/Save/saveAsDoc";
+import Tooltip from "@material-ui/core/Tooltip";
+import Error from "../../Alerts/error";
+import Success from "../../Alerts/success";
 
 const ListItems = withStyles({
   root: {
@@ -59,42 +56,62 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const Download = (props) => {
   const classes = useStyles();
-  const [openS, setOpenS] = useState()
-  
+  const [openS, setOpenS] = useState(); // Hook to store and toggle the success alert
+  const [error, setError] = useState(false); // Hook to store and toggle the error alert
+
+  /**
+   *  The method will download the file if there is content in it or else will throw an error
+   */
   const handleDownload = () => {
-    if(props.content!=='' && props.content!==undefined) {
-      if(props.name!==undefined) {
-        console.log(props.name)
-        saveAsDoc(props.content,props.name)
-      }
-      else 
-        saveAsDoc(props.content,'document')
-      setOpenS(true)
+    if (props.content !== "" && props.content !== undefined) {
+      if (props.name !== undefined) {
+        console.log(props.name);
+        saveAsDoc(props.content, props.name);
+      } else saveAsDoc(props.content, "document");
+      setOpenS(true);
+    } else {
+      setError(true);
     }
-  }   
+  };
 
   return (
     <>
+      <Snackbar
+        open={error}
+        autoHideDuration={6000}
+        onClose={() => setError(false)}
+      >
+        <Error
+          open={error}
+          setOpen={setError}
+          message="There is no content to download. Plesae type some content and try again."
+        />
+      </Snackbar>
       <ListItems button onClick={handleDownload}>
         <span className={classes.itemIcon}>
-          {(props.open)? 
+          {props.open ? (
             <SaveAltIcon color="secondary" />
-            :
-            <Tooltip title="Download as DOC" arrow> 
+          ) : (
+            <Tooltip title="Download as DOC" arrow>
               <SaveAltIcon color="secondary" />
             </Tooltip>
-          }
+          )}
         </span>
         <span className={classes.itemText}>Download</span>
       </ListItems>
-      <SuccessSnackbar
-        show={openS}
-        setShow={setOpenS}
-        message={"The selected file has been downloaded successfully !"}
-      />
+      <Snackbar
+        open={openS}
+        autoHideDuration={6000}
+        onClose={() => setOpenS(false)}
+      >
+        <Success
+          open={openS}
+          setOpen={setOpenS}
+          message={"The file has been downloaded successfully !"}
+        />
+      </Snackbar>
     </>
   );
 };

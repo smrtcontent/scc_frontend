@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { Button } from "@material-ui/core";
+import { Button, Tooltip } from "@material-ui/core";
 import {
   Modal,
   TextField,
@@ -9,13 +9,14 @@ import {
   Fade,
   makeStyles,
   Box,
+  Snackbar,
 } from "@material-ui/core/";
 import { indigo } from "@material-ui/core/colors";
 import SaveIcon from "@material-ui/icons/Save";
 import save from "./../../../features/Save/save";
 import customButton from "./../../../app/themes/customButton";
-import SuccessSnackbar from "./../../Modals/successSnackbar";
 import ErrorAlert from "./../../Alerts/errorAlert";
+import Success from "../../Alerts/success";
 
 const ListItems = withStyles({
   root: {
@@ -102,7 +103,7 @@ const SaveFile = (props) => {
     if (!props.saved) setOpen(true);
     else {
       save(props.content, props.name, setOpenS);
-      console.log(openS)
+      console.log(openS);
       props.setSaved(true);
     }
   };
@@ -124,23 +125,19 @@ const SaveFile = (props) => {
     }
     save(props.content, props.name, setOpenS);
     props.setSaved(true);
-  }
-  
+  };
+
   return (
     <>
-      {openS?
-      <div>
-        <SuccessSnackbar
-          show={true}
-          setShow={setOpenS}
-          message={"The selected file has been saved successfully !"}
-        />
-      </div>:
-      <></>
-      }
       <ListItems button onClick={handleOpen}>
         <span className={classes.itemIcon}>
-          <SaveIcon color="secondary" />
+          {props.open ? (
+            <SaveIcon color="secondary" />
+          ) : (
+            <Tooltip title="Save current content" arrow>
+              <SaveIcon color="secondary" />
+            </Tooltip>
+          )}
         </span>
         <span className={classes.itemText}>Save File</span>
       </ListItems>
@@ -206,7 +203,18 @@ const SaveFile = (props) => {
           </Fade>
         </Modal>
       </div>
-      
+
+      <Snackbar
+        open={openS}
+        autoHideDuration={6000}
+        onClose={() => setOpenS(false)}
+      >
+        <Success
+          open={openS}
+          setOpen={setOpenS}
+          message={"The file has been saved successfully !"}
+        />
+      </Snackbar>
     </>
   );
 };

@@ -5,6 +5,7 @@ import {
   Divider,
   List,
   ListItem,
+  Snackbar,
   Typography,
 } from "@material-ui/core";
 import {
@@ -16,8 +17,9 @@ import {
 } from "@material-ui/core/";
 import DescriptionIcon from "@material-ui/icons/Description";
 import { indigo } from "@material-ui/core/colors";
-import SuccessSnackbar from "./successSnackbar";
 import Open from "./../../features/Open/open";
+import Success from "../Alerts/success";
+import Error from "../Alerts/error";
 
 const ListItems = withStyles({
   root: {
@@ -76,7 +78,8 @@ const useStyles = makeStyles((theme) => ({
 
 const OpenFiles = (props) => {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false); // Hook to store and toggle the success alert
+  const [error, setError] = useState(false); // Hook to store and toggle the error alert
 
   const handleClose = () => {
     props.setOpen(false);
@@ -113,10 +116,11 @@ const OpenFiles = (props) => {
                         Open(
                           x.fileName,
                           props.setOpenFileContent,
-                          props.setName
+                          props.setName,
+                          setOpen,
+                          setError
                         );
                         props.setOpen(false);
-                        setOpen(true);
                       }}
                     >
                       <DescriptionIcon
@@ -137,11 +141,28 @@ const OpenFiles = (props) => {
           </Card>
         </Fade>
       </Modal>
-      <SuccessSnackbar
-        show={open}
-        setShow={setOpen}
-        message={"The selected file has been successfully loaded !"}
-      />
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={() => setOpen(false)}
+      >
+        <Success
+          open={open}
+          setOpen={setOpen}
+          message={"The selected file has been loaded successfully !"}
+        />
+      </Snackbar>
+      <Snackbar
+        open={error}
+        autoHideDuration={6000}
+        onClose={() => setError(false)}
+      >
+        <Error
+          open={error}
+          setOpen={setError}
+          message={"Sorry, the file could not be loaded!"}
+        />
+      </Snackbar>
     </>
   );
 };

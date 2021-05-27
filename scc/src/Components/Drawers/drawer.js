@@ -27,8 +27,8 @@ export default function MiniDrawer() {
   const classes = isMobile ? customDrawerMobile() : customDrawer();
   const theme = useTheme();
   const [name, setName] = useState(); // Contains the file name
-  const [content, setContent] = useState();
-  const [open, setOpen] = useState(false); // open State
+  const [content, setContent] = useState(); // Contains the current content written in the text editor
+  const [open, setOpen] = useState(false); // open State of the drawer component
   const [saved, setSaved] = useState(false); // Contains if the file is saved or not (as bool value)
   const [openFileContent, setOpenFileContent] = useState("");
 
@@ -107,11 +107,7 @@ export default function MiniDrawer() {
               openFileContent={openFileContent}
               setOpenFileContent={setOpenFileContent}
             />
-            <Download 
-              content={content} 
-              open={open}
-              name={name}
-            />
+            <Download content={content} open={open} name={name} />
           </List>
         </Drawer>
         <main className={classes.content}>

@@ -8,20 +8,21 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
+    fontSize: '80%',
     "& > * + *": {
       marginTop: theme.spacing(2),
     },
   },
 }));
 
-const SuccessAlert = (props) => {
+const Success = (props) => {
   const classes = useStyles();
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-    props.setShow(false);
+    props.setOpen(false);
   };
 
   return (
@@ -39,19 +40,12 @@ const SuccessAlert = (props) => {
             </IconButton>
           }
           variant="filled"
-          severity="warning"
+          severity="success"
         >
           {props.message}
         </Alert>
       </Collapse>
     </div>
-    // <>
-    //     <Snackbar open={props.show} autoHideDuration={6000} onClose={handleClose}>
-    //         <Alert onClose={handleClose} severity="success">
-    //             {props.message}
-    //         </Alert>
-    //     </Snackbar>
-    // </>
   );
 };
-export default SuccessAlert;
+export default Success;

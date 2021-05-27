@@ -79,6 +79,7 @@ class PageContainer extends React.Component {
       );
     if (this.props.openFileContent !== "") {
       this.handleNewFile(this.props.openFileContent);
+      // console.log(this.props.openFileContent)
       this.props.setOpenFileContent("");
     }
   }
