@@ -14,6 +14,7 @@ import Portmanteaus from "./../Suggestions/portmanteaus";
 import Information from "./../Suggestions/information";
 import DualRhyme from "./dualRhyme";
 import customCard from "./../../app/themes/customCard";
+import Sentences from "./sentences";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -151,7 +152,15 @@ const Suggestions = (props) => {
             }}
           />
           <Information information={props.information} />
-
+          <Sentences
+            sentences={props.sentences}
+            onClick={(e) => {
+              setSelected(e);
+              props.onClick(e);
+              props.funChange();
+              handleClick();
+            }}
+          />
           <div className="suggestions" id="scroll-blue">
             {props.dataList.length !== 0 ? (
               props.dataList.map((data, index) => (

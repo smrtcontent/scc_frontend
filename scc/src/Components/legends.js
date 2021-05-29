@@ -118,6 +118,12 @@ const Legends = () => {
                 {
                   item: "'Alt' + 'Shift' + R: Search for Dual Rhymes using custom inputs",
                 },
+                {
+                  item: "'Alt' + 'S' : Search for Sentences using a word",
+                },
+                {
+                  item: "'Alt' + 'Shift' + 'S' : Search for Sentences using a word and Syllable count",
+                }
               ].map((x, index) => (
                 <li key={index}>{x.item}</li>
               ))}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Modal,
@@ -10,44 +10,96 @@ import {
   Snackbar,
 } from "@material-ui/core";
 import customButton from "./../../app/themes/customButton";
-import WarningAlert from "./../Alerts/warningAlert";
+import ErrorAlert from "./../Alerts/errorAlert";
+import Error from "./../Alerts/error";
 
-const SentenceSearch = () => {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+      width: "90%",
+    },
+  },
+  modal: {
+    userSelect: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    borderRadius: 3,
+  },
+}));
+
+const SentenceSearch = (props) => {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
   const [syllable, setSyllable] = useState();
+  const [selected, setSelected] = useState();
+  const [ErrMsg, setErrMsg] = useState("");
+  const [error, setError] = useState(false);
+  const [Disable, setDisable] = useState(true);
 
   const handleClose = () => props.setOpen(false);
-  const handleChangeSyllable = (e) => setSyllable(e.target.value);
-  const handleCloseSnackbar = (event, reason) => {
-    if (reason === "clickaway") return;
-    setOpen(false);
+  const handleChange = (e) => setSyllable(e.target.value);
+  const handleChangeSelected = (e) => setSelected(e.target.value);
+
+  useEffect(() => Validation());
+
+  const Validation = () => {
+    if(props.selected === undefined) {
+      if (selected === undefined) {
+        setErrMsg("");
+        return true;
+      } else if (selected === "") {
+        setErrMsg("Please Enter a Word");
+        setDisable(true);
+        return true;
+      } else if (!/^[a-zA-Z]+\s*$/.test(selected)) {
+        setErrMsg("Please enter a valid English Word");
+        setDisable(true);
+        return true;
+      } else {
+        setErrMsg("");
+      }
+    }
+    if (syllable === undefined) {
+      setErrMsg("");
+      return true;
+    } else if (syllable === "") {
+      setErrMsg("Please Enter Number of syllables");
+      setDisable(true);
+      return true;
+    } else if (!/^[0-9]+\s*$/.test(syllable)) {
+      setErrMsg("Please enter a valid Number");
+      setDisable(true);
+      return true;
+    } else {
+      setErrMsg("");
+    } 
+    setDisable(false);
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log("here");
-    if (syllable === undefined) {
-      setOpen(true);
-      return;
-    }
-    console.log("here");
+    const data = [syllable.trim(), props.selected.trim()];
     setSyllable(undefined);
+    setErrMsg("");
+    setDisable(true);
     handleClose();
+    props.handleCommand("getSentencesByWordAndSyllable", data, "Sentences");
   };
 
   return (
     <div>
       <Snackbar
-        open={open}
+        open={error}
         autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
+        onClose={() => setError(false)}
       >
-        <WarningAlert
-          open={open}
-          onClose={handleCloseSnackbar}
-          message="Please Enter both the Words!"
-        />
+        <Error open={error} setOpen={setError} message={ErrMsg} />
       </Snackbar>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -63,7 +115,8 @@ const SentenceSearch = () => {
       >
         <Fade in={props.open}>
           <div className={classes.paper}>
-            <h4 id="transition-modal-title">Sentence Search</h4>
+            <h2 id="transition-modal-title">Sentence Search </h2>
+            {ErrMsg.length > 1 ? <ErrorAlert message={ErrMsg} /> : <></>}
             <form
               id="transition-modal-description"
               className={classes.root}
@@ -71,22 +124,57 @@ const SentenceSearch = () => {
               noValidate
               autoComplete="off"
             >
-              <TextField
-                id="standard-basic"
-                label="First Word"
-                value={syllable}
-                onChange={handleChangeSyllable}
-                autoFocus
-              />
-              <Box justifyContent="center">
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  className={customButton().root}
-                >
-                  Search
-                </Button>
+              {props.selected === undefined ? (
+                <TextField
+                  id="standard-basic"
+                  label="Word"
+                  value={selected}
+                  onChange={handleChangeSelected}
+                  fullWidth
+                  autoFocus
+                />
+              ) : (
+                <></>
+              )}
+              {props.selected === undefined ? (
+                <TextField
+                  id="standard-basic"
+                  label="Syllables"
+                  value={syllable}
+                  onChange={handleChange}
+                  fullWidth
+                />
+              ) : (
+                <TextField
+                  id="standard-basic"
+                  label="Syllables"
+                  value={syllable}
+                  onChange={handleChange}
+                  fullWidth
+                  autoFocus
+                />
+              )}
+              <Box align="center">
+                {Disable ? (
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="secondary"
+                    className={customButton().root}
+                    disabled
+                  >
+                    Search
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="secondary"
+                    className={customButton().root}
+                  >
+                    Search
+                  </Button>
+                )}
               </Box>
             </form>
           </div>

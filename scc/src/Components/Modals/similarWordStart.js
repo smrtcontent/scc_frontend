@@ -134,7 +134,7 @@ const SimilarWord = (props) => {
                   <Button
                     type="submit"
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     className={customButton().root}
                     disabled
                   >
@@ -144,7 +144,7 @@ const SimilarWord = (props) => {
                   <Button
                     type="submit"
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     className={customButton().root}
                   >
                     Search

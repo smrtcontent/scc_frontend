@@ -18,6 +18,7 @@ import SaveFiles from "./Modals/saveFiles";
 import SuccessSnackbar from "./Modals/successSnackbar";
 import save from "../features/Save/save";
 import { isMobile } from "react-device-detect";
+import SentenceSearch from "./Modals/sentenceSearch";
 
 const { hasCommandModifier } = KeyBindingUtil;
 
@@ -41,6 +42,7 @@ class PageContainer extends React.Component {
       openStart: false,
       openStartEnd: false,
       openDualRhymesSearch: false,
+      openSentenceSearch: false,
     };
     props.changeFun(() => this.setFocus);
   }
@@ -90,6 +92,7 @@ class PageContainer extends React.Component {
   setOpenEnd = (e) => this.setState({ openEnd: e });
   setOpenStart = (e) => this.setState({ openStart: e });
   setOpenStartEnd = (e) => this.setState({ openStartEnd: e });
+  setOpenSentenceSearch = e => this.setState({ openSentenceSearch: e})
   setOpenDualRhymesSearch = (e) => this.setState({ openDualRhymesSearch: e });
 
   setFocus = () => {
@@ -176,6 +179,8 @@ class PageContainer extends React.Component {
     else if (e.key === "A" && e.altKey) return "find-approximate-rhymes";
     else if (e.key === "C" && hasCommandModifier(e))
       return "find-consonant-match";
+    else if (e.key === "c" && e.altKey) return "find-sentences";
+    else if (e.key === "C" && e.altKey) return "find-sentences-syllable";
     else if (e.key === "d" && hasCommandModifier(e)) return "find-definitions";
     else if (e.key === "D" && e.altKey) return "find-spelt-similar";
     else if (e.key === "e" && hasCommandModifier(e)) return "find-similar-end";
@@ -238,6 +243,7 @@ class PageContainer extends React.Component {
     if (query === "Definitions") this.props.onDefChange(command, Selected);
     else this.props.onSearch(command, Selected);
     this.props.onChange(query);
+    this.props.setSelectedText();
     return "handled";
   };
 
@@ -246,6 +252,7 @@ class PageContainer extends React.Component {
     this.props.setIsLoading(true);
     this.props.onSearch(command, data);
     this.props.onChange(query);
+    this.props.setSelectedText();
     return "handled";
   };
 
@@ -370,6 +377,11 @@ class PageContainer extends React.Component {
     if (command === "find-spelt-similar")
       this.handleCommand("speltSimilar", "Spelt Similar");
 
+    if (command === "find-sentences")
+      this.handleCommand("getSentencesByWord", "Sentences");
+
+    if (command === "find-sentences-syllable") this.setOpenSentenceSearch(true);
+
     if (command === "find-similar-start") this.setOpenStart(true);
 
     if (command === "find-similar-end") this.setOpenEnd(true);
@@ -490,6 +502,12 @@ class PageContainer extends React.Component {
           open={this.state.openDualRhymesSearch}
           setOpen={this.setOpenDualRhymesSearch}
           handleCommand={this.handleCommandNoVal}
+        />
+        <SentenceSearch
+          open={this.state.openSentenceSearch}
+          setOpen={this.setOpenSentenceSearch}
+          handleCommand={this.handleCommandNoVal}
+          selected={this.props.selectedText}
         />
       </div>
     );

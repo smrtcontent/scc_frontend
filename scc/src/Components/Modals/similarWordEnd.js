@@ -135,7 +135,7 @@ const SimilarWordEnd = (props) => {
                   <Button
                     type="submit"
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     className={customButton().root}
                     disabled
                   >
@@ -145,7 +145,7 @@ const SimilarWordEnd = (props) => {
                   <Button
                     type="submit"
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     className={customButton().root}
                   >
                     Search

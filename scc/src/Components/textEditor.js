@@ -48,9 +48,10 @@ export default function TextEditor(props) {
   const [type, setType] = useState(); // Stores the type of fetch that was made
   const [repText, setRepText] = useState(); // Stores the text that can be pasted
   const [definitions, setDefinitions] = useState([]); // Stores definitions featched by the api
-  const [information, setInformation] = useState([]); // Stores definitions featched by the api
+  const [information, setInformation] = useState([]); // Stores Informations featched by the api
   const [portmanteaus, setPortmanteaus] = useState([]); // Stores portamanteaus
   const [rhymes, setRhymes] = useState([]); // Stores dual rhymes
+  const [sentences, setSentences] = useState([]); // Stores sentences fetched by the api
   const [funChange, setFunChange] = useState(); // Stores the function to change focus to the editor
   const [buttonCommand, setButtonCommand] = useState(); // Stores the command of the pressed button
   const [selectedText, setSelectedText] = useState(); // Stores the selected text
@@ -96,8 +97,42 @@ export default function TextEditor(props) {
         });
     } else {
       if (newData !== undefined) {
+        if (command === "getSentencesByWord") {
+          const URL = baseUrl + "?word=" + newData.trim();
+          fetch(URL)
+            .then((res) => res.json())
+            .then((sentenceList) => {
+              setSentences(sentenceList);
+              setIsLoading(false);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else if (command === "getSentencesByWordAndSyllable") {
+          const URL = baseUrl + "?numberOfSyllables=" + newData[0].trim() + "&word=" + newData[1].trim();
+          fetch(URL)
+            .then((res) => res.json())
+            .then((sentenceList) => {
+              setSentences(sentenceList);
+              setIsLoading(false);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else {
         const URL = baseUrl + "?word=" + newData.trim();
-        if (command === "findPortmanteaus") {
+        if (command === "getSentencesByWord") {
+          fetch(URL)
+            .then((res) => res.json())
+            .then((sentenceList) => {
+              setSentences(sentenceList);
+              setIsLoading(false);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+        else if (command === "findPortmanteaus") {
           fetch(URL)
             .then((res) => res.json())
             .then((wordList) => {
@@ -141,6 +176,7 @@ export default function TextEditor(props) {
               console.log(err);
             });
         }
+      }
       }
     }
   };
@@ -224,6 +260,7 @@ export default function TextEditor(props) {
             definitions={definitions}
             information={information}
             rhymes={rhymes}
+            sentences={sentences}
             onClick={setRep}
             isLoading={isLoading}
             funChange={funChange}

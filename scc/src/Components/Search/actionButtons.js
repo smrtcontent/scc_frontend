@@ -49,6 +49,8 @@ const ActionButtons = (props) => {
                   command: "find-similar-start-end",
                   val: "Similar Start & End",
                 },
+                { command: "find-sentences", val: "Sentences using word" },
+                { command: "find-sentences-syllable", val: "Sentences using word and Syllable" },
                 { command: "find-triggers", val: "Triggers" },
               ].map((x, index) => (
                 <Button
