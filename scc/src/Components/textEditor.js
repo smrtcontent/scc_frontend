@@ -135,7 +135,7 @@ export default function TextEditor(props) {
           fetch(URL)
             .then((res) => res.json())
             .then((sentenceList) => {
-              setSentences(sentenceList[0]);
+              setSentences(sentenceList);
               setIsLoading(false);
             })
             .catch((err) => {
