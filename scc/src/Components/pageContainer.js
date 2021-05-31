@@ -19,6 +19,7 @@ import SuccessSnackbar from "./Modals/successSnackbar";
 import save from "../features/Save/save";
 import { isMobile } from "react-device-detect";
 import SentenceSearch from "./Modals/sentenceSearch";
+import SentenceSearchSRW from "./Modals/sentenceSearchSRW";
 
 const { hasCommandModifier } = KeyBindingUtil;
 
@@ -43,6 +44,7 @@ class PageContainer extends React.Component {
       openStartEnd: false,
       openDualRhymesSearch: false,
       openSentenceSearch: false,
+      openSentenceSearchSRW: false,
     };
     props.changeFun(() => this.setFocus);
   }
@@ -81,7 +83,6 @@ class PageContainer extends React.Component {
       );
     if (this.props.openFileContent !== "") {
       this.handleNewFile(this.props.openFileContent);
-      // console.log(this.props.openFileContent)
       this.props.setOpenFileContent("");
     }
   }
@@ -92,8 +93,9 @@ class PageContainer extends React.Component {
   setOpenEnd = (e) => this.setState({ openEnd: e });
   setOpenStart = (e) => this.setState({ openStart: e });
   setOpenStartEnd = (e) => this.setState({ openStartEnd: e });
-  setOpenSentenceSearch = e => this.setState({ openSentenceSearch: e})
+  setOpenSentenceSearch = (e) => this.setState({ openSentenceSearch: e });
   setOpenDualRhymesSearch = (e) => this.setState({ openDualRhymesSearch: e });
+  setOpenSentenceSearchSRW = (e) => this.setState({ openSentenceSearchSRW: e });
 
   setFocus = () => {
     this.setState({
@@ -181,6 +183,7 @@ class PageContainer extends React.Component {
       return "find-consonant-match";
     else if (e.key === "c" && e.altKey) return "find-sentences";
     else if (e.key === "C" && e.altKey) return "find-sentences-syllable";
+    
     else if (e.key === "d" && hasCommandModifier(e)) return "find-definitions";
     else if (e.key === "D" && e.altKey) return "find-spelt-similar";
     else if (e.key === "e" && hasCommandModifier(e)) return "find-similar-end";
@@ -190,6 +193,8 @@ class PageContainer extends React.Component {
       return "find-frequent-follower";
     else if (e.key === "f" && e.ctrlKey && e.altKey)
       return "find-frequent-predecessors";
+    else if (e.key === "g" && hasCommandModifier(e))
+      return "find-sentences-srw";
     else if (e.key === "H" && hasCommandModifier(e)) return "find-holonyms";
     else if (e.key === "h" && e.altKey) return "find-homophones";
     else if (e.key === "H" && e.altKey) return "find-hypernyms";
@@ -382,6 +387,8 @@ class PageContainer extends React.Component {
 
     if (command === "find-sentences-syllable") this.setOpenSentenceSearch(true);
 
+    if (command === "find-sentences-srw") this.setOpenSentenceSearchSRW(true);
+
     if (command === "find-similar-start") this.setOpenStart(true);
 
     if (command === "find-similar-end") this.setOpenEnd(true);
@@ -506,6 +513,12 @@ class PageContainer extends React.Component {
         <SentenceSearch
           open={this.state.openSentenceSearch}
           setOpen={this.setOpenSentenceSearch}
+          handleCommand={this.handleCommandNoVal}
+          selected={this.props.selectedText}
+        />
+        <SentenceSearchSRW 
+          open={this.state.openSentenceSearchSRW}
+          setOpen={this.setOpenSentenceSearchSRW}
           handleCommand={this.handleCommandNoVal}
           selected={this.props.selectedText}
         />

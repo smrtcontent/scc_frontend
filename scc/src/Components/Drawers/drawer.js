@@ -15,7 +15,7 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import { isMobile } from "react-device-detect";
+import { isMobileOnly } from "react-device-detect";
 import Footer from "../footer";
 import customDrawer from "../../app/themes/customDrawer";
 import customDrawerMobile from "../../app/themes/customDrawerMobile";
@@ -24,7 +24,7 @@ import OpenFile from "./DrawerButtons/openFile";
 import Download from "./DrawerButtons/download";
 
 export default function MiniDrawer() {
-  const classes = isMobile ? customDrawerMobile() : customDrawer();
+  const classes = isMobileOnly ? customDrawerMobile() : customDrawer();
   const theme = useTheme();
   const [name, setName] = useState(); // Contains the file name
   const [content, setContent] = useState(); // Contains the current content written in the text editor
@@ -66,7 +66,7 @@ export default function MiniDrawer() {
           </Toolbar>
         </AppBar>
         <Drawer
-          variant={isMobile ? "persistent" : "permanent"}
+          variant={isMobileOnly ? "persistent" : "permanent"}
           className={clsx(classes.drawer, {
             [classes.drawerOpen]: open,
             [classes.drawerClose]: !open,

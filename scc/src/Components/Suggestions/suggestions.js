@@ -7,7 +7,7 @@ import {
   Snackbar,
 } from "@material-ui/core";
 import { makeStyles, CircularProgress } from "@material-ui/core";
-import isMobile from "react-device-detect";
+import { isMobileOnly } from "react-device-detect";
 import Alert from "./../Alerts/alert";
 import Definitions from "./../Suggestions/definitions";
 import Portmanteaus from "./../Suggestions/portmanteaus";
@@ -94,21 +94,29 @@ const Suggestions = (props) => {
     return <></>;
   };
 
+  const alert = () => {
+    if (isMobileOnly) {
+      return (
+        <Alert onClose={handleClose} severity="info">
+          You have selected <strong>{selected} </strong>
+          please paste the word using the 'PASTE' button at the top right corner
+          of text-editor.
+        </Alert>
+      );
+    } else {
+      return (
+        <Alert onClose={handleClose} severity="info">
+          You have selected <strong>{selected} </strong>
+          please use " Alt " + V to paste it in the editor
+        </Alert>
+      );
+    }
+  };
+
   return (
     <div>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        {isMobile ? (
-          <Alert onClose={handleClose} severity="info">
-            You have selected <strong>{selected} </strong>
-            please paste the word using the 'PASTE' button at the top right
-            corner of text-editor.
-          </Alert>
-        ) : (
-          <Alert onClose={handleClose} severity="info">
-            You have selected <strong>{selected} </strong>
-            please use " Alt " + V to paste it in the editor
-          </Alert>
-        )}
+        {alert()}
       </Snackbar>
       <Card className={classes.root + " " + customCards.suggestions}>
         <CardContent>

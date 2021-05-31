@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SentenceSearch = (props) => {
+const SentenceSearchSRW = (props) => {
   const classes = useStyles();
   const [syllable, setSyllable] = useState();
   const [selected, setSelected] = useState();
@@ -92,7 +92,7 @@ const SentenceSearch = (props) => {
     setErrMsg("");
     setDisable(true);
     handleClose();
-    props.handleCommand("getSentencesByWordAndSyllable", data, "Sentences");
+    props.handleCommand("getSentencesByWordRhymeAndSyllable", data, "Sentences");
   };
 
   return (
@@ -187,4 +187,4 @@ const SentenceSearch = (props) => {
   );
 };
 
-export default SentenceSearch;
+export default SentenceSearchSRW;

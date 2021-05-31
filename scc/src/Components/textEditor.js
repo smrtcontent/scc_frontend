@@ -7,7 +7,7 @@ import {
   Snackbar,
 } from "@material-ui/core";
 import PageContainer from "./pageContainer";
-import { isMobile } from "react-device-detect";
+import { isMobileOnly } from "react-device-detect";
 import ActionButtons from "./Search/actionButtons";
 import Legends from "./legends";
 import Suggestions from "./Suggestions/suggestions";
@@ -68,6 +68,7 @@ export default function TextEditor(props) {
     setPortmanteaus([]);
     setWords([]);
     setRhymes([]);
+    setSentences([]);
 
     const baseUrl = "http://localhost:8088/scc/api/" + command;
     let URL = undefined;
@@ -109,7 +110,12 @@ export default function TextEditor(props) {
               console.log(err);
             });
         } else if (command === "getSentencesByWordAndSyllable") {
-          const URL = baseUrl + "?numberOfSyllables=" + newData[0].trim() + "&word=" + newData[1].trim();
+          const URL =
+            baseUrl +
+            "?numberOfSyllables=" +
+            newData[0].trim() +
+            "&word=" +
+            newData[1].trim();
           fetch(URL)
             .then((res) => res.json())
             .then((sentenceList) => {
@@ -119,64 +125,79 @@ export default function TextEditor(props) {
             .catch((err) => {
               console.log(err);
             });
-        } else {
-        const URL = baseUrl + "?word=" + newData.trim();
-        if (command === "getSentencesByWord") {
+        } else if (command === "getSentencesByWordRhymeAndSyllable") {
+          const URL =
+            baseUrl +
+            "?numberOfSyllables=" +
+            newData[0].trim() +
+            "&word=" +
+            newData[1].trim();
           fetch(URL)
             .then((res) => res.json())
             .then((sentenceList) => {
-              setSentences(sentenceList);
-              setIsLoading(false);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
-        else if (command === "findPortmanteaus") {
-          fetch(URL)
-            .then((res) => res.json())
-            .then((wordList) => {
-              setPortmanteaus(wordList);
-              setIsLoading(false);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        } else if (command === "findWordInformation") {
-          fetch(URL)
-            .then((res) => res.json())
-            .then((wordList) => {
-              setInformation(wordList);
-              setIsLoading(false);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        } else if (command === "findDualRhymes") {
-          let data = newData.split(" ");
-          let newURL =
-            baseUrl + "?firstWord=" + data[0] + "&secondWord=" + data[1];
-          fetch(newURL)
-            .then((res) => res.json())
-            .then((wordList) => {
-              setRhymes(wordList);
+              setSentences(sentenceList[0]);
               setIsLoading(false);
             })
             .catch((err) => {
               console.log(err);
             });
         } else {
-          fetch(URL)
-            .then((res) => res.json())
-            .then((wordList) => {
-              setWords(wordList);
-              setIsLoading(false);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+          const URL = baseUrl + "?word=" + newData.trim();
+          if (command === "getSentencesByWord") {
+            fetch(URL)
+              .then((res) => res.json())
+              .then((sentenceList) => {
+                setSentences(sentenceList);
+                setIsLoading(false);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else if (command === "findPortmanteaus") {
+            fetch(URL)
+              .then((res) => res.json())
+              .then((wordList) => {
+                setPortmanteaus(wordList);
+                setIsLoading(false);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else if (command === "findWordInformation") {
+            fetch(URL)
+              .then((res) => res.json())
+              .then((wordList) => {
+                setInformation(wordList);
+                setIsLoading(false);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else if (command === "findDualRhymes") {
+            let data = newData.split(" ");
+            let newURL =
+              baseUrl + "?firstWord=" + data[0] + "&secondWord=" + data[1];
+            fetch(newURL)
+              .then((res) => res.json())
+              .then((wordList) => {
+                setRhymes(wordList);
+                setIsLoading(false);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else {
+            fetch(URL)
+              .then((res) => res.json())
+              .then((wordList) => {
+                setWords(wordList);
+                setIsLoading(false);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
         }
-      }
       }
     }
   };
@@ -196,16 +217,16 @@ export default function TextEditor(props) {
   };
 
   const legends = () => {
-    if (!isMobile) return <Legends />;
+    if (!isMobileOnly) return <Legends />;
   };
 
   const description = () => {
-    if (isMobile)
+    if (isMobileOnly)
       return {
         text: `* Type the content you want to and once you feel the need,
               select the word and press the specific button to get the 
               type of suggestion you desire.`,
-        style: classes.secondary + " text-white mt-5",
+        style: classes.secondary + " text-white",
       };
     else
       return {
