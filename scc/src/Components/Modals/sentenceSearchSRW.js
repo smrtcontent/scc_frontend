@@ -92,7 +92,7 @@ const SentenceSearchSRW = (props) => {
     setErrMsg("");
     setDisable(true);
     handleClose();
-    props.handleCommand("getSentencesByWordRhymeAndSyllable", data, "Sentences");
+    props.handleCommand("getSentencesByEndingRhymeWordAndSyllable", data, "Sentences");
   };
 
   return (

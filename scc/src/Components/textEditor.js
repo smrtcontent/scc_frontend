@@ -125,7 +125,7 @@ export default function TextEditor(props) {
             .catch((err) => {
               console.log(err);
             });
-        } else if (command === "getSentencesByWordRhymeAndSyllable") {
+        } else if (command === "getSentencesByEndingRhymeWordAndSyllable") {
           const URL =
             baseUrl +
             "?numberOfSyllables=" +
@@ -269,6 +269,8 @@ export default function TextEditor(props) {
                 setOpenFileContent={props.setOpenFileContent}
                 setOpenWarningAlert={setOpenWarningAlert}
                 setWarningMessage={setWarningMessage}
+                newFile={props.newFile}
+                setNewFile={props.setNewFile}
               />
             </CardContent>
           </Card>

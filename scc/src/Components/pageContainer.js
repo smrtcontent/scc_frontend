@@ -69,6 +69,14 @@ class PageContainer extends React.Component {
      * @returns {void}
      */
     this.onChange = (editorState) => this.setState({ editorState });
+
+    /**
+     * updating the createNewFile function at the drawer component
+     */
+    if (this.props.newFile) {
+      this.setState({ editorState: EditorState.createEmpty() });
+      this.props.setNewFile(false);
+    }
   }
 
   componentDidUpdate() {
@@ -82,11 +90,16 @@ class PageContainer extends React.Component {
         this.state.editorState.getCurrentContent().getPlainText()
       );
     if (this.props.openFileContent !== "") {
-      this.handleNewFile(this.props.openFileContent);
+      this.handleOpenFile(this.props.openFileContent);
       this.props.setOpenFileContent("");
     }
   }
 
+  /**
+   * Functions to assign values to states
+   * @param {*} e 
+   * @returns 
+   */
   setShow = (e) => this.setState({ show: e });
   setOpen = (e) => this.setState({ open: e });
   setOpenS = (e) => this.setState({ openS: e });
@@ -108,7 +121,13 @@ class PageContainer extends React.Component {
     this.setOpenWarningAlert(false);
   };
 
-  handleNewFile = (content) => {
+  /**
+   * Function to handle open files
+   * Takes values from the open file content state and assigns it to the editor state
+   * @param {*} content 
+   * @returns 
+   */
+  handleOpenFile = (content) => {
     let selection = undefined;
 
     let currentContent = this.state.editorState.getCurrentContent();
@@ -172,7 +191,7 @@ class PageContainer extends React.Component {
   };
 
   /**
-   * Checks and returns the command for the text editor
+   * Checks and returns the command for the text editor based on the keyboard input
    *
    */
   suggestionsKeyBinding = (e) => {
@@ -183,7 +202,6 @@ class PageContainer extends React.Component {
       return "find-consonant-match";
     else if (e.key === "c" && e.altKey) return "find-sentences";
     else if (e.key === "C" && e.altKey) return "find-sentences-syllable";
-    
     else if (e.key === "d" && hasCommandModifier(e)) return "find-definitions";
     else if (e.key === "D" && e.altKey) return "find-spelt-similar";
     else if (e.key === "e" && hasCommandModifier(e)) return "find-similar-end";
@@ -371,7 +389,7 @@ class PageContainer extends React.Component {
     if (command === "find-dual-rhymes")
       this.handleCommand("findDualRhymes", "Dual Rhymes");
 
-    if (command === "find-dual-Rhymes") this.setOpenDualRhymesSearch(true);
+    if (command === "find-dual-rhymes") this.setOpenDualRhymesSearch(true);
 
     if (command === "find-similar")
       this.handleCommand("findSimilar", "Similar Words");
@@ -516,7 +534,7 @@ class PageContainer extends React.Component {
           handleCommand={this.handleCommandNoVal}
           selected={this.props.selectedText}
         />
-        <SentenceSearchSRW 
+        <SentenceSearchSRW
           open={this.state.openSentenceSearchSRW}
           setOpen={this.setOpenSentenceSearchSRW}
           handleCommand={this.handleCommandNoVal}

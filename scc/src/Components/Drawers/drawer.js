@@ -22,6 +22,7 @@ import customDrawerMobile from "../../app/themes/customDrawerMobile";
 import SaveFile from "./DrawerButtons/saveFile";
 import OpenFile from "./DrawerButtons/openFile";
 import Download from "./DrawerButtons/download";
+import NewFile from "./DrawerButtons/newFile";
 
 export default function MiniDrawer() {
   const classes = isMobileOnly ? customDrawerMobile() : customDrawer();
@@ -31,6 +32,7 @@ export default function MiniDrawer() {
   const [open, setOpen] = useState(false); // open State of the drawer component
   const [saved, setSaved] = useState(false); // Contains if the file is saved or not (as bool value)
   const [openFileContent, setOpenFileContent] = useState("");
+  const [newFile, setNewFile] = useState(false)
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -91,8 +93,15 @@ export default function MiniDrawer() {
           </div>
           <Divider />
           <List className={classes.items}>
+            <NewFile 
+              open={open} // To show or hide tooltip
+              setSaved={setSaved}
+              setName={setName}
+              setOpenFileContent={setOpenFileContent}
+              setNewFile={setNewFile}
+            />
             <SaveFile
-              open={open}
+              open={open} // To show or hide tooltip
               content={content}
               name={name}
               saved={saved}
@@ -108,6 +117,7 @@ export default function MiniDrawer() {
               setOpenFileContent={setOpenFileContent}
             />
             <Download content={content} open={open} name={name} />
+            
           </List>
         </Drawer>
         <main className={classes.content}>
@@ -118,6 +128,8 @@ export default function MiniDrawer() {
             saved={saved}
             setSaved={setSaved}
             setName={setName}
+            newFile = {newFile}
+            setNewFile = {setNewFile}
             openFileContent={openFileContent}
             setOpenFileContent={setOpenFileContent}
           />
