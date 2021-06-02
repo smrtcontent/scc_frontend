@@ -16,10 +16,10 @@ import DualRhymes from "./Modals/dualRhymes";
 import { Box, Button, ButtonGroup } from "@material-ui/core";
 import SaveFiles from "./Modals/saveFiles";
 import SuccessSnackbar from "./Modals/successSnackbar";
-import save from "../features/Save/save";
 import { isMobile } from "react-device-detect";
 import SentenceSearch from "./Modals/sentenceSearch";
 import SentenceSearchSRW from "./Modals/sentenceSearchSRW";
+import updateFile from "../features/Update/updateFile";
 
 const { hasCommandModifier } = KeyBindingUtil;
 
@@ -285,17 +285,18 @@ class PageContainer extends React.Component {
       this.setOpenS(true);
       this.setOpen(true);
     } else {
-      save(
+      updateFile(
         this.state.editorState.getCurrentContent().getPlainText(),
         this.props.name,
-        this.setShow
+        this.setShow,
+        this.props.fileId
       );
       this.showSnacks = () => {
         return (
           <SuccessSnackbar
             show={this.state.show}
             setShow={this.setShow}
-            message={"File has been save successfully!"}
+            message={"File has been updated successfully!"}
           />
         );
       };
@@ -319,6 +320,7 @@ class PageContainer extends React.Component {
           setOpenS={this.setOpenS}
           setSaved={this.props.setSaved}
           setName={this.props.setName}
+          setFileId={this.props.setFileId}
         />
       );
     } else return <></>;

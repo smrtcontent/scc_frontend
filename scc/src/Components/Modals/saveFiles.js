@@ -71,7 +71,7 @@ const SaveFiles = (props) => {
       alert("Please Enter a file name!");
       return;
     }
-    save(props.content, props.name, setOpenS);
+    save(props.setFileId, props.content, props.name, setOpenS);
     props.setSaved(true);
     props.setOpen(false);
     e.preventDefault();

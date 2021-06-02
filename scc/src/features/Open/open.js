@@ -7,7 +7,7 @@
  * @param {*} setOpen -> Hook to toggle the success alert
  * @param {*} setError -> Hook to toggle the error alert
  */
-const Open = (filename, setOpenFileContent, setName, setOpen, setError) => {
+const Open = (filename, setOpenFileContent, setName, setSaved,setFileId, setOpen, setError) => {
   const URL =
     "http://localhost:8088/scc/api/getFileByUserIdAndName?fileName=" +
     filename +
@@ -21,6 +21,8 @@ const Open = (filename, setOpenFileContent, setName, setOpen, setError) => {
       }
       setOpenFileContent(result.content);
       setName(result.fileName);
+      setSaved(true)
+      setFileId(result.id)
       setOpen(true);
     })
     .catch((err) => {

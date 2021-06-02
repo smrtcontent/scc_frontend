@@ -17,6 +17,7 @@ import save from "./../../../features/Save/save";
 import customButton from "./../../../app/themes/customButton";
 import ErrorAlert from "./../../Alerts/errorAlert";
 import Success from "../../Alerts/success";
+import updateFile from "../../../features/Update/updateFile";
 
 const ListItems = withStyles({
   root: {
@@ -102,8 +103,7 @@ const SaveFile = (props) => {
   const handleOpen = () => {
     if (!props.saved) setOpen(true);
     else {
-      save(props.content, props.name, setOpenS);
-      console.log(openS);
+      updateFile(props.content, props.name, setOpenS, props.fileId);
       props.setSaved(true);
     }
   };
@@ -123,7 +123,7 @@ const SaveFile = (props) => {
       alert("Please Enter a file name!");
       return;
     }
-    save(props.content, props.name, setOpenS);
+    save(props.setFileId, props.content, props.name, setOpenS);
     props.setSaved(true);
   };
 
@@ -141,68 +141,72 @@ const SaveFile = (props) => {
         </span>
         <span className={classes.itemText}>Save File</span>
       </ListItems>
-
-      <div>
-        <Modal
-          aria-labelledby="transition-modal-title"
-          className={classes.modal}
-          open={open}
-          onClose={handleClose}
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{
-            timeout: 500,
-          }}
-        >
-          <Fade in={open}>
-            <div className={classes.paper}>
-              <h4 id="transition-modal-title">Save File</h4>
-              {ErrMsg.length > 1 ? <ErrorAlert message={ErrMsg} /> : <></>}
-              <form
-                id="transition-modal-description"
-                className={classes.root}
-                noValidate
-                autoComplete="off"
-                onSubmit={handleSearch}
-              >
-                <TextField
-                  id="standard-basic"
-                  fullWidth
-                  label="File Name"
-                  className="mt-2"
-                  value={props.name}
-                  onChange={(e) => props.setName(e.target.value)}
-                  autoFocus
-                />
-                <Box align="center" className="mt-2">
-                  {Disable ? (
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      size="small"
-                      className={customButtons.center}
-                      disabled
-                    >
-                      Save
-                    </Button>
-                  ) : (
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="secondary"
-                      size="small"
-                      className={customButtons.center}
-                    >
-                      Save
-                    </Button>
-                  )}
-                </Box>
-              </form>
-            </div>
-          </Fade>
-        </Modal>
-      </div>
+      {!props.saved ? (
+        <div>
+          <Modal
+            aria-labelledby="transition-modal-title"
+            className={classes.modal}
+            open={open}
+            onClose={handleClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <Fade in={open}>
+              <div className={classes.paper}>
+                <h4 id="transition-modal-title">Save File</h4>
+                {ErrMsg.length > 1 ? <ErrorAlert message={ErrMsg} /> : <></>}
+                <form
+                  id="transition-modal-description"
+                  className={classes.root}
+                  noValidate
+                  autoComplete="off"
+                  onSubmit={handleSearch}
+                >
+                  <TextField
+                    id="standard-basic"
+                    fullWidth
+                    label="File Name"
+                    className="mt-2"
+                    value={props.name}
+                    onChange={(e) => props.setName(e.target.value)}
+                    autoFocus
+                  />
+                  <Box align="center" className="mt-2">
+                    {Disable ? (
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        className={customButtons.center}
+                        disabled
+                      >
+                        Save
+                      </Button>
+                    ) : (
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        color="secondary"
+                        size="small"
+                        className={customButtons.center}
+                      >
+                        Save
+                      </Button>
+                    )}
+                  </Box>
+                </form>
+              </div>
+            </Fade>
+          </Modal>
+        </div>
+      ) : (
+        <div>
+        </div>
+      )}
 
       <Snackbar
         open={openS}

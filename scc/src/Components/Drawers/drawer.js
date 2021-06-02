@@ -33,6 +33,7 @@ export default function MiniDrawer() {
   const [saved, setSaved] = useState(false); // Contains if the file is saved or not (as bool value)
   const [openFileContent, setOpenFileContent] = useState("");
   const [newFile, setNewFile] = useState(false)
+  const [fileId, setFileId] = useState()  // Stores the ID of current file
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -99,6 +100,8 @@ export default function MiniDrawer() {
               setName={setName}
               setOpenFileContent={setOpenFileContent}
               setNewFile={setNewFile}
+              fileId = {fileId}
+              setFileId={setFileId}
             />
             <SaveFile
               open={open} // To show or hide tooltip
@@ -107,6 +110,8 @@ export default function MiniDrawer() {
               saved={saved}
               setSaved={setSaved}
               setName={setName}
+              fileId = {fileId}
+              setFileId={setFileId}
             />
             <OpenFile
               open={open}
@@ -115,6 +120,8 @@ export default function MiniDrawer() {
               setSaved={setSaved}
               openFileContent={openFileContent}
               setOpenFileContent={setOpenFileContent}
+              fileId = {fileId}
+              setFileId={setFileId}
             />
             <Download content={content} open={open} name={name} />
             
@@ -132,6 +139,8 @@ export default function MiniDrawer() {
             setNewFile = {setNewFile}
             openFileContent={openFileContent}
             setOpenFileContent={setOpenFileContent}
+            fileId={fileId}
+            setFileId={setFileId}
           />
           <Footer />
         </main>

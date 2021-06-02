@@ -271,6 +271,8 @@ export default function TextEditor(props) {
                 setWarningMessage={setWarningMessage}
                 newFile={props.newFile}
                 setNewFile={props.setNewFile}
+                fileId={props.fileId}
+                setFileId={props.setFileId}
               />
             </CardContent>
           </Card>

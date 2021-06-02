@@ -111,18 +111,20 @@ const OpenFiles = (props) => {
                       button
                       className={classes.itemText}
                       style={{ color: "black" }}
-                      key={index}
+                      key={Math.random()*100}
                       onClick={() => {
                         Open(
                           x.fileName,
                           props.setOpenFileContent,
                           props.setName,
+                          props.setSaved,
+                          props.setFileId,
                           setOpen,
                           setError
                         );
                         props.setOpen(false);
                       }}
-                    >
+                    > 
                       <DescriptionIcon
                         className={classes.itemIcon}
                         color="primary"

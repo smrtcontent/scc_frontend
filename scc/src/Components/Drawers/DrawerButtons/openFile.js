@@ -95,6 +95,8 @@ const OpenFile = (props) => {
         setOpen={setOpen}
         files={files}
         setOpenFileContent={props.setOpenFileContent}
+        setSaved={props.setSaved}
+        setFileId = {props.setFileId}
         setName={props.setName}
       />
     </div>
