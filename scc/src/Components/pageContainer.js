@@ -13,13 +13,14 @@ import SimilarWordEnd from "./Modals/similarWordEnd";
 import SimilarWordStart from "./Modals/similarWordStart";
 import SimilarWordStartEnd from "./Modals/similarWordStartEnd";
 import DualRhymes from "./Modals/dualRhymes";
-import { Box, Button, ButtonGroup } from "@material-ui/core";
+import { Box, Button, ButtonGroup, Menu } from "@material-ui/core";
 import SaveFiles from "./Modals/saveFiles";
 import SuccessSnackbar from "./Modals/successSnackbar";
 import { isMobile } from "react-device-detect";
 import SentenceSearch from "./Modals/sentenceSearch";
 import SentenceSearchSRW from "./Modals/sentenceSearchSRW";
 import updateFile from "../features/Update/updateFile";
+import ActionMenu from "./Search/actionMenu";
 
 const { hasCommandModifier } = KeyBindingUtil;
 
@@ -45,6 +46,7 @@ class PageContainer extends React.Component {
       openDualRhymesSearch: false,
       openSentenceSearch: false,
       openSentenceSearchSRW: false,
+      clickState: { mouseX: null, mouseY: null },
     };
     props.changeFun(() => this.setFocus);
   }
@@ -81,7 +83,7 @@ class PageContainer extends React.Component {
 
   componentDidUpdate() {
     const selected = getFragmentFromSelection(this.state.editorState);
-    var Selected = selected ? selected.map((x) => x.getText()).join("\n") : "";
+    let Selected = selected ? selected.map((x) => x.getText()).join("\n") : "";
     if (Selected !== "") this.props.setSelectedText(Selected);
     if (this.props.buttonCommand !== undefined)
       this.handleKeyCommand(this.props.buttonCommand);
@@ -97,8 +99,8 @@ class PageContainer extends React.Component {
 
   /**
    * Functions to assign values to states
-   * @param {*} e 
-   * @returns 
+   * @param {*} e
+   * @returns
    */
   setShow = (e) => this.setState({ show: e });
   setOpen = (e) => this.setState({ open: e });
@@ -109,11 +111,29 @@ class PageContainer extends React.Component {
   setOpenSentenceSearch = (e) => this.setState({ openSentenceSearch: e });
   setOpenDualRhymesSearch = (e) => this.setState({ openDualRhymesSearch: e });
   setOpenSentenceSearchSRW = (e) => this.setState({ openSentenceSearchSRW: e });
+  setClickState = (e) => this.setState({ clickState: e });
+
+  handleClick = (event) => {
+    event.preventDefault();
+    this.setClickState({
+      mouseX: event.clientX - 2,
+      mouseY: event.clientY - 4,
+    });
+  };
 
   setFocus = () => {
+    let currentState = this.state.editorState;
+    var selectionState = this.state.editorState.getSelection();
     this.setState({
-      editorState: EditorState.moveFocusToEnd(this.state.editorState),
+      editorState: EditorState.forceSelection(currentState, selectionState),
     });
+    // this.setState({
+    //   editorState: EditorState.moveFocusToEnd(this.state.editorState),
+    // });
+  };
+
+  handleClose = () => {
+    this.setClickState({ mouseX: null, mouseY: null });
   };
 
   handleCloseSnackbar = (event, reason) => {
@@ -124,8 +144,8 @@ class PageContainer extends React.Component {
   /**
    * Function to handle open files
    * Takes values from the open file content state and assigns it to the editor state
-   * @param {*} content 
-   * @returns 
+   * @param {*} content
+   * @returns
    */
   handleOpenFile = (content) => {
     let selection = undefined;
@@ -418,7 +438,7 @@ class PageContainer extends React.Component {
     if (command === "find-triggers")
       this.handleCommand("findTriggers", "Triggers");
 
-    if (command === "replace") this.replace(this.props.reptext);
+    if (command === "replace") this.replace(this.props.repText);
 
     if (command === "save-file") this.handleSave();
 
@@ -500,16 +520,44 @@ class PageContainer extends React.Component {
             <></>
           )}
         </Box>
-        <div className="editors">
-          <Editor
-            editorState={this.state.editorState}
-            handleKeyCommand={this.handleKeyCommand}
-            keyBindingFn={this.suggestionsKeyBinding}
-            onChange={this.onChange}
-            spellCheck
-            placeholder="Begin typing here..."
-          />
+        <div
+          onContextMenu={this.handleClick}
+          style={{ cursor: "context-menu" }}
+        >
+          <div className="editors">
+            <Editor
+              editorState={this.state.editorState}
+              handleKeyCommand={this.handleKeyCommand}
+              keyBindingFn={this.suggestionsKeyBinding}
+              onChange={this.onChange}
+              spellCheck
+              placeholder="Begin typing here..."
+            />
+          </div>
+          <Menu
+            keepMounted
+            open={this.state.clickState.mouseY !== null}
+            onClose={this.handleClose}
+            anchorReference="anchorPosition"
+            anchorPosition={
+              this.state.clickState.mouseY !== null &&
+              this.state.clickState.mouseX !== null
+                ? {
+                    top: this.state.clickState.mouseY,
+                    left: this.state.clickState.mouseX,
+                  }
+                : undefined
+            }
+          >
+            <ActionMenu
+              selected={this.props.selectedText}
+              setRepText={this.props.setRepText}
+              handleClose={this.handleClose}
+              handleKeyCommand={this.handleKeyCommand}
+            />
+          </Menu>
         </div>
+
         <SimilarWordStart
           open={this.state.openStart}
           setOpen={this.setOpenStart}

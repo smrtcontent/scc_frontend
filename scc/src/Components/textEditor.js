@@ -253,7 +253,8 @@ export default function TextEditor(props) {
                 onSearch={handleDataChange}
                 onDefChange={handleDefinitionChange}
                 onChange={typeChange}
-                reptext={repText}
+                repText={repText}
+                setRepText={setRep}
                 buttonCommand={buttonCommand}
                 setButtonCommand={setButtonCommand}
                 setContent={props.setContent}

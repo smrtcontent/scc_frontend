@@ -68,8 +68,15 @@ const Suggestions = (props) => {
       props.portmanteaus.map((x) =>
         x.combined.split(",").map((x) => (selectedStr += String(x) + " "))
       );
-    } else {
+
+    } else if (props.sentences.length > 0) {
+      props.sentences.map((x) => (selectedStr += String(x.content) + " "));
+
+    } else if (props.rhymes.length>0){
+      props.rhymes.map((x)=>(selectedStr += String(x) + " "));
+    }else {
       props.dataList.map((x) => (selectedStr += String(x.word) + " "));
+
     }
     console.log(selectedStr);
     props.onClick(selectedStr);
@@ -79,7 +86,12 @@ const Suggestions = (props) => {
   };
 
   const selectAllButton = () => {
-    if (props.dataList.length > 0 || props.portmanteaus.length > 0)
+    if (
+      props.dataList.length > 0 ||
+      props.portmanteaus.length > 0 ||
+      props.sentences.length > 0 ||
+      props.rhymes.length > 0
+    )
       return (
         <Button
           size="small"
