@@ -1,8 +1,15 @@
 import React, { useState } from "react";
-import { withStyles, ListItem, makeStyles, Tooltip } from "@material-ui/core/";
+import {
+  withStyles,
+  ListItem,
+  makeStyles,
+  Tooltip,
+  Snackbar,
+} from "@material-ui/core/";
 import NoteAddIcon from "@material-ui/icons/NoteAdd";
 import { indigo } from "@material-ui/core/colors";
 import OpenFiles from "./../../Modals/openFiles";
+import Error from "../../Alerts/error";
 
 const ListItems = withStyles({
   root: {
@@ -56,6 +63,7 @@ const OpenFile = (props) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false); // Hook to toggle the modal
   const [files, setFiles] = useState([]); // Hook to store fetched file names
+  const [error, setError] = useState(false); // Hook to store if there is an error
 
   /**
    * Method to fetch file names from the database
@@ -71,14 +79,24 @@ const OpenFile = (props) => {
   };
 
   const handleOpen = () => {
-    fetchFiles();
-    setOpen(true);
+    const empty = (props.content === undefined || /^\s*$/.test(props.content));
+    if(!props.saved){
+      if (!empty) {
+        setError(true);
+      } else {
+        fetchFiles();
+        setOpen(true);
+      }
+    } else {
+      fetchFiles();
+      setOpen(true);
+    }
   };
 
   return (
     <div>
       <ListItems button onClick={handleOpen}>
-      <span className={classes.itemIcon}>
+        <span className={classes.itemIcon}>
           {props.open ? (
             <NoteAddIcon color="secondary" />
           ) : (
@@ -89,16 +107,29 @@ const OpenFile = (props) => {
         </span>
         <span className={classes.itemText}>Open File</span>
       </ListItems>
-
-      <OpenFiles
-        open={open}
-        setOpen={setOpen}
-        files={files}
-        setOpenFileContent={props.setOpenFileContent}
-        setSaved={props.setSaved}
-        setFileId = {props.setFileId}
-        setName={props.setName}
-      />
+      {error ? (
+        <Snackbar
+          open={error}
+          autoHideDuration={6000}
+          onClose={() => setError(false)}
+        >
+          <Error
+            open={error}
+            setOpen={setError}
+            message={"Please save the file before opening a new file!"}
+          />
+        </Snackbar>
+      ) : (
+        <OpenFiles
+          open={open}
+          setOpen={setOpen}
+          files={files}
+          setOpenFileContent={props.setOpenFileContent}
+          setSaved={props.setSaved}
+          setFileId={props.setFileId}
+          setName={props.setName}
+        />
+      )}
     </div>
   );
 };

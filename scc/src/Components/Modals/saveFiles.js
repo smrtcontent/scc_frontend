@@ -12,6 +12,7 @@ import save from "./../../features/Save/save";
 import customButton from "./../../app/themes/customButton";
 import ErrorAlert from "./../Alerts/errorAlert";
 import Success from "../Alerts/success";
+import Error from "../Alerts/error";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,8 +38,10 @@ const SaveFiles = (props) => {
   const classes = useStyles();
   const customButtons = customButton();
   const [openS, setOpenS] = useState(false);
-  const [ErrMsg, setErrMsg] = useState("");
-  const [Disable, setDisable] = useState(true);
+  const [errMsg, setErrMsg] = useState("");
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState("");
+  const [disable, setDisable] = useState(true);
 
   useEffect(() => Validation());
 
@@ -68,7 +71,9 @@ const SaveFiles = (props) => {
 
   const handleSearch = (e) => {
     if (props.name === "") {
-      alert("Please Enter a file name!");
+      setMessage("Please Enter a file name!");
+      setError(true);
+      handleClose();
       return;
     }
     save(props.setFileId, props.content, props.name, setOpenS);
@@ -80,78 +85,102 @@ const SaveFiles = (props) => {
   return (
     <>
       <div>
-        <Modal
-          aria-labelledby="transition-modal-title"
-          className={classes.modal}
-          open={props.open}
-          onClose={handleClose}
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{
-            timeout: 500,
-          }}
-        >
-          <Fade in={props.open}>
-            <div className={classes.paper}>
-              <h4 id="transition-modal-title">Save File</h4>
-              {ErrMsg.length > 1 ? <ErrorAlert message={ErrMsg} /> : <></>}
-              <form
-                id="transition-modal-description"
-                className={classes.root}
-                noValidate
-                autoComplete="off"
-                onSubmit={handleSearch}
-              >
-                <TextField
-                  id="standard-basic"
-                  fullWidth
-                  label="File Name"
-                  className="mt-2"
-                  value={props.name}
-                  onChange={(e) => props.setName(e.target.value)}
-                  autoFocus
-                />
-                <Box align="center" className="mt-2">
-                  {Disable ? (
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      size="small"
-                      className={customButtons.center}
-                      disabled
-                    >
-                      Save
-                    </Button>
-                  ) : (
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="secondary"
-                      size="small"
-                      className={customButtons.center}
-                    >
-                      Save
-                    </Button>
-                  )}
-                </Box>
-              </form>
-            </div>
-          </Fade>
-        </Modal>
+        {props.content === undefined || /^\s*$/.test(props.content) ? (
+          <div>
+            
+            <Snackbar
+              open={true}
+              autoHideDuration={6000}
+              onClose={handleClose}
+            >
+              <Error
+                open={true}
+                // setOpen={props.setOpen}
+                message="No content to Save!"
+              />
+            </Snackbar>
+          </div>
+        ) : (
+          <Modal
+            aria-labelledby="transition-modal-title"
+            className={classes.modal}
+            open={props.open}
+            onClose={handleClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <Fade in={props.open}>
+              <div className={classes.paper}>
+                <h4 id="transition-modal-title">Save File</h4>
+                {errMsg.length > 1 ? <ErrorAlert message={errMsg} /> : <></>}
+                <form
+                  id="transition-modal-description"
+                  className={classes.root}
+                  noValidate
+                  autoComplete="off"
+                  onSubmit={handleSearch}
+                >
+                  <TextField
+                    id="standard-basic"
+                    fullWidth
+                    label="File Name"
+                    className="mt-2"
+                    value={props.name}
+                    onChange={(e) => props.setName(e.target.value)}
+                    autoFocus
+                  />
+                  <Box align="center" className="mt-2">
+                    {disable ? (
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        className={customButtons.center}
+                        disabled
+                      >
+                        Save
+                      </Button>
+                    ) : (
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        color="secondary"
+                        size="small"
+                        className={customButtons.center}
+                      >
+                        Save
+                      </Button>
+                    )}
+                  </Box>
+                </form>
+              </div>
+            </Fade>
+          </Modal>
+        )}
       </div>
-      <div>
       <Snackbar
-        open={openS}
+        open={error}
         autoHideDuration={6000}
-        onClose={() => setOpenS(false)}
+        onClose={() => setError(false)}
       >
-        <Success
-          open={openS}
-          setOpen={setOpenS}
-          message={"The file has been saved successfully !"}
-        />
+        <Error open={true} setOpen={setError} message={message} />
       </Snackbar>
+      <div>
+        <Snackbar
+          open={openS}
+          autoHideDuration={6000}
+          onClose={() => setOpenS(false)}
+        >
+          <Success
+            open={openS}
+            setOpen={setOpenS}
+            message={"The file has been saved successfully !"}
+          />
+        </Snackbar>
       </div>
     </>
   );

@@ -116,8 +116,10 @@ export default function MiniDrawer() {
             <OpenFile
               open={open}
               name={name}
+              saved={saved}
               setName={setName}
               setSaved={setSaved}
+              content={content}
               openFileContent={openFileContent}
               setOpenFileContent={setOpenFileContent}
               fileId = {fileId}

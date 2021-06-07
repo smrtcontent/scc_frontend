@@ -13,7 +13,7 @@ import SimilarWordEnd from "./Modals/similarWordEnd";
 import SimilarWordStart from "./Modals/similarWordStart";
 import SimilarWordStartEnd from "./Modals/similarWordStartEnd";
 import DualRhymes from "./Modals/dualRhymes";
-import { Box, Button, ButtonGroup, Menu } from "@material-ui/core";
+import { Box, Button, ButtonGroup, Menu, Snackbar } from "@material-ui/core";
 import SaveFiles from "./Modals/saveFiles";
 import SuccessSnackbar from "./Modals/successSnackbar";
 import { isMobile } from "react-device-detect";
@@ -21,6 +21,7 @@ import SentenceSearch from "./Modals/sentenceSearch";
 import SentenceSearchSRW from "./Modals/sentenceSearchSRW";
 import updateFile from "../features/Update/updateFile";
 import ActionMenu from "./Search/actionMenu";
+import Error from "./Alerts/error";
 
 const { hasCommandModifier } = KeyBindingUtil;
 
@@ -40,6 +41,7 @@ class PageContainer extends React.Component {
       show: true,
       open: false,
       openS: false,
+      error: false,
       openEnd: false,
       openStart: false,
       openStartEnd: false,
@@ -104,6 +106,7 @@ class PageContainer extends React.Component {
    */
   setShow = (e) => this.setState({ show: e });
   setOpen = (e) => this.setState({ open: e });
+  setError = (e) => this.setState({ error: e });
   setOpenS = (e) => this.setState({ openS: e });
   setOpenEnd = (e) => this.setState({ openEnd: e });
   setOpenStart = (e) => this.setState({ openStart: e });
@@ -301,7 +304,10 @@ class PageContainer extends React.Component {
 
   // Handles the saving of file in the database
   handleSave = () => {
-    if (!this.props.saved) {
+    const content = this.state.editorState.getCurrentContent().getPlainText();
+    if (content === undefined || /^\s*$/.test(content)) {
+      this.setError(true);
+    } else if (!this.props.saved) {
       this.setOpenS(true);
       this.setOpen(true);
     } else {
@@ -328,6 +334,7 @@ class PageContainer extends React.Component {
 
   // Returns the modal to enable saving file
   save = (state = false) => {
+    const content = this.state.editorState.getCurrentContent().getPlainText();
     if (state) {
       return (
         <SaveFiles
@@ -335,7 +342,7 @@ class PageContainer extends React.Component {
           open={this.state.open}
           openS={this.state.openS}
           name={this.props.name}
-          content={this.state.editorState.getCurrentContent().getPlainText()}
+          content={content}
           setOpen={this.setOpen}
           setOpenS={this.setOpenS}
           setSaved={this.props.setSaved}
@@ -411,7 +418,7 @@ class PageContainer extends React.Component {
     if (command === "find-dual-rhymes")
       this.handleCommand("findDualRhymes", "Dual Rhymes");
 
-    if (command === "find-dual-rhymes") this.setOpenDualRhymesSearch(true);
+    if (command === "find-dual-Rhymes") this.setOpenDualRhymesSearch(true);
 
     if (command === "find-similar")
       this.handleCommand("findSimilar", "Similar Words");
@@ -473,6 +480,17 @@ class PageContainer extends React.Component {
       <div className="editorContainer">
         {this.save(this.state.openS)}
         <>{this.showSnacks()}</>
+        <Snackbar
+          open={this.state.error}
+          autoHideDuration={6000}
+          onClose={() => this.setError(false)}
+        >
+          <Error
+            open={this.state.error}
+            setOpen={this.setError}
+            message="No content to Save!"
+          />
+        </Snackbar>
         <Box display="flex" justifyContent="center">
           <Box display="flex" justifyItems="center" flexGrow={1}>
             <ButtonGroup>
