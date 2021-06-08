@@ -13,6 +13,7 @@ import Legends from "./legends";
 import Suggestions from "./Suggestions/suggestions";
 import customCard from "../app/themes/customCard";
 import WarningAlert from "./Alerts/warningAlert";
+import {core} from './../app/config/URLs'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,6 +52,7 @@ export default function TextEditor(props) {
   const [information, setInformation] = useState([]); // Stores Informations featched by the api
   const [portmanteaus, setPortmanteaus] = useState([]); // Stores portamanteaus
   const [rhymes, setRhymes] = useState([]); // Stores dual rhymes
+  const [scrappedRhymes, setScrappedRhymes] = useState([]); // Stores scrapped rhymes
   const [sentences, setSentences] = useState([]); // Stores sentences fetched by the api
   const [funChange, setFunChange] = useState(); // Stores the function to change focus to the editor
   const [buttonCommand, setButtonCommand] = useState(); // Stores the command of the pressed button
@@ -69,8 +71,9 @@ export default function TextEditor(props) {
     setWords([]);
     setRhymes([]);
     setSentences([]);
+    setScrappedRhymes([]);
 
-    const baseUrl = "http://localhost:8088/scc/api/" + command;
+    const baseUrl =core + command;
     let URL = undefined;
 
     if (
@@ -186,6 +189,16 @@ export default function TextEditor(props) {
               .catch((err) => {
                 console.log(err);
               });
+          } else if (command === "getRhymeWordsByScraping") {
+            fetch(URL)
+              .then((res) => res.json())
+              .then((wordList) => {
+                setScrappedRhymes(wordList);
+                setIsLoading(false);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
           } else {
             fetch(URL)
               .then((res) => res.json())
@@ -286,6 +299,7 @@ export default function TextEditor(props) {
             definitions={definitions}
             information={information}
             rhymes={rhymes}
+            scrappedRhymes={scrappedRhymes}
             sentences={sentences}
             onClick={setRep}
             isLoading={isLoading}

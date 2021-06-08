@@ -29,7 +29,7 @@ const ListItems = withStyles({
     },
     "&:hover": {
       backgroundColor: indigo[100],
-      backdropFilter: "blur(1px)",
+      // backdropFilter: "blur(1px)",
     },
   },
   selected: {},
@@ -52,13 +52,18 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     // backgroundColor: theme.palette.background.paper,
     backgroundColor: "rgba(255,255,255,0.97)",
-    backdropFilter: "blur(2px)",
+    // backdropFilter: "blur(2px)",
     border: "2px solid #fff",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    height: "90%",
+    // height: "90%",
     width: "90%",
     borderRadius: "3px",
+  },
+
+  list: {
+    height: "65vh",
+    overflowY: "scroll",
   },
 
   itemIcon: {
@@ -104,14 +109,14 @@ const OpenFiles = (props) => {
               <Typography id="transition-modal-title" variant="h5">
                 Please select the file of your choice
               </Typography>
-              <List>
+              <List className={classes.list}>
                 {props.files.map((x, index) => (
                   <>
                     <ListItems
                       button
                       className={classes.itemText}
                       style={{ color: "black" }}
-                      key={Math.random()*100}
+                      key={Math.random() * 100}
                       onClick={() => {
                         Open(
                           x.fileName,
@@ -124,7 +129,7 @@ const OpenFiles = (props) => {
                         );
                         props.setOpen(false);
                       }}
-                    > 
+                    >
                       <DescriptionIcon
                         className={classes.itemIcon}
                         color="primary"

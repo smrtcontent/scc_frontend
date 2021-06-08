@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 // import customButton from "./customButton";
 
-const drawerWidth = 180;
+const drawerWidth = 140;
 
 const customDrawerMobile = makeStyles((theme) => ({
   root: {
@@ -91,23 +91,6 @@ const customDrawerMobile = makeStyles((theme) => ({
     flexGrow: 1,
     // padding: theme.spacing(0),
   },
-  // content: {
-  //   backgroundColor: "#1e56a0",
-  //   flexGrow: 1,
-  //   padding: theme.spacing(1),
-  //   transition: theme.transitions.create("margin", {
-  //     easing: theme.transitions.easing.sharp,
-  //     duration: theme.transitions.duration.leavingScreen,
-  //   }),
-  //   marginLeft: -drawerWidth,
-  // },
-  // contentShift: {
-  //   transition: theme.transitions.create("margin", {
-  //     easing: theme.transitions.easing.easeOut,
-  //     duration: theme.transitions.duration.enteringScreen,
-  //   }),
-  //   marginLeft: 0,
-  // },
 }));
 
 export default customDrawerMobile;

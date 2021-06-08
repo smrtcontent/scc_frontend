@@ -1,3 +1,5 @@
+import { saveUrl } from "../../app/config/URLs";
+
 const save = (setFileId, content, name, setSuccess) => {
   const requestOptions = {
     method: "POST",
@@ -8,7 +10,7 @@ const save = (setFileId, content, name, setSuccess) => {
       userId: 34,
     }),
   };
-  fetch("http://localhost:8088/scc/api/saveFile/", requestOptions)
+  fetch(saveUrl, requestOptions)
     .then((res) => res.json())
     .then((result) => {
       setFileId(result.id)

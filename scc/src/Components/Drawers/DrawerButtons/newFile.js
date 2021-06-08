@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { withStyles, ListItem, makeStyles, Tooltip } from "@material-ui/core/";
 // import NoteAddIcon from "@material-ui/icons/NoteAdd";
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { indigo } from "@material-ui/core/colors";
+import AlertDialog from "../../Prompts/savePrompt";
 
 const ListItems = withStyles({
   root: {
@@ -54,18 +55,35 @@ const useStyles = makeStyles((theme) => ({
 
 const NewFile = (props) => {
   const classes = useStyles();
+  const [error, setError] = useState();
 
   const handleAdd = () => {
-    props.setNewFile(true)
-    props.setName()
-    props.setSaved(false)
-    props.setOpenFileContent()
+    const empty = props.content === undefined || /^\s*$/.test(props.content);
+    if (!props.saved) {
+      if (!empty) {
+        setError(true);
+      }
+    } else {
+      setError(false);
+      props.setNewFile(true);
+      props.setName();
+      props.setSaved(false);
+      props.setOpenFileContent();
+    }
+  };
+
+  const handleAgree = () => {
+    setError(false);
+    props.setNewFile(true);
+    props.setName();
+    props.setSaved(false);
+    props.setOpenFileContent();
   };
 
   return (
     <div>
       <ListItems button onClick={handleAdd}>
-      <span className={classes.itemIcon}>
+        <span className={classes.itemIcon}>
           {props.open ? (
             <AddCircleIcon color="secondary" />
           ) : (
@@ -76,6 +94,7 @@ const NewFile = (props) => {
         </span>
         <span className={classes.itemText}>New File</span>
       </ListItems>
+      <AlertDialog open={error} handleAgree={handleAgree} setOpen={setError} />
     </div>
   );
 };

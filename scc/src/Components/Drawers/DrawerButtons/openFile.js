@@ -10,6 +10,7 @@ import NoteAddIcon from "@material-ui/icons/NoteAdd";
 import { indigo } from "@material-ui/core/colors";
 import OpenFiles from "./../../Modals/openFiles";
 import Error from "../../Alerts/error";
+import AlertDialog from "../../Prompts/savePrompt";
 
 const ListItems = withStyles({
   root: {
@@ -19,7 +20,7 @@ const ListItems = withStyles({
     },
     "&:hover": {
       backgroundColor: indigo[100],
-      backdropFilter: "blur(1px)",
+      // backdropFilter: "blur(1px)",
     },
   },
   selected: {},
@@ -64,6 +65,7 @@ const OpenFile = (props) => {
   const [open, setOpen] = useState(false); // Hook to toggle the modal
   const [files, setFiles] = useState([]); // Hook to store fetched file names
   const [error, setError] = useState(false); // Hook to store if there is an error
+  // const [agree, setAgree] = useState(false); // Hook to store if the user agrees to overwrite
 
   /**
    * Method to fetch file names from the database
@@ -79,8 +81,8 @@ const OpenFile = (props) => {
   };
 
   const handleOpen = () => {
-    const empty = (props.content === undefined || /^\s*$/.test(props.content));
-    if(!props.saved){
+    const empty = props.content === undefined || /^\s*$/.test(props.content);
+    if (!props.saved) {
       if (!empty) {
         setError(true);
       } else {
@@ -91,6 +93,11 @@ const OpenFile = (props) => {
       fetchFiles();
       setOpen(true);
     }
+  };
+
+  const handleAgree = () => {
+    setError(false);
+    setOpen(true);
   };
 
   return (
@@ -108,17 +115,11 @@ const OpenFile = (props) => {
         <span className={classes.itemText}>Open File</span>
       </ListItems>
       {error ? (
-        <Snackbar
+        <AlertDialog
           open={error}
-          autoHideDuration={6000}
-          onClose={() => setError(false)}
-        >
-          <Error
-            open={error}
-            setOpen={setError}
-            message={"Please save the file before opening a new file!"}
-          />
-        </Snackbar>
+          handleAgree={handleAgree}
+          setOpen={setError}
+        />
       ) : (
         <OpenFiles
           open={open}

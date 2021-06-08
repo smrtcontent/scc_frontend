@@ -15,6 +15,7 @@ import Information from "./../Suggestions/information";
 import DualRhyme from "./dualRhyme";
 import customCard from "./../../app/themes/customCard";
 import Sentences from "./sentences";
+import ScrappedRhymes from "./../Suggestions/scrappedRhymes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,7 +75,11 @@ const Suggestions = (props) => {
 
     } else if (props.rhymes.length>0){
       props.rhymes.map((x)=>(selectedStr += String(x) + " "));
-    }else {
+    } else if (props.scrappedRhymes.length>0){
+      props.scrappedRhymes.map((x)=>
+      x.combined.split(",").map((x) =>(selectedStr += String(x) + " "))
+      );
+    } else {
       props.dataList.map((x) => (selectedStr += String(x.word) + " "));
 
     }
@@ -90,7 +95,8 @@ const Suggestions = (props) => {
       props.dataList.length > 0 ||
       props.portmanteaus.length > 0 ||
       props.sentences.length > 0 ||
-      props.rhymes.length > 0
+      props.rhymes.length > 0 ||
+      props.scrappedRhymes.length > 0
     )
       return (
         <Button
@@ -164,6 +170,15 @@ const Suggestions = (props) => {
           />
           <DualRhyme
             rhymes={props.rhymes}
+            onClick={(e) => {
+              setSelected(e);
+              props.onClick(e);
+              props.funChange();
+              handleClick();
+            }}
+          />
+          <ScrappedRhymes
+            scrappedRhymes={props.scrappedRhymes}
             onClick={(e) => {
               setSelected(e);
               props.onClick(e);

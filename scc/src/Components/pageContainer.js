@@ -130,9 +130,6 @@ class PageContainer extends React.Component {
     this.setState({
       editorState: EditorState.forceSelection(currentState, selectionState),
     });
-    // this.setState({
-    //   editorState: EditorState.moveFocusToEnd(this.state.editorState),
-    // });
   };
 
   handleClose = () => {
@@ -410,7 +407,8 @@ class PageContainer extends React.Component {
     if (command === "find-prefix-hints")
       this.handleCommand("prefixHintSuggestions", "Prefix Hints");
 
-    if (command === "find-rhymes") this.handleCommand("findRhymes", "Rhymes");
+    if (command === "find-rhymes") 
+      this.handleCommand("findRhymes", "Rhymes");
 
     if (command === "find-advance-rhymes")
       this.handleCommand("findRhymesAdvance", "Advance Rhymes");
@@ -448,6 +446,9 @@ class PageContainer extends React.Component {
     if (command === "replace") this.replace(this.props.repText);
 
     if (command === "save-file") this.handleSave();
+
+    if (command === "find-scrapped-rhymes") 
+    this.handleCommand("getRhymeWordsByScraping", "Scrapped Rhymes");
 
     if (newState) {
       this.onChange(newState);

@@ -8,6 +8,7 @@ import {
   makeStyles,
   Box,
 } from "@material-ui/core/";
+import isMobile from "react-device-detect";
 import save from "./../../features/Save/save";
 import customButton from "./../../app/themes/customButton";
 import ErrorAlert from "./../Alerts/errorAlert";
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   paper: {
-    width: "25vw",
+    width: "auto",
     backgroundColor: theme.palette.background.paper,
     border: "0px solid #fff",
     boxShadow: theme.shadows[5],
@@ -87,10 +88,10 @@ const SaveFiles = (props) => {
       <div>
         {props.content === undefined || /^\s*$/.test(props.content) ? (
           <div>
-            
             <Snackbar
               open={true}
               autoHideDuration={6000}
+              key={"top" + "right"}
               onClose={handleClose}
             >
               <Error

@@ -102,6 +102,7 @@ export default function MiniDrawer() {
               setNewFile={setNewFile}
               fileId = {fileId}
               setFileId={setFileId}
+              content={content}
             />
             <SaveFile
               open={open} // To show or hide tooltip

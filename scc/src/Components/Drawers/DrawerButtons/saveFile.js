@@ -11,6 +11,7 @@ import {
   Box,
   Snackbar,
 } from "@material-ui/core/";
+import isMobile from "react-device-detect";
 import { indigo } from "@material-ui/core/colors";
 import SaveIcon from "@material-ui/icons/Save";
 import save from "./../../../features/Save/save";
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   paper: {
-    width: "25vw",
+    width: 'auto',
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #fff",
     boxShadow: theme.shadows[5],
@@ -107,8 +108,7 @@ const SaveFile = (props) => {
     if (/^\s*$/.test(props.content)) {
       setMessage("There is no content to save!");
       setError(true);
-    } else if (!props.saved) 
-      setOpen(true);
+    } else if (!props.saved) setOpen(true);
     else {
       updateFile(props.content, props.name, setOpenS, props.fileId);
       props.setSaved(true);
@@ -153,6 +153,7 @@ const SaveFile = (props) => {
         <div>
           {props.content === undefined || /^\s*$/.test(props.content) ? (
             <Snackbar
+              // anchorOrigin={ 'top', 'right' }
               open={error}
               autoHideDuration={6000}
               onClose={() => setError(false)}

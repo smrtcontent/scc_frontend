@@ -1,3 +1,5 @@
+import { openUrl } from "../../app/config/URLs";
+
 /**
  * Function to open the selected file
  *
@@ -9,7 +11,8 @@
  */
 const Open = (filename, setOpenFileContent, setName, setSaved,setFileId, setOpen, setError) => {
   const URL =
-    "http://localhost:8088/scc/api/getFileByUserIdAndName?fileName=" +
+    // "http://localhost:8088/scc/api/getFileByUserIdAndName?fileName=" +
+    openUrl +
     filename +
     "&userId=34";
   fetch(URL)
