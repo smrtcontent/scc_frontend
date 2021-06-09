@@ -53,7 +53,7 @@ const ActionButtons = (props) => {
                 { command: "find-sentences-syllable", val: "Sentences using word and Syllable" },
                 { command: "find-sentences-srw", val: "Sentences using rhyme word and Syllable" },
                 { command: "find-triggers", val: "Triggers" },
-                { command: "find-scrapped-rhymes", val: "Scrapped Rhymes" },
+                { command: "find-scrapped-rhymes", val: "Rhymes 2" },
               ].map((x, index) => (
                 <Button
                   size="small"

@@ -8,7 +8,6 @@ import {
   makeStyles,
   Box,
 } from "@material-ui/core/";
-import isMobile from "react-device-detect";
 import save from "./../../features/Save/save";
 import customButton from "./../../app/themes/customButton";
 import ErrorAlert from "./../Alerts/errorAlert";
@@ -89,16 +88,14 @@ const SaveFiles = (props) => {
         {props.content === undefined || /^\s*$/.test(props.content) ? (
           <div>
             <Snackbar
+              anchorOrigin={{ vertical: "top", horizontal: "right" }}
+              className={"mt-5"}
               open={true}
               autoHideDuration={6000}
-              key={"top" + "right"}
+              key={"topright"}
               onClose={handleClose}
             >
-              <Error
-                open={true}
-                // setOpen={props.setOpen}
-                message="No content to Save!"
-              />
+              <Error open={true} message="No content to Save!" />
             </Snackbar>
           </div>
         ) : (
@@ -165,6 +162,8 @@ const SaveFiles = (props) => {
       </div>
       <Snackbar
         open={error}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        className={"mt-5"}
         autoHideDuration={6000}
         onClose={() => setError(false)}
       >
@@ -172,6 +171,8 @@ const SaveFiles = (props) => {
       </Snackbar>
       <div>
         <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          className={"mt-5"}
           open={openS}
           autoHideDuration={6000}
           onClose={() => setOpenS(false)}

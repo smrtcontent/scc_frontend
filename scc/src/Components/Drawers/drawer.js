@@ -98,6 +98,7 @@ export default function MiniDrawer() {
               open={open} // To show or hide tooltip
               setSaved={setSaved}
               setName={setName}
+              saved={saved}
               setOpenFileContent={setOpenFileContent}
               setNewFile={setNewFile}
               fileId = {fileId}

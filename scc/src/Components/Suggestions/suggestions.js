@@ -69,19 +69,16 @@ const Suggestions = (props) => {
       props.portmanteaus.map((x) =>
         x.combined.split(",").map((x) => (selectedStr += String(x) + " "))
       );
-
     } else if (props.sentences.length > 0) {
       props.sentences.map((x) => (selectedStr += String(x.content) + " "));
-
-    } else if (props.rhymes.length>0){
-      props.rhymes.map((x)=>(selectedStr += String(x) + " "));
-    } else if (props.scrappedRhymes.length>0){
-      props.scrappedRhymes.map((x)=>
-      x.combined.split(",").map((x) =>(selectedStr += String(x) + " "))
+    } else if (props.rhymes.length > 0) {
+      props.rhymes.map((x) => (selectedStr += String(x) + " "));
+    } else if (props.scrappedRhymes.length > 0) {
+      props.scrappedRhymes.map((x) =>
+        x.combined.split(",").map((x) => (selectedStr += String(x) + " "))
       );
     } else {
       props.dataList.map((x) => (selectedStr += String(x.word) + " "));
-
     }
     console.log(selectedStr);
     props.onClick(selectedStr);
@@ -133,7 +130,13 @@ const Suggestions = (props) => {
 
   return (
     <div>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        className={"mt-5"}
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
         {alert()}
       </Snackbar>
       <Card className={classes.root + " " + customCards.suggestions}>

@@ -50,13 +50,10 @@ const useStyles = makeStyles((theme) => ({
   },
 
   paper: {
-    // backgroundColor: theme.palette.background.paper,
     backgroundColor: "rgba(255,255,255,0.97)",
-    // backdropFilter: "blur(2px)",
     border: "2px solid #fff",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    // height: "90%",
     width: "90%",
     borderRadius: "3px",
   },
@@ -149,6 +146,8 @@ const OpenFiles = (props) => {
         </Fade>
       </Modal>
       <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        className={"mt-5"}
         open={open}
         autoHideDuration={6000}
         onClose={() => setOpen(false)}
@@ -160,6 +159,8 @@ const OpenFiles = (props) => {
         />
       </Snackbar>
       <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        className={"mt-5"}
         open={error}
         autoHideDuration={6000}
         onClose={() => setError(false)}

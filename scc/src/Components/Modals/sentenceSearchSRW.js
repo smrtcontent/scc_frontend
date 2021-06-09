@@ -49,7 +49,7 @@ const SentenceSearchSRW = (props) => {
   useEffect(() => Validation());
 
   const Validation = () => {
-    if(props.selected === undefined) {
+    if (props.selected === undefined) {
       if (selected === undefined) {
         setErrMsg("");
         return true;
@@ -78,26 +78,32 @@ const SentenceSearchSRW = (props) => {
       return true;
     } else {
       setErrMsg("");
-    } 
+    }
     setDisable(false);
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
-    const data = 
-    (props.selected === undefined)?
-    [syllable.trim(), selected.trim()]:
-    [syllable.trim(), props.selected.trim()];
+    const data =
+      props.selected === undefined
+        ? [syllable.trim(), selected.trim()]
+        : [syllable.trim(), props.selected.trim()];
     setSyllable(undefined);
     setErrMsg("");
     setDisable(true);
     handleClose();
-    props.handleCommand("getSentencesByEndingRhymeWordAndSyllable", data, "Sentences");
+    props.handleCommand(
+      "getSentencesByEndingRhymeWordAndSyllable",
+      data,
+      "Sentences"
+    );
   };
 
   return (
     <div>
       <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        className={"mt-5"}
         open={error}
         autoHideDuration={6000}
         onClose={() => setError(false)}

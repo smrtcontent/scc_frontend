@@ -1,15 +1,8 @@
 import React, { useState } from "react";
-import {
-  withStyles,
-  ListItem,
-  makeStyles,
-  Tooltip,
-  Snackbar,
-} from "@material-ui/core/";
+import { withStyles, ListItem, makeStyles, Tooltip } from "@material-ui/core/";
 import NoteAddIcon from "@material-ui/icons/NoteAdd";
 import { indigo } from "@material-ui/core/colors";
 import OpenFiles from "./../../Modals/openFiles";
-import Error from "../../Alerts/error";
 import AlertDialog from "../../Prompts/savePrompt";
 
 const ListItems = withStyles({

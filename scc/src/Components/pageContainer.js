@@ -15,13 +15,13 @@ import SimilarWordStartEnd from "./Modals/similarWordStartEnd";
 import DualRhymes from "./Modals/dualRhymes";
 import { Box, Button, ButtonGroup, Menu, Snackbar } from "@material-ui/core";
 import SaveFiles from "./Modals/saveFiles";
-import SuccessSnackbar from "./Modals/successSnackbar";
 import { isMobile } from "react-device-detect";
 import SentenceSearch from "./Modals/sentenceSearch";
 import SentenceSearchSRW from "./Modals/sentenceSearchSRW";
 import updateFile from "../features/Update/updateFile";
 import ActionMenu from "./Search/actionMenu";
 import Error from "./Alerts/error";
+import Success from "./Alerts/success";
 
 const { hasCommandModifier } = KeyBindingUtil;
 
@@ -316,11 +316,24 @@ class PageContainer extends React.Component {
       );
       this.showSnacks = () => {
         return (
-          <SuccessSnackbar
-            show={this.state.show}
-            setShow={this.setShow}
-            message={"File has been updated successfully!"}
-          />
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            className={"mt-5"}
+            open={this.state.show}
+            autoHideDuration={6000}
+            onClose={() => this.setShow(false)}
+          >
+            <Success
+              open={this.state.show}
+              setOpen={this.setShow}
+              message={"The file has been updated successfully!"}
+            />
+          </Snackbar>
+          // <SuccessSnackbar
+          //   show={this.state.show}
+          //   setShow={this.setShow}
+          //   message={"File has been updated successfully!"}
+          // />
         );
       };
     }
@@ -407,8 +420,7 @@ class PageContainer extends React.Component {
     if (command === "find-prefix-hints")
       this.handleCommand("prefixHintSuggestions", "Prefix Hints");
 
-    if (command === "find-rhymes") 
-      this.handleCommand("findRhymes", "Rhymes");
+    if (command === "find-rhymes") this.handleCommand("findRhymes", "Rhymes");
 
     if (command === "find-advance-rhymes")
       this.handleCommand("findRhymesAdvance", "Advance Rhymes");
@@ -447,8 +459,8 @@ class PageContainer extends React.Component {
 
     if (command === "save-file") this.handleSave();
 
-    if (command === "find-scrapped-rhymes") 
-    this.handleCommand("getRhymeWordsByScraping", "Scrapped Rhymes");
+    if (command === "find-scrapped-rhymes")
+      this.handleCommand("getRhymeWordsByScraping", "Scrapped Rhymes");
 
     if (newState) {
       this.onChange(newState);
@@ -482,6 +494,8 @@ class PageContainer extends React.Component {
         {this.save(this.state.openS)}
         <>{this.showSnacks()}</>
         <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          className={"mt-5"}
           open={this.state.error}
           autoHideDuration={6000}
           onClose={() => this.setError(false)}

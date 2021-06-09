@@ -11,7 +11,6 @@ import {
   Box,
   Snackbar,
 } from "@material-ui/core/";
-import isMobile from "react-device-detect";
 import { indigo } from "@material-ui/core/colors";
 import SaveIcon from "@material-ui/icons/Save";
 import save from "./../../../features/Save/save";
@@ -48,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   paper: {
-    width: 'auto',
+    width: "auto",
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #fff",
     boxShadow: theme.shadows[5],
@@ -153,10 +152,12 @@ const SaveFile = (props) => {
         <div>
           {props.content === undefined || /^\s*$/.test(props.content) ? (
             <Snackbar
-              // anchorOrigin={ 'top', 'right' }
+              anchorOrigin={{ vertical: "top", horizontal: "right" }}
+              className={"mt-5"}
               open={error}
               autoHideDuration={6000}
               onClose={() => setError(false)}
+              key={"topright"}
             >
               <Error open={error} setOpen={setError} message={message} />
             </Snackbar>
@@ -227,6 +228,8 @@ const SaveFile = (props) => {
       )}
 
       <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        className={"mt-5"}
         open={openS}
         autoHideDuration={6000}
         onClose={() => setOpenS(false)}
