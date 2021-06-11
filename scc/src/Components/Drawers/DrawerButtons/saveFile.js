@@ -28,7 +28,6 @@ const ListItems = withStyles({
     },
     "&:hover": {
       backgroundColor: indigo[100],
-      backdropFilter: "blur(1px)",
     },
   },
   selected: {},
@@ -152,12 +151,11 @@ const SaveFile = (props) => {
         <div>
           {props.content === undefined || /^\s*$/.test(props.content) ? (
             <Snackbar
-              anchorOrigin={{ vertical: "top", horizontal: "right" }}
-              className={"mt-5"}
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
               open={error}
               autoHideDuration={6000}
               onClose={() => setError(false)}
-              key={"topright"}
+              key={"bottomright"}
             >
               <Error open={error} setOpen={setError} message={message} />
             </Snackbar>
@@ -228,8 +226,7 @@ const SaveFile = (props) => {
       )}
 
       <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        className={"mt-5"}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         open={openS}
         autoHideDuration={6000}
         onClose={() => setOpenS(false)}

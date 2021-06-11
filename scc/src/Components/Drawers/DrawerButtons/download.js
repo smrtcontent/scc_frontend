@@ -15,7 +15,6 @@ const ListItems = withStyles({
     },
     "&:hover": {
       backgroundColor: indigo[100],
-      backdropFilter: "blur(1px)",
     },
   },
   selected: {},
@@ -58,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Download = (props) => {
   const classes = useStyles();
-  const [openS, setOpenS] = useState(); // Hook to store and toggle the success alert
+  const [openS, setOpenS] = useState(false); // Hook to store and toggle the success alert
   const [error, setError] = useState(false); // Hook to store and toggle the error alert
 
   /**
@@ -79,6 +78,7 @@ const Download = (props) => {
   return (
     <>
       <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         open={error}
         autoHideDuration={6000}
         onClose={() => setError(false)}
@@ -86,7 +86,7 @@ const Download = (props) => {
         <Error
           open={error}
           setOpen={setError}
-          message="There is no content to download. Plesae type some content and try again."
+          message={"There is no content to download"}
         />
       </Snackbar>
       <ListItems button onClick={handleDownload}>
@@ -102,6 +102,7 @@ const Download = (props) => {
         <span className={classes.itemText}>Download</span>
       </ListItems>
       <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         open={openS}
         autoHideDuration={6000}
         onClose={() => setOpenS(false)}

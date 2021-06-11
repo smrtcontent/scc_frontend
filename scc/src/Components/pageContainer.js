@@ -26,12 +26,6 @@ import Success from "./Alerts/success";
 const { hasCommandModifier } = KeyBindingUtil;
 
 class PageContainer extends React.Component {
-  setFocus = () => {
-    this.setState({
-      editorState: EditorState.moveFocusToEnd(this.state.editorState),
-    });
-  };
-
   constructor(props) {
     super(props);
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
@@ -116,21 +110,29 @@ class PageContainer extends React.Component {
   setOpenSentenceSearchSRW = (e) => this.setState({ openSentenceSearchSRW: e });
   setClickState = (e) => this.setState({ clickState: e });
 
+  setFocus = () => {
+    let currentState = this.state.editorState;
+    var selectionState = this.state.editorState.getSelection();
+    this.setState({editorState: EditorState.forceSelection(currentState, selectionState)});
+  };
+
   handleClick = (event) => {
     event.preventDefault();
+    // console.log(this.state.editorState.getSelection().getAnchorOffset())
+    // console.log(this.state.editorState.getSelection().getEndOffset())
     this.setClickState({
       mouseX: event.clientX - 2,
       mouseY: event.clientY - 4,
     });
   };
 
-  setFocus = () => {
-    let currentState = this.state.editorState;
-    var selectionState = this.state.editorState.getSelection();
-    this.setState({
-      editorState: EditorState.forceSelection(currentState, selectionState),
-    });
-  };
+  // setFocus = () => {
+  //   let currentState = this.state.editorState;
+  //   var selectionState = this.state.editorState.getSelection();
+  //   this.setState({
+  //     editorState: EditorState.forceSelection(currentState, selectionState),
+  //   });
+  // };
 
   handleClose = () => {
     this.setClickState({ mouseX: null, mouseY: null });
@@ -208,6 +210,7 @@ class PageContainer extends React.Component {
     this.setState({
       editorState: newEditorState,
     });
+    // this.setFocus();
   };
 
   /**
@@ -317,8 +320,7 @@ class PageContainer extends React.Component {
       this.showSnacks = () => {
         return (
           <Snackbar
-            anchorOrigin={{ vertical: "top", horizontal: "right" }}
-            className={"mt-5"}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             open={this.state.show}
             autoHideDuration={6000}
             onClose={() => this.setShow(false)}
@@ -329,20 +331,22 @@ class PageContainer extends React.Component {
               message={"The file has been updated successfully!"}
             />
           </Snackbar>
-          // <SuccessSnackbar
-          //   show={this.state.show}
-          //   setShow={this.setShow}
-          //   message={"File has been updated successfully!"}
-          // />
         );
       };
     }
   };
 
-  // Empty function to hold the snackbar return from handleSave()
+
+  /**
+   * Empty function to hold the snackbar return from handleSave()
+   */
   showSnacks = () => {};
 
-  // Returns the modal to enable saving file
+  /**
+   * Returns the modal to enable saving file
+   * @param {*} state 
+   * @returns 
+   */
   save = (state = false) => {
     const content = this.state.editorState.getCurrentContent().getPlainText();
     if (state) {
@@ -494,8 +498,7 @@ class PageContainer extends React.Component {
         {this.save(this.state.openS)}
         <>{this.showSnacks()}</>
         <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
-          className={"mt-5"}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           open={this.state.error}
           autoHideDuration={6000}
           onClose={() => this.setError(false)}
@@ -535,15 +538,15 @@ class PageContainer extends React.Component {
               </Button>
             </ButtonGroup>
           </Box>
-          {isMobile && this.props.reptext !== undefined ? (
+          {isMobile && this.props.repText !== undefined ? (
             <Box justifyItems="end">
               <Button
                 variant="contained"
                 size="small"
                 color="secondary"
                 onClick={() => {
-                  this.setFocus();
-                  this.replace(this.props.reptext);
+                  // console.log(this.props.repText)
+                  this.replace(this.props.repText);
                 }}
               >
                 Paste
@@ -553,10 +556,47 @@ class PageContainer extends React.Component {
             <></>
           )}
         </Box>
-        <div
-          onContextMenu={this.handleClick}
-          style={{ cursor: "context-menu" }}
-        >
+        {this.state.editorState.getSelection().getAnchorOffset() < 
+        this.state.editorState.getSelection().getEndOffset() ? (
+          <div
+            onContextMenu={this.handleClick}
+            style={{ cursor: "context-menu" }}
+          >
+            <div className="editors">
+              <Editor
+                editorState={this.state.editorState}
+                handleKeyCommand={this.handleKeyCommand}
+                keyBindingFn={this.suggestionsKeyBinding}
+                onChange={this.onChange}
+                spellCheck
+                placeholder="Begin typing here..."
+              />
+            </div>
+            <Menu
+              style={{ maxHeight: "60vh", width: "auto" }}
+              keepMounted
+              open={this.state.clickState.mouseY !== null}
+              onClose={this.handleClose}
+              anchorReference="anchorPosition"
+              anchorPosition={
+                this.state.clickState.mouseY !== null &&
+                this.state.clickState.mouseX !== null
+                  ? {
+                      top: this.state.clickState.mouseY,
+                      left: this.state.clickState.mouseX,
+                    }
+                  : undefined
+              }
+            >
+              <ActionMenu
+                selected={this.props.selectedText}
+                setRepText={this.props.setRepText}
+                handleClose={this.handleClose}
+                handleKeyCommand={this.handleKeyCommand}
+              />
+            </Menu>
+          </div>
+        ) : (
           <div className="editors">
             <Editor
               editorState={this.state.editorState}
@@ -567,29 +607,7 @@ class PageContainer extends React.Component {
               placeholder="Begin typing here..."
             />
           </div>
-          <Menu
-            keepMounted
-            open={this.state.clickState.mouseY !== null}
-            onClose={this.handleClose}
-            anchorReference="anchorPosition"
-            anchorPosition={
-              this.state.clickState.mouseY !== null &&
-              this.state.clickState.mouseX !== null
-                ? {
-                    top: this.state.clickState.mouseY,
-                    left: this.state.clickState.mouseX,
-                  }
-                : undefined
-            }
-          >
-            <ActionMenu
-              selected={this.props.selectedText}
-              setRepText={this.props.setRepText}
-              handleClose={this.handleClose}
-              handleKeyCommand={this.handleKeyCommand}
-            />
-          </Menu>
-        </div>
+        )}
 
         <SimilarWordStart
           open={this.state.openStart}

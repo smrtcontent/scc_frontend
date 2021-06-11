@@ -98,6 +98,7 @@ const SentenceSearch = (props) => {
   return (
     <div>
       <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         open={error}
         autoHideDuration={6000}
         onClose={() => setError(false)}

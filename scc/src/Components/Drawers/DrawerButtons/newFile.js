@@ -13,7 +13,6 @@ const ListItems = withStyles({
     },
     "&:hover": {
       backgroundColor: indigo[100],
-      backdropFilter: "blur(1px)",
     },
   },
   selected: {},
@@ -55,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 const NewFile = (props) => {
   const classes = useStyles();
-  const [error, setError] = useState();
+  const [error, setError] = useState(false);
 
   const handleAdd = () => {
     const empty = props.content === undefined || /^\s*$/.test(props.content);

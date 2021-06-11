@@ -13,7 +13,6 @@ const ListItems = withStyles({
     },
     "&:hover": {
       backgroundColor: indigo[100],
-      // backdropFilter: "blur(1px)",
     },
   },
   selected: {},

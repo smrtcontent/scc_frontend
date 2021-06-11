@@ -102,8 +102,7 @@ const SentenceSearchSRW = (props) => {
   return (
     <div>
       <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        className={"mt-5"}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         open={error}
         autoHideDuration={6000}
         onClose={() => setError(false)}

@@ -23,6 +23,7 @@ import SaveFile from "./DrawerButtons/saveFile";
 import OpenFile from "./DrawerButtons/openFile";
 import Download from "./DrawerButtons/download";
 import NewFile from "./DrawerButtons/newFile";
+import SaveFileAs from "./DrawerButtons/saveAs";
 
 export default function MiniDrawer() {
   const classes = isMobileOnly ? customDrawerMobile() : customDrawer();
@@ -106,6 +107,16 @@ export default function MiniDrawer() {
               content={content}
             />
             <SaveFile
+              open={open} // To show or hide tooltip
+              content={content}
+              name={name}
+              saved={saved}
+              setSaved={setSaved}
+              setName={setName}
+              fileId = {fileId}
+              setFileId={setFileId}
+            />
+            <SaveFileAs
               open={open} // To show or hide tooltip
               content={content}
               name={name}

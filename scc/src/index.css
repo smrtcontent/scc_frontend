@@ -39,6 +39,7 @@ div.DraftEditor-editorContainer,
 div.public-DraftEditor-content {
   height: 100%;
   white-space: nowrap;
+  /* text-overflow: ellipsis; */
 }
 
 .TextEditor {

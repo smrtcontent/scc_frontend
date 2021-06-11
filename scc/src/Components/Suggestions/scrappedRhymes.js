@@ -70,10 +70,10 @@ const ScrappedRhymes = (props) => {
 
   // source();
 
-  // This is the return module for the portmanteaus component
-  // This will check if the props contain portmanteaus or not
+  // This is the return module for the scrapped rhymes component
+  // This will check if the props contain scrapped rhymes or not
   if (props.scrappedRhymes.length > 0) {
-    // This section will be returned only if the props contain portmanteaus
+    // This section will be returned only if the props contains scrapped rhymes
     return (
       <div id="scroll-blue" className="suggestions pl-2">
         {props.scrappedRhymes.map((x, index) => (
@@ -95,7 +95,7 @@ const ScrappedRhymes = (props) => {
     );
   } else {
     return (
-      //This empty react fragment will be returned if the portmanteaus are not there
+      //This empty react fragment will be returned if the Scrapped Rhymes are not there
       <></>
     );
   }

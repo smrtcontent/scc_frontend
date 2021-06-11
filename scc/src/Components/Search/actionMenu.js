@@ -3,13 +3,13 @@ import React from "react";
 
 const ActionMenu = (props) => {
   const handleCommand = (e) => {
-    if(e==="copy") {
-      props.setRepText(props.selected)
+    if (e === "copy") {
+      props.setRepText(props.selected);
       props.handleClose();
-      return; 
+    } else {
+      props.handleKeyCommand(e);
+      props.handleClose();
     }
-    props.handleKeyCommand(e);
-    props.handleClose();
   };
   return (
     <div>

@@ -68,6 +68,7 @@ const DualRhymes = (props) => {
   return (
     <div>
       <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         open={open}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
