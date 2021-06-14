@@ -140,7 +140,7 @@ const SaveFile = (props) => {
           {props.open ? (
             <SaveIcon color="secondary" />
           ) : (
-            <Tooltip title="Save current content" arrow>
+            <Tooltip title="Save current content" placement="right" arrow>
               <SaveIcon color="secondary" />
             </Tooltip>
           )}

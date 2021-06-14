@@ -3,3 +3,5 @@ export const core = host + "/scc/api/";
 export const openUrl = host + "/scc/api/getFileByUserIdAndName?fileName=";
 export const saveUrl = host + "/scc/api/saveFile/";
 export const updateUrl = host + "/scc/api/updateFile/";
+export const deleteUrl = host + "/scc/api/deleteFile/?id=";
+

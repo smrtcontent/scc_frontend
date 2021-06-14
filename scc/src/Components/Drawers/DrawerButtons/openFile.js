@@ -99,7 +99,7 @@ const OpenFile = (props) => {
           {props.open ? (
             <NoteAddIcon color="secondary" />
           ) : (
-            <Tooltip title="Open a file" arrow>
+            <Tooltip title="Open a file" placement="right" arrow>
               <NoteAddIcon color="secondary" />
             </Tooltip>
           )}

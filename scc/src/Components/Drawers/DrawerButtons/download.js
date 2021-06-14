@@ -94,7 +94,7 @@ const Download = (props) => {
           {props.open ? (
             <SaveAltIcon color="secondary" />
           ) : (
-            <Tooltip title="Download as DOC" arrow>
+            <Tooltip title="Download as DOC" placement="right" arrow>
               <SaveAltIcon color="secondary" />
             </Tooltip>
           )}

@@ -86,7 +86,7 @@ const NewFile = (props) => {
           {props.open ? (
             <AddCircleIcon color="secondary" />
           ) : (
-            <Tooltip title="Create a new file" arrow>
+            <Tooltip title="Create a new file" placement="right" arrow>
               <AddCircleIcon color="secondary" />
             </Tooltip>
           )}

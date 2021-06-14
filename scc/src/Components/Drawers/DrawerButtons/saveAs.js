@@ -144,7 +144,7 @@ const SaveFileAs = (props) => {
           {props.open ? (
             <LibraryBooksIcon color="secondary" />
           ) : (
-            <Tooltip title="Save As" arrow>
+            <Tooltip title="Save As" placement="right" arrow>
               <LibraryBooksIcon color="secondary" />
             </Tooltip>
           )}
