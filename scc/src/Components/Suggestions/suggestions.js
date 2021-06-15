@@ -78,7 +78,7 @@ const Suggestions = (props) => {
         x.combined.split(",").map((x) => (selectedStr += String(x) + " "))
       );
     } else {
-      props.dataList.map((x) => (selectedStr += String(x.word) + " "));
+      props.dataList.map((x) => (selectedStr += String(x) + " "));
     }
     console.log(selectedStr);
     props.onClick(selectedStr);
@@ -209,13 +209,13 @@ const Suggestions = (props) => {
                   color="secondary"
                   style={{ fontSize: "0.65rem", borderRadius: "2px" }}
                   onClick={() => {
-                    props.onClick(data.word);
+                    props.onClick(data);
                     props.funChange();
-                    setSelected(data.word);
+                    setSelected(data);
                     handleClick();
                   }}
                 >
-                  {data.word}
+                  {data}
                 </Button>
               ))
             ) : props.isLoading ? (

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   Card,
   CardContent,
-  Divider,
+  // Divider,
   List,
   ListItem,
   Snackbar,
@@ -16,6 +16,7 @@ import {
   makeStyles,
   Button,
 } from "@material-ui/core";
+import {isMobile} from "react-device-detect";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DescriptionIcon from "@material-ui/icons/Description";
 import { indigo, red } from "@material-ui/core/colors";
@@ -80,6 +81,18 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "8px",
   },
 
+  title: {
+    color: "#141414",
+    userSelect: "none",
+    fontSize: "0.85rem",
+    fontWeight: "bold",
+    paddingTop: "8px",
+    "&:hover": {
+      backgroundColor: "#ffffff",
+      // backdropFilter: "blur(1px)",
+    },
+  },
+
   button: {
     color: red[500],
     fontSize: "0.80rem",
@@ -116,62 +129,126 @@ const OpenFiles = (props) => {
         <Fade in={props.open}>
           <Card className={classes.paper}>
             <CardContent>
-              <Typography id="transition-modal-title" variant="h5">
+              <Typography
+                id="transition-modal-title"
+                style={{ userSelect: "none" }}
+                variant="h5"
+              >
                 Please select the file of your choice
               </Typography>
               <List className={classes.list}>
+                <div className="row p-0 m-0 d-flex">
+                  <div className="col-11">
+                    <ListItems
+                      className={classes.title}
+                      style={{ color: "black" }}
+                      key={Math.random() * 100}
+                    >
+                      <div className="col-md-4 col-6">
+                        <span>File Name</span>
+                      </div>
+                      <div className="col-md-3 col-6 p-0">
+                        <span>Modified On</span>
+                      </div>
+                      {isMobile ? (
+                        <></>
+                      ) : (
+                        <div className="col-md-4 p-0">
+                          <span>Content</span>
+                        </div>
+                      )}
+                    </ListItems>
+                  </div>
+                  {/* <div className="row">
+                        <Divider
+                          flexItem
+                          variant="fullWidth"
+                          style={{ backgroundColor: "black" }}
+                        />
+                      </div> */}
+                </div>
                 {props.files.map((x, index) =>
                   x.active ? (
-                    <Box display="flex">
-                      <ListItems
-                        button
-                        className={classes.itemText}
-                        style={{ color: "black" }}
-                        key={Math.random() * 100}
-                        onClick={() => {
-                          Open(
-                            x.fileName,
-                            props.setOpenFileContent,
-                            props.setName,
-                            props.setSaved,
-                            props.setFileId,
-                            setOpen,
-                            setError
-                          );
-                          props.setOpen(false);
-                        }}
-                      >
-                        <DescriptionIcon
-                          className={classes.itemIcon}
-                          color="primary"
+                    <div className="row p-0 m-0 d-flex">
+                      <div className="col-md-11 col-10">
+                        <ListItems
+                          button
+                          className={classes.itemText}
+                          style={{ color: "black" }}
+                          key={Math.random() * 100}
+                          onClick={() => {
+                            Open(
+                              x.fileName,
+                              props.setOpenFileContent,
+                              props.setName,
+                              props.setSaved,
+                              props.setFileId,
+                              setOpen,
+                              setError
+                            );
+                            props.setOpen(false);
+                          }}
+                        >
+                          <div className="col-md-4 col-7">
+                            <DescriptionIcon
+                              className={classes.itemIcon}
+                              color="primary"
+                            />
+                            {x.fileName}
+                          </div>
+                          <div className="col-md-3 col-5 p-0">
+                            <span>
+                              {x.updatedOn === null
+                                ? x.createdOn.match(/\d+-\d+-\d+/)[0]
+                                : x.updatedOn.match(/\d+-\d+-\d+/)[0]}
+                            </span>
+                          </div>
+                          {(isMobile) ? (
+                            <></>
+                          ) : (
+                            <div className="col-md-4 p-0">
+                              <span>
+                                {x.content.match(/(\w+\s){4}/) === null
+                                  ? x.content.match(/(\w+\s){3}/) === null
+                                    ? x.content.match(/(\w+\s){2}/) === null
+                                      ? x.content.match(/(\w+)/)[0]
+                                      : x.content.match(/(\w+\s){2}/)[0]
+                                    : x.content.match(/(\w+\s){3}/)[0]
+                                  : x.content.match(/(\w+\s){4}/)[0]}
+                              </span>
+                            </div>
+                          )}
+                        </ListItems>
+                      </div>
+                      <div className="col-md-1 col-2">
+                        <Tooltip
+                          title={`Delete the file ${x.fileName}`}
+                          placement="bottom"
+                          arrow
+                        >
+                          <Box display="flex" justifyContent="flex-end">
+                            <Button
+                              className={classes.button}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                deleteFile(setOpenDelete, x.id);
+                                console.log("deleted " + x.fileName);
+                                props.setOpen(false);
+                              }}
+                            >
+                              <DeleteIcon />
+                            </Button>
+                          </Box>
+                        </Tooltip>
+                      </div>
+                      {/* <div className="row">
+                        <Divider
+                          flexItem
+                          variant="fullWidth"
+                          style={{ backgroundColor: "black" }}
                         />
-                        {x.fileName}
-                      </ListItems>
-                      <Tooltip
-                        title={`Delete the file ${x.fileName}`}
-                        placement="left"
-                        arrow
-                      >
-                        <Box display="flex" justifyContent="flex-end">
-                          <Button
-                            className={classes.button}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              deleteFile(setOpenDelete, x.id);
-                              console.log("deleted " + x.fileName);
-                              props.setOpen(false);
-                            }}
-                          >
-                            <DeleteIcon />
-                          </Button>
-                        </Box>
-                      </Tooltip>
-                      <Divider
-                        flexItem
-                        variant="fullWidth"
-                        style={{ backgroundColor: "black" }}
-                      />
-                    </Box>
+                      </div> */}
+                    </div>
                   ) : (
                     <></>
                   )
