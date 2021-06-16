@@ -72,6 +72,7 @@ const SaveFile = (props) => {
   const classes = useStyles();
   const customButtons = customButton();
   const [open, setOpen] = useState(false);
+  const [openU, setOpenU] = useState(false);
   const [openS, setOpenS] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
@@ -108,7 +109,7 @@ const SaveFile = (props) => {
       setError(true);
     } else if (!props.saved) setOpen(true);
     else {
-      updateFile(props.content, props.name, setOpenS, props.fileId);
+      updateFile(props.content, props.name, setOpenU, props.fileId);
       props.setSaved(true);
     }
   };
@@ -235,6 +236,18 @@ const SaveFile = (props) => {
           open={openS}
           setOpen={setOpenS}
           message={"The file has been saved successfully !"}
+        />
+      </Snackbar>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        open={openU}
+        autoHideDuration={6000}
+        onClose={() => setOpenU(false)}
+      >
+        <Success
+          open={openU}
+          setOpen={setOpenU}
+          message={"The file has been updated successfully !"}
         />
       </Snackbar>
     </>

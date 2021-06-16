@@ -13,7 +13,7 @@ import Legends from "./legends";
 import Suggestions from "./Suggestions/suggestions";
 import customCard from "../app/themes/customCard";
 import WarningAlert from "./Alerts/warningAlert";
-import {core} from './../app/config/URLs'
+import { core } from "./../app/config/URLs";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,7 +73,7 @@ export default function TextEditor(props) {
     setSentences([]);
     setScrappedRhymes([]);
 
-    const baseUrl =core + command;
+    const baseUrl = core + command;
     let URL = undefined;
 
     if (
@@ -239,14 +239,14 @@ export default function TextEditor(props) {
         text: `* Type the content you want to and once you feel the need,
               select the word and press the specific button to get the 
               type of suggestion you desire.`,
-        style: classes.secondary + " text-white",
+        style: classes.secondary + " text-white ",
       };
     else
       return {
         text: `* Type the content you want to and once you feel the need,
             select the word and press the specific key combination or 
             the button to get the type of suggestion you desire.`,
-        style: classes.secondary + " text-white",
+        style: classes.secondary + " text-white ",
       };
   };
 

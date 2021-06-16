@@ -78,7 +78,7 @@ const Suggestions = (props) => {
         x.combined.split(",").map((x) => (selectedStr += String(x) + " "))
       );
     } else {
-      props.dataList.map((x) => (selectedStr += String(x) + " "));
+      props.dataList.map((x) => (selectedStr += String((typeof x) === "object" ? x.word : x) + " "));
     }
     console.log(selectedStr);
     props.onClick(selectedStr);
@@ -199,27 +199,33 @@ const Suggestions = (props) => {
             }}
           />
           <div className="suggestions" id="scroll-blue">
-            {props.dataList.length !== 0 ? (
-              props.dataList.map((data, index) => (
-                <Button
-                  key={index}
-                  size="small"
-                  className={classes.btn}
-                  variant="outlined"
-                  color="secondary"
-                  style={{ fontSize: "0.65rem", borderRadius: "2px" }}
-                  onClick={() => {
-                    props.onClick(data);
-                    props.funChange();
-                    setSelected(data);
-                    handleClick();
-                  }}
-                >
-                  {data}
-                </Button>
-              ))
-            ) : props.isLoading ? (
-              <></>
+            {props.dataList.status !== 500 ? (
+              props.dataList.length !== 0 ? (
+                props.dataList.map((data, index) => (
+                  <Button
+                    key={index}
+                    size="small"
+                    className={classes.btn}
+                    variant="outlined"
+                    color="secondary"
+                    style={{ fontSize: "0.65rem", borderRadius: "2px" }}
+                    onClick={() => {
+                      props.onClick((typeof data) === "object" ? data.word : data);
+                      props.funChange();
+                      setSelected((typeof data) === "object" ? data.word : data);
+                      handleClick();
+                    }}
+                  >
+                    {(typeof data) === "object" ? data.word : data}
+                  </Button>
+                ))
+              ) : props.isLoading ? (
+                <></>
+              ) : (
+                <div className={classes.listText}>
+                  <strong>No data to display</strong>
+                </div>
+              )
             ) : (
               <div className={classes.listText}>
                 <strong>No data to display</strong>

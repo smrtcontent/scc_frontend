@@ -89,6 +89,7 @@ const OpenFile = (props) => {
 
   const handleAgree = () => {
     setError(false);
+    fetchFiles();
     setOpen(true);
   };
 

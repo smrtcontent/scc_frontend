@@ -16,7 +16,7 @@ import {
   makeStyles,
   Button,
 } from "@material-ui/core";
-import {isMobile} from "react-device-detect";
+import { isMobile } from "react-device-detect";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DescriptionIcon from "@material-ui/icons/Description";
 import { indigo, red } from "@material-ui/core/colors";
@@ -136,15 +136,15 @@ const OpenFiles = (props) => {
               >
                 Please select the file of your choice
               </Typography>
-              <List className={classes.list}>
+              <List id="scroll-blue" className={classes.list}>
                 <div className="row p-0 m-0 d-flex">
-                  <div className="col-11">
+                  <div className="col-11 p-0">
                     <ListItems
                       className={classes.title}
                       style={{ color: "black" }}
                       key={Math.random() * 100}
                     >
-                      <div className="col-md-4 col-6">
+                      <div className="col-md-4 col-6 p-0">
                         <span>File Name</span>
                       </div>
                       <div className="col-md-3 col-6 p-0">
@@ -170,7 +170,7 @@ const OpenFiles = (props) => {
                 {props.files.map((x, index) =>
                   x.active ? (
                     <div className="row p-0 m-0 d-flex">
-                      <div className="col-md-11 col-10">
+                      <div className="col-md-11 col-10 ">
                         <ListItems
                           button
                           className={classes.itemText}
@@ -189,11 +189,18 @@ const OpenFiles = (props) => {
                             props.setOpen(false);
                           }}
                         >
-                          <div className="col-md-4 col-7">
-                            <DescriptionIcon
-                              className={classes.itemIcon}
-                              color="primary"
-                            />
+                          <div className="col-md-4 col-7 p-0">
+                            {
+                            isMobile ? (
+                              <></>
+                            ) : 
+                            (
+                              <DescriptionIcon
+                                className={classes.itemIcon}
+                                color="primary"
+                              />
+                            )}
+
                             {x.fileName}
                           </div>
                           <div className="col-md-3 col-5 p-0">
@@ -203,7 +210,7 @@ const OpenFiles = (props) => {
                                 : x.updatedOn.match(/\d+-\d+-\d+/)[0]}
                             </span>
                           </div>
-                          {(isMobile) ? (
+                          {isMobile ? (
                             <></>
                           ) : (
                             <div className="col-md-4 p-0">

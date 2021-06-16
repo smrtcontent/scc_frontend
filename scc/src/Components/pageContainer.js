@@ -286,6 +286,17 @@ class PageContainer extends React.Component {
       this.props.setIsLoading(false);
       return "handled";
     }
+    if (
+      Selected.trim().split(" ").length !== 2 &&
+      query === "Dual Rhymes"
+    ) {
+      this.props.setWarningMessage(
+        "Please select exactly two words to search " + query + " for!"
+      );
+      this.props.setOpenWarningAlert(true);
+      this.props.setIsLoading(false);
+      return "handled";
+    }
     if (query === "Definitions") this.props.onDefChange(command, Selected);
     else this.props.onSearch(command, Selected);
     this.props.onChange(query);
