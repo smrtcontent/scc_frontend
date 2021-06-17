@@ -508,7 +508,7 @@ class PageContainer extends React.Component {
 
   render() {
     return (
-      <div className="editorContainer">
+      <div className="editorContainer p-0">
         {this.save(this.state.openS)}
         <>{this.showSnacks()}</>
         <Snackbar

@@ -127,7 +127,7 @@ const OpenFiles = (props) => {
         }}
       >
         <Fade in={props.open}>
-          <Card className={classes.paper}>
+          <Card className={classes.paper + " p-2 "}>
             <CardContent>
               <Typography
                 id="transition-modal-title"
@@ -137,11 +137,11 @@ const OpenFiles = (props) => {
                 Please select the file of your choice
               </Typography>
               <List id="scroll-blue" className={classes.list}>
-                <div className="row p-0 m-0 d-flex">
+                <div className="row p-0 m-0 d-flex d-block ">
                   <div className="col-11 p-0">
                     <ListItems
                       className={classes.title}
-                      style={{ color: "black" }}
+                      style={{ color: "black"}}
                       key={Math.random() * 100}
                     >
                       <div className="col-md-4 col-6 p-0">
@@ -169,8 +169,8 @@ const OpenFiles = (props) => {
                 </div>
                 {props.files.map((x, index) =>
                   x.active ? (
-                    <div className="row p-0 m-0 d-flex">
-                      <div className="col-md-11 col-10 ">
+                    <div className="row m-0 d-flex">
+                      <div className="col-md-11 p-0 col-10 ">
                         <ListItems
                           button
                           className={classes.itemText}
@@ -190,11 +190,9 @@ const OpenFiles = (props) => {
                           }}
                         >
                           <div className="col-md-4 col-7 p-0">
-                            {
-                            isMobile ? (
+                            {isMobile ? (
                               <></>
-                            ) : 
-                            (
+                            ) : (
                               <DescriptionIcon
                                 className={classes.itemIcon}
                                 color="primary"
@@ -213,17 +211,31 @@ const OpenFiles = (props) => {
                           {isMobile ? (
                             <></>
                           ) : (
-                            <div className="col-md-4 p-0">
-                              <span>
-                                {x.content.match(/(\w+\s){4}/) === null
-                                  ? x.content.match(/(\w+\s){3}/) === null
-                                    ? x.content.match(/(\w+\s){2}/) === null
-                                      ? x.content.match(/(\w+)/)[0]
-                                      : x.content.match(/(\w+\s){2}/)[0]
-                                    : x.content.match(/(\w+\s){3}/)[0]
-                                  : x.content.match(/(\w+\s){4}/)[0]}
-                              </span>
-                            </div>
+                            <Tooltip
+                              title={
+                                x.content.match(/(\w+\s|\w+){0,50}/)[0] ===
+                                x.content.match(/(\w+\s|\w+)*/)[0]
+                                  ? `${x.content.match(/(\w+\s|\w+){0,50}/)[0]}`
+                                  : `${x.content
+                                      .match(/(\w+\s|\w+){0,50}/)[0]
+                                      .concat("...")}`
+                              }
+                              placement="left"
+                              arrow
+                            >
+                              <div className="col-md-4 p-0">
+                                <span>
+                                  {/* {x.content.match(/(\w+\s){4}/) === null
+                                    ? x.content.match(/(\w+\s){3}/) === null
+                                      ? x.content.match(/(\w+\s){2}/) === null
+                                        ? x.content.match(/(\w+)/)[0]
+                                        : x.content.match(/(\w+\s){2}/)[0]
+                                      : x.content.match(/(\w+\s){3}/)[0]
+                                    : x.content.match(/(\w+\s){4}/)[0]} */}
+                                  {x.content.match(/(\w+\s|\w+){0,5}/)[0]}
+                                </span>
+                              </div>
+                            </Tooltip>
                           )}
                         </ListItems>
                       </div>

@@ -8,6 +8,8 @@ const customDrawer = makeStyles((theme) => ({
     overflowX: "hidden",
   },
   title: {
+    fontFamily: "Oleo Script, cursive",
+    fontSize: "2rem",
     fontWeight: 550,
     marginLeft: "-18px",
     userSelect: "none",

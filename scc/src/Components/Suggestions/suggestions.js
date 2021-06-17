@@ -142,14 +142,14 @@ const Suggestions = (props) => {
         <CardContent>
           <Typography
             className={
-              classes.secondaryTitle + " d-flex justify-content-between pe-3"
+              classes.secondaryTitle + " d-flex justify-content-between p-0"
             }
             gutterBottom
           >
             Suggestions
             {selectAllButton()}
           </Typography>
-          <Typography className={classes.subHeading}>{props.type}</Typography>
+          <Typography className={classes.subHeading + " p-1 "}>{props.type}</Typography>
           {props.isLoading ? (
             <div className="d-flex justify-content-center">
               <CircularProgress
@@ -198,7 +198,7 @@ const Suggestions = (props) => {
               handleClick();
             }}
           />
-          <div className="suggestions" id="scroll-blue">
+          <div className="suggestions p-0" id="scroll-blue">
             {props.dataList.status !== 500 ? (
               props.dataList.length !== 0 ? (
                 props.dataList.map((data, index) => (
