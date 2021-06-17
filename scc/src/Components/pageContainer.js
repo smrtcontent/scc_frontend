@@ -394,6 +394,9 @@ class PageContainer extends React.Component {
     if (command === "find-adjectives")
       this.handleCommand("findAdjectives", "Adjectives");
 
+    if (command === "find-synonyms")
+      this.handleCommand("findSynonyms", "Synonyms");
+
     if (command === "find-approximate-rhymes")
       this.handleCommand("findApproximateRhymes", "Approximate Rhymes");
 

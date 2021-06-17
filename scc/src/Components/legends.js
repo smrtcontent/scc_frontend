@@ -34,7 +34,7 @@ const Legends = () => {
               {[
                 { item: "'Alt' + A : Find Antonyms" },
                 { item: "'Ctrl' + 'Shift' + A : Find Adjectives" },
-                { item: "'Alt' + 'Shift' + A : Find Approximate Rhymes" },
+                // { item: "'Alt' + 'Shift' + A : Find Approximate Rhymes" },
                 { item: "'Ctrl' + 'Shift' + C : Find Consonant Match" },
                 { item: "'Ctrl' + D : Find Definitions" },
                 { item: "'Ctrl' + 'Shift' + F : Find Frequent Follower" },

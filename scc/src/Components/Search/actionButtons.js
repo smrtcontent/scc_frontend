@@ -17,10 +17,11 @@ const ActionButtons = (props) => {
               {[
                 { command: "find-antonyms", val: "Antonyms" },
                 { command: "find-adjectives", val: "Adjectives" },
-                {
-                  command: "find-approximate-rhymes",
-                  val: "Approximate Rhymes",
-                },
+                // {
+                //   command: "find-approximate-rhymes",
+                //   val: "Approximate Rhymes",
+                // },
+                { command: "find-synonyms", val: "Synonyms" },
                 { command: "find-consonant-match", val: "Consonant Match" },
                 { command: "find-definitions", val: "Definition" },
                 { command: "find-frequent-follower", val: "Frequent Follower" },

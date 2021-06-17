@@ -17,6 +17,7 @@ const ActionMenu = (props) => {
         { command: "copy", val: "Copy" },
         { command: "replace", val: "Paste" },
         { command: "find-antonyms", val: "Antonyms" },
+        { command: "find-synonyms", val: "Synonyms" },
         { command: "find-adjectives", val: "Adjectives" },
         {
           command: "find-approximate-rhymes",
