@@ -119,7 +119,7 @@ export default function TextEditor(props) {
             newData[0].trim() +
             "&word=" +
             newData[1].trim();
-          fetch(URL)
+          fetch(URL) 
             .then((res) => res.json())
             .then((sentenceList) => {
               setSentences(sentenceList);
@@ -259,7 +259,7 @@ export default function TextEditor(props) {
         {description().text}
       </Typography>
       <div className="row">
-        <div className="col-md-8 col-12 mt-2 ps-2 pe-1">
+        <div className="col-md-8 col-12 mt-2 ps-2 pe-1 me-0">
           <Card className={classes.root + " " + customCards.root}>
             <CardContent className="TextEditor">
               <PageContainer

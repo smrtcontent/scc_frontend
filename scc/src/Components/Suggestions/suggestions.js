@@ -28,12 +28,13 @@ const useStyles = makeStyles((theme) => ({
   secondaryTitle: {
     fontSize: 26,
     fontWeight: 700,
-    padding: theme.spacing(1, 1, 0, 1),
+    padding: theme.spacing(1, 1, 0, 0),
   },
   subHeading: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 600,
-    padding: theme.spacing(0, 1, 1, 1),
+    // padding: theme.spacing(0, 1, 1, 2),
+    paddingTop: theme.spacing(1),
     color: "#1e56a0",
   },
   btn: {
@@ -78,7 +79,9 @@ const Suggestions = (props) => {
         x.combined.split(",").map((x) => (selectedStr += String(x) + " "))
       );
     } else {
-      props.dataList.map((x) => (selectedStr += String((typeof x) === "object" ? x.word : x) + " "));
+      props.dataList.map(
+        (x) => (selectedStr += String(typeof x === "object" ? x.word : x) + " ")
+      );
     }
     console.log(selectedStr);
     props.onClick(selectedStr);
@@ -138,18 +141,20 @@ const Suggestions = (props) => {
       >
         {alert()}
       </Snackbar>
-      <Card className={classes.root + " " + customCards.suggestions}>
+      <Card className={classes.root + " ms-0 pt-0 " + customCards.suggestions}>
         <CardContent>
           <Typography
             className={
-              classes.secondaryTitle + " d-flex justify-content-between p-0"
+              classes.secondaryTitle +
+              " d-flex justify-content-between p-0 mb-0"
             }
-            gutterBottom
           >
             Suggestions
             {selectAllButton()}
           </Typography>
-          <Typography className={classes.subHeading + " p-1 "}>{props.type}</Typography>
+          <Typography className={classes.subHeading + " px-0 "}>
+            {props.type}
+          </Typography>
           {props.isLoading ? (
             <div className="d-flex justify-content-center">
               <CircularProgress
@@ -198,39 +203,47 @@ const Suggestions = (props) => {
               handleClick();
             }}
           />
-          <div className="suggestions p-0" id="scroll-blue">
-            {props.dataList.status !== 500 ? (
-              props.dataList.length !== 0 ? (
-                props.dataList.map((data, index) => (
-                  <Button
-                    key={index}
-                    size="small"
-                    className={classes.btn}
-                    variant="outlined"
-                    color="secondary"
-                    style={{ fontSize: "0.65rem", borderRadius: "2px" }}
-                    onClick={() => {
-                      props.onClick((typeof data) === "object" ? data.word : data);
-                      props.funChange();
-                      setSelected((typeof data) === "object" ? data.word : data);
-                      handleClick();
-                    }}
-                  >
-                    {(typeof data) === "object" ? data.word : data}
-                  </Button>
-                ))
-              ) : props.isLoading ? (
-                <></>
-              ) : (
-                <div className={classes.listText}>
-                  <strong>No data to display</strong>
-                </div>
-              )
-            ) : (
-              <div className={classes.listText}>
-                <strong>No data to display</strong>
-              </div>
-            )}
+          <div className="suggestions py-1 mx-0 " id="scroll-blue">
+            <div className="container-fluid p-0">
+              {/* <div> */}
+                {props.dataList.status !== 500 ? (
+                  props.dataList.length !== 0 ? (
+                    props.dataList.map((data, index) => (
+                      <Button
+                        key={index}
+                        size="small"
+                        className={classes.btn}
+                        variant="outlined"
+                        color="secondary"
+                        style={{ fontSize: "0.65rem", borderRadius: "2px" }}
+                        onClick={() => {
+                          props.onClick(
+                            typeof data === "object" ? data.word : data
+                          );
+                          props.funChange();
+                          setSelected(
+                            typeof data === "object" ? data.word : data
+                          );
+                          handleClick();
+                        }}
+                      >
+                        {typeof data === "object" ? data.word : data}
+                      </Button>
+                    ))
+                  ) : props.isLoading ? (
+                    <></>
+                  ) : (
+                    <div className={classes.listText}>
+                      <strong>No data to display</strong>
+                    </div>
+                  )
+                ) : (
+                  <div className={classes.listText}>
+                    <strong>No data to display</strong>
+                  </div>
+                )}
+              {/* </div> */}
+            </div>
           </div>
         </CardContent>
       </Card>

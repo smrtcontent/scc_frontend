@@ -12,7 +12,7 @@ const ActionButtons = (props) => {
     <>
       <Card className={customCards.root}>
         <CardContent className="p-1">
-          <div className="row my-1">
+          <div className="row my-0">
             <div className="col-12">
               {[
                 { command: "find-antonyms", val: "Antonyms" },

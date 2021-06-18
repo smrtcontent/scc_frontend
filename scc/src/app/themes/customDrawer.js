@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 
-const drawerWidth = 180;
+const drawerWidth = 140;
 
 const customDrawer = makeStyles((theme) => ({
   root: {
@@ -88,6 +88,7 @@ const customDrawer = makeStyles((theme) => ({
 
   items: {
     margin: "-4px",
+    fontWeight: "600",
     // zIndex: 1,
   },
 

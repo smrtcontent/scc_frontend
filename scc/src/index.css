@@ -4,7 +4,6 @@
   light blue - #d6e4f4
   dark blue - #1e56a0
   Oxford blue - #163172
-
 */
 
 html {
@@ -27,7 +26,7 @@ body {
 div.DraftEditor-root {
   margin-top: 1rem;
   height: 51vh;
-  font-family: 'PT Sans', sans-serif;
+  font-family: "PT Sans", sans-serif;
   font-size: 0.8rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -44,12 +43,16 @@ div.public-DraftEditor-content {
 }
 
 .TextEditor {
-  max-height: 64vh;
+  min-height: 67vh;
+  height: 67vh;
+  max-height: 67vh;
 }
 
 .suggestions {
-  height: 46vh;
-  width: auto;
+  max-height: 52vh;
+  height: 52vh;
+  min-height: 52vh;
+  width: 100%;
   overflow-y: auto;
 }
 

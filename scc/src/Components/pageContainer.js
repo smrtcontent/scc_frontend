@@ -113,7 +113,9 @@ class PageContainer extends React.Component {
   setFocus = () => {
     let currentState = this.state.editorState;
     var selectionState = this.state.editorState.getSelection();
-    this.setState({editorState: EditorState.forceSelection(currentState, selectionState)});
+    this.setState({
+      editorState: EditorState.forceSelection(currentState, selectionState),
+    });
   };
 
   handleClick = (event) => {
@@ -286,10 +288,7 @@ class PageContainer extends React.Component {
       this.props.setIsLoading(false);
       return "handled";
     }
-    if (
-      Selected.trim().split(" ").length !== 2 &&
-      query === "Dual Rhymes"
-    ) {
+    if (Selected.trim().split(" ").length !== 2 && query === "Dual Rhymes") {
       this.props.setWarningMessage(
         "Please select exactly two words to search " + query + " for!"
       );
@@ -347,7 +346,6 @@ class PageContainer extends React.Component {
     }
   };
 
-
   /**
    * Empty function to hold the snackbar return from handleSave()
    */
@@ -355,8 +353,8 @@ class PageContainer extends React.Component {
 
   /**
    * Returns the modal to enable saving file
-   * @param {*} state 
-   * @returns 
+   * @param {*} state
+   * @returns
    */
   save = (state = false) => {
     const content = this.state.editorState.getCurrentContent().getPlainText();
@@ -570,7 +568,7 @@ class PageContainer extends React.Component {
             <></>
           )}
         </Box>
-        {this.state.editorState.getSelection().getAnchorOffset() < 
+        {this.state.editorState.getSelection().getAnchorOffset() <
         this.state.editorState.getSelection().getEndOffset() ? (
           <div
             onContextMenu={this.handleClick}

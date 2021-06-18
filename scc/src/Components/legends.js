@@ -26,7 +26,7 @@ const Legends = () => {
 
   return (
     <Card className={customCards.legends}>
-      <CardContent>
+      <CardContent className="p-1">
         <Typography className={classes.secondaryTitle}>{"Legend"}</Typography>
         <div className="row">
           <div className="col-md-4">

@@ -142,7 +142,7 @@ export default function MiniDrawer() {
             
           </List>
         </Drawer>
-        <main className={classes.content}>
+        <main className={classes.content} onClick={() => {if(isMobileOnly) handleDrawerClose()}}>
           <div className={classes.toolbar} />
           <TextEditor
             setContent={setContent}
