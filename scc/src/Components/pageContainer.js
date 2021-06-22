@@ -296,8 +296,9 @@ class PageContainer extends React.Component {
       this.props.setIsLoading(false);
       return "handled";
     }
-    if (query === "Definitions") this.props.onDefChange(command, Selected);
-    else this.props.onSearch(command, Selected);
+    // if (query === "Definitions") this.props.onDefChange(command, Selected);
+    else 
+    this.props.onSearch(command, Selected);
     this.props.onChange(query);
     this.props.setSelectedText();
     return "handled";

@@ -48,7 +48,7 @@ export default function TextEditor(props) {
   const [dataList, setWords] = useState([]); // Stores the words fetched by the api
   const [type, setType] = useState(); // Stores the type of fetch that was made
   const [repText, setRepText] = useState(); // Stores the text that can be pasted
-  const [definitions, setDefinitions] = useState([]); // Stores definitions featched by the api
+  // const [definitions, setDefinitions] = useState([]); // Stores definitions featched by the api
   const [information, setInformation] = useState([]); // Stores Informations featched by the api
   const [portmanteaus, setPortmanteaus] = useState([]); // Stores portamanteaus
   const [rhymes, setRhymes] = useState([]); // Stores dual rhymes
@@ -66,7 +66,7 @@ export default function TextEditor(props) {
 
   const handleDataChange = (command, newData) => {
     setInformation([]);
-    setDefinitions([]);
+    // setDefinitions([]);
     setPortmanteaus([]);
     setWords([]);
     setRhymes([]);
@@ -119,7 +119,7 @@ export default function TextEditor(props) {
             newData[0].trim() +
             "&word=" +
             newData[1].trim();
-          fetch(URL) 
+          fetch(URL)
             .then((res) => res.json())
             .then((sentenceList) => {
               setSentences(sentenceList);
@@ -215,19 +215,19 @@ export default function TextEditor(props) {
     }
   };
 
-  const handleDefinitionChange = (command, newData) => {
-    setWords([]);
-    const URL = "http://localhost:8088/scc/api/" + command + "?word=" + newData;
-    fetch(URL)
-      .then((res) => res.json())
-      .then((wordList) => {
-        setDefinitions(wordList);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // const handleDefinitionChange = (command, newData) => {
+  //   setWords([]);
+  //   const URL = "http://localhost:8088/scc/api/" + command + "?word=" + newData;
+  //   fetch(URL)
+  //     .then((res) => res.json())
+  //     .then((wordList) => {
+  //       setDefinitions(wordList);
+  //       setIsLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   const legends = () => {
     if (!isMobileOnly) return <Legends />;
@@ -264,7 +264,7 @@ export default function TextEditor(props) {
             <CardContent className="TextEditor">
               <PageContainer
                 onSearch={handleDataChange}
-                onDefChange={handleDefinitionChange}
+                // onDefChange={handleDefinitionChange}
                 onChange={typeChange}
                 repText={repText}
                 setRepText={setRep}
@@ -296,7 +296,7 @@ export default function TextEditor(props) {
             type={type}
             dataList={dataList}
             portmanteaus={portmanteaus}
-            definitions={definitions}
+            // definitions={definitions}
             information={information}
             rhymes={rhymes}
             scrappedRhymes={scrappedRhymes}

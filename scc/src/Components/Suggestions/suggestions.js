@@ -9,7 +9,7 @@ import {
 import { makeStyles, CircularProgress } from "@material-ui/core";
 import { isMobileOnly } from "react-device-detect";
 import Alert from "./../Alerts/alert";
-import Definitions from "./../Suggestions/definitions";
+// import Definitions from "./../Suggestions/definitions";
 import Portmanteaus from "./../Suggestions/portmanteaus";
 import Information from "./../Suggestions/information";
 import DualRhyme from "./dualRhyme";
@@ -165,7 +165,7 @@ const Suggestions = (props) => {
           ) : (
             <></>
           )}
-          <Definitions meanings={props.definitions} />
+          {/* <Definitions meanings={props.definitions} /> */}
           <Portmanteaus
             portmanteaus={props.portmanteaus}
             onClick={(e) => {
