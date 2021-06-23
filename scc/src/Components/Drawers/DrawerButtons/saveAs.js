@@ -103,6 +103,7 @@ const SaveFileAs = (props) => {
       return true;
     } else {
       setErrMsg("");
+      setDisable(true);
     }
     setDisable(false);
   };
@@ -194,29 +195,18 @@ const SaveFileAs = (props) => {
                     onChange={(e) => props.setName(e.target.value)}
                     autoFocus
                   />
+
                   <Box align="center" className="mt-2">
-                    {disable ? (
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        className={customButtons.center}
-                        disabled
-                      >
-                        Save
-                      </Button>
-                    ) : (
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        color="secondary"
-                        size="small"
-                        className={customButtons.center}
-                      >
-                        Save
-                      </Button>
-                    )}
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      size="small"
+                      className={customButtons.center}
+                      disabled={disable ? true : false}
+                    >
+                      Save
+                    </Button>
                   </Box>
                 </form>
               </div>

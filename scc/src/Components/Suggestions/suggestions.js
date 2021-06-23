@@ -65,7 +65,7 @@ const Suggestions = (props) => {
   };
 
   const selectAll = () => {
-    console.log("here");
+    console.log("here",props.scrappedRhymes);
     if (props.portmanteaus.length > 0) {
       props.portmanteaus.map((x) =>
         x.combined.split(",").map((x) => (selectedStr += String(x) + " "))
@@ -76,7 +76,7 @@ const Suggestions = (props) => {
       props.rhymes.map((x) => (selectedStr += String(x) + " "));
     } else if (props.scrappedRhymes.length > 0) {
       props.scrappedRhymes.map((x) =>
-        x.combined.split(",").map((x) => (selectedStr += String(x) + " "))
+        x.split(",").map((x) => (selectedStr += String(x) + " "))
       );
     } else {
       props.dataList.map(

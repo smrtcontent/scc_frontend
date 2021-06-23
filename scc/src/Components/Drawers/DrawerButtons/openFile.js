@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { withStyles, ListItem, makeStyles, Tooltip } from "@material-ui/core/";
-import NoteAddIcon from "@material-ui/icons/NoteAdd";
+import NoteAddIcon from "@material-ui/icons/OpenInNew";
 import { indigo } from "@material-ui/core/colors";
 import OpenFiles from "./../../Modals/openFiles";
 import AlertDialog from "../../Prompts/savePrompt";
