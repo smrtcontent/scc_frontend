@@ -56,26 +56,37 @@ const SimilarWord = (props) => {
       setErrMsg("Please Enter a valid English Alphabet");
       setDisable(true);
       return true;
-    } else if (Word === undefined) {
-      setErrMsg("");
-      return true;
-    } else if (Word === "") {
-      setErrMsg("Please Enter a Word");
-      setDisable(true);
-      return true;
-    } else if (!/^[a-zA-Z]+\s*$/.test(Word)) {
-      setErrMsg("Please enter a valid English Word");
-      setDisable(true);
-      return true;
     } else {
       setErrMsg("");
+    }
+
+    if (props.selected === undefined) {
+      
+      if (Word === undefined) {
+        setErrMsg("");
+        return true;
+      } else if (Word === "") {
+        setErrMsg("Please Enter a Word");
+        setDisable(true);
+        return true;
+      } else if (!/^[a-zA-Z]+\s*$/.test(Word)) {
+        setErrMsg("Please enter a valid English Word");
+        setDisable(true);
+        return true;
+      } else {
+        setErrMsg("");
+      }
     }
     setDisable(false);
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
-    const data = [Letter, Word];
+    const data = 
+    (props.selected === undefined)?
+    [Letter.trim(), Word.trim()]:
+    [Letter.trim(), props.selected.trim()];
+    // const data = [Letter, Word];
     props.handleCommand(
       "findSimilarStartsWith",
       data,
@@ -113,22 +124,52 @@ const SimilarWord = (props) => {
               noValidate
               autoComplete="off"
             >
-              <TextField
+              {/* <TextField
                 id="standard-basic"
                 label="Starting Letter"
                 value={Letter}
                 onChange={handleChangeL}
                 fullWidth
                 autoFocus
-              />
+              /> */}
+               {props.selected === undefined ? (
+                <TextField
+                  id="standard-basic"
+                  label="Starting Letter"
+                  value={Letter}
+                  onChange={handleChangeL}
+                  fullWidth
+                />
+              ) : (
+                <TextField
+                  id="standard-basic"
+                  label="Starting Letter"
+                  value={Letter}
+                  onChange={handleChangeL}
+                  fullWidth
+                  autoFocus
+                />
+              )}
               <br />
-              <TextField
+              {props.selected === undefined ? (
+                <TextField
+                  id="standard-basic"
+                  label="Word"
+                  value={Word}
+                  onChange={handleChangeW}
+                  fullWidth
+                  // autoFocus
+                />
+              ) : (
+                <></>
+              )}
+              {/* <TextField
                 id="standard-basic"
                 label="Word"
                 value={Word}
                 onChange={handleChangeW}
                 fullWidth
-              />
+              /> */}
               <Box align="center">
                 {Disable ? (
                   <Button

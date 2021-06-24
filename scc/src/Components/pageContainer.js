@@ -626,11 +626,12 @@ class PageContainer extends React.Component {
           open={this.state.openStart}
           setOpen={this.setOpenStart}
           handleCommand={this.handleCommandNoVal}
+          selected={this.props.selectedText}
         />
         <SimilarWordEnd
           open={this.state.openEnd}
           setOpen={this.setOpenEnd}
-          handleCommand={this.handleCommandNoVal}
+          handleCommand={this.handleCommandNoVal}     
         />
         <SimilarWordStartEnd
           open={this.state.openStartEnd}

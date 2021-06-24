@@ -246,10 +246,10 @@ export const actionButtonList = [
     command: "find-triggers",
     val: "Triggers",
   },
-  {
-    command: "find-scrapped-rhymes",
-    val: "Rhymes 2",
-  },
+  // {
+  //   command: "find-scrapped-rhymes",
+  //   val: "Rhymes 2",
+  // },
 ];
 
 // ************************Legends Data list***********************
