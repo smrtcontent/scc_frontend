@@ -22,6 +22,7 @@ import updateFile from "../features/Update/updateFile";
 import ActionMenu from "./Search/actionMenu";
 import Error from "./Alerts/error";
 import Success from "./Alerts/success";
+import SimilarWordStartEndLetter from "./Modals/similarWordStartEndLetters";
 
 const { hasCommandModifier } = KeyBindingUtil;
 
@@ -39,6 +40,7 @@ class PageContainer extends React.Component {
       openEnd: false,
       openStart: false,
       openStartEnd: false,
+      openStartEndLetters: false,
       openDualRhymesSearch: false,
       openSentenceSearch: false,
       openSentenceSearchSRW: false,
@@ -105,6 +107,7 @@ class PageContainer extends React.Component {
   setOpenEnd = (e) => this.setState({ openEnd: e });
   setOpenStart = (e) => this.setState({ openStart: e });
   setOpenStartEnd = (e) => this.setState({ openStartEnd: e });
+  setOpenStartEndLetters = (e) => this.setState({ openStartEndLetters: e });
   setOpenSentenceSearch = (e) => this.setState({ openSentenceSearch: e });
   setOpenDualRhymesSearch = (e) => this.setState({ openDualRhymesSearch: e });
   setOpenSentenceSearchSRW = (e) => this.setState({ openSentenceSearchSRW: e });
@@ -469,6 +472,8 @@ class PageContainer extends React.Component {
 
     if (command === "find-similar-start-end") this.setOpenStartEnd(true);
 
+    if (command === "find-similar-start-end-letters") this.setOpenStartEndLetters(true);
+
     if (command === "find-triggers")
       this.handleCommand("findTriggers", "Triggers");
 
@@ -631,11 +636,17 @@ class PageContainer extends React.Component {
         <SimilarWordEnd
           open={this.state.openEnd}
           setOpen={this.setOpenEnd}
-          handleCommand={this.handleCommandNoVal}     
+          handleCommand={this.handleCommandNoVal}
+          selected={this.props.selectedText}     
         />
         <SimilarWordStartEnd
           open={this.state.openStartEnd}
           setOpen={this.setOpenStartEnd}
+          handleCommand={this.handleCommandNoVal}
+        />
+        <SimilarWordStartEndLetter
+          open={this.state.openStartEndLetters}
+          setOpen={this.setOpenStartEndLetters}
           handleCommand={this.handleCommandNoVal}
         />
         <DualRhymes

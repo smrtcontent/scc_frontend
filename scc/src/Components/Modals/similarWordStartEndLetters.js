@@ -8,8 +8,8 @@ import {
   Box,
   Button,
 } from "@material-ui/core";
-import customButton from "./../../app/themes/customButton";
-import ErrorAlert from "./../Alerts/errorAlert";
+import customButton from "../../app/themes/customButton";
+import ErrorAlert from "../Alerts/errorAlert";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,81 +19,75 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   modal: {
-    userSelect: "none",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
-    // border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     borderRadius: 3,
   },
 }));
 
-const SimilarWordEnd = (props) => {
+const SimilarWordStartEndLetters = (props) => {
   const classes = useStyles();
-  const [Letter, setLetter] = useState();
-  const [Word, setWord] = useState();
+  const [startLetter, setStartLetter] = useState();
+  const [numLetter, setNumLetter] = useState();
+  const [endLetter, setEndLetter] = useState();
   const [ErrMsg, setErrMsg] = useState("");
   const [Disable, setDisable] = useState(true);
 
   const handleClose = () => props.setOpen(false);
-  const handleChangeL = (e) => setLetter(e.target.value);
-  const handleChangeW = (e) => setWord(e.target.value);
+  const handleChangeL = (e) => setStartLetter(e.target.value);
+  const handleChangeN = (e) => setNumLetter(e.target.value);
+  const handleChangeW = (e) => setEndLetter(e.target.value);
 
   useEffect(() => Validation());
 
   const Validation = () => {
-    if (Letter === undefined) {
+    if (numLetter === undefined) {
       return true;
-    } else if (Letter === "") {
+    } else if (numLetter === "") {
+      setDisable(true);
+      return true;
+    } else if (startLetter === "") {
       setErrMsg("Please Enter a letter");
       setDisable(true);
       return true;
-    } else if (!/^[a-zA-Z]\s*$/.test(Letter)) {
+    } else if (!/^[a-zA-Z]\s*$/.test(startLetter)) {
       setErrMsg("Please Enter a valid English Alphabet");
+      setDisable(true);
+      return true;
+    } else if (endLetter === undefined) {
+      setErrMsg("");
+      return true;
+    } else if (endLetter === "") {
+      setErrMsg("Please Enter a letter");
+      setDisable(true);
+      return true;
+    } else if (!/^[a-zA-Z]\s*$/.test(endLetter)) {
+      setErrMsg("Please enter a valid English Alphabet");
       setDisable(true);
       return true;
     } else {
       setErrMsg("");
-    }
-
-    if (props.selected === undefined) {
-      if (Word === undefined) {
-        setErrMsg("");
-        return true;
-      } else if (Word === "") {
-        setErrMsg("Please Enter a Word");
-        setDisable(true);
-        return true;
-      } else if (!/^[a-zA-Z]+\s*$/.test(Word)) {
-        setErrMsg("Please enter a valid English Word");
-        setDisable(true);
-        return true;
-      } else {
-        setErrMsg("");
-      }
     }
     setDisable(false);
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
-    const data =
-      props.selected === undefined
-        ? [Letter.trim(), Word.trim()]
-        : [Letter.trim(), props.selected.trim()];
-    // const data = [Letter.trim(), Word.trim()];
+    const data = [startLetter.trim(), numLetter.trim(), endLetter.trim()];
     props.handleCommand(
-      "findSimilarEndsWith",
+      "wordsStartingWithEndingWithLetters",
       data,
-      "Words with similar ending"
+      "Words starting and ending with specific letters"
     );
-    setLetter(undefined);
-    setWord(undefined);
+    setStartLetter(undefined);
+    setNumLetter(undefined);
+    setEndLetter(undefined);
     setErrMsg("");
     setDisable(true);
     handleClose();
@@ -110,7 +104,7 @@ const SimilarWordEnd = (props) => {
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
-          timeout: 500,
+          timeout: 1000,
         }}
       >
         <Fade in={props.open}>
@@ -124,52 +118,31 @@ const SimilarWordEnd = (props) => {
               noValidate
               autoComplete="off"
             >
-              {/* <TextField
+              <TextField
+                id="standard-basic"
+                label="Start Letter"
+                fullWidth
+                value={startLetter}
+                onChange={handleChangeL}
+                autoFocus
+              />
+              <br />
+              <TextField
+                type="number"
+                id="standard-basic"
+                label="Number Missing"
+                fullWidth
+                value={numLetter}
+                onChange={handleChangeN}
+              />
+              <br />
+              <TextField
                 id="standard-basic"
                 label="End Letter"
-                value={Letter}
-                onChange={handleChangeL}
                 fullWidth
-                autoFocus
-              /> */}
-              {props.selected === undefined ? (
-                <TextField
-                  id="standard-basic"
-                  label="End Letter"
-                  value={Letter}
-                  onChange={handleChangeL}
-                  fullWidth
-                />
-              ) : (
-                <TextField
-                  id="standard-basic"
-                  label="End Letter"
-                  value={Letter}
-                  onChange={handleChangeL}
-                  fullWidth
-                  autoFocus
-                />
-              )}
-              <br />
-              {props.selected === undefined ? (
-                <TextField
-                  id="standard-basic"
-                  label="Word"
-                  value={Word}
-                  onChange={handleChangeW}
-                  fullWidth
-                  // autoFocus
-                />
-              ) : (
-                <></>
-              )}
-              {/* <TextField
-                id="standard-basic"
-                label="Word"
-                value={Word}
+                value={endLetter}
                 onChange={handleChangeW}
-                fullWidth
-              /> */}
+              />
               <Box align="center">
                 {Disable ? (
                   <Button
@@ -200,4 +173,4 @@ const SimilarWordEnd = (props) => {
   );
 };
 
-export default SimilarWordEnd;
+export default SimilarWordStartEndLetters;

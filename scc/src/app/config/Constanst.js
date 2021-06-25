@@ -231,6 +231,10 @@ export const actionButtonList = [
     val: "Similar Start & End",
   },
   {
+    command: "find-similar-start-end-letters",
+    val: "Similar Start & End Letters",
+  },
+  {
     command: "find-sentences",
     val: "Sentences using word",
   },

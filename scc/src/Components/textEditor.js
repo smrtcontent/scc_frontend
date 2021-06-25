@@ -79,14 +79,19 @@ export default function TextEditor(props) {
     if (
       command === "findSimilarEndsWith" ||
       command === "findSimilarStartsWith" ||
-      command === "wordsStartingWithEndingWith"
+      command === "wordsStartingWithEndingWith"||
+      command === "wordsStartingWithEndingWithLetters"
     ) {
       if (command === "findSimilarEndsWith")
         URL = baseUrl + "?endLetter=" + newData[0] + "&word=" + newData[1];
+
       else if (command === "wordsStartingWithEndingWith")
-        URL =
-          baseUrl + "?startLetter=" + newData[0] + "&endLetter=" + newData[1];
-      else {
+        URL = baseUrl + "?startLetter=" + newData[0] + "&endLetter=" + newData[1];
+
+      else if (command === "wordsStartingWithEndingWithLetters")
+        URL = baseUrl + "?startLetter=" + newData[0] +"&numberMissing="+newData[1]+ "&endLetter=" + newData[2];
+     
+        else {
         URL = baseUrl + "?startLetter=" + newData[0] + "&word=" + newData[1];
       }
 
