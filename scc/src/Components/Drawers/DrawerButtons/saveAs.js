@@ -150,7 +150,7 @@ const SaveFileAs = (props) => {
             </Tooltip>
           )}
         </span>
-        <span className={classes.itemText}>Save File</span>
+        <span className={classes.itemText}>Save As File</span>
       </ListItems>
 
       <div>
@@ -178,7 +178,7 @@ const SaveFileAs = (props) => {
           >
             <Fade in={open}>
               <div className={classes.paper}>
-                <h4 id="transition-modal-title">Save File</h4>
+                <h4 id="transition-modal-title">Save As File</h4>
                 {errMsg.length > 1 ? <ErrorAlert message={errMsg} /> : <></>}
                 <form
                   id="transition-modal-description"
