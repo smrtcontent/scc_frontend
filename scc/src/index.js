@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import App from "../src/Components/Auth/Login";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 
