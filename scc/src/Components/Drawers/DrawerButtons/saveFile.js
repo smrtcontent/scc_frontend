@@ -119,7 +119,7 @@ const SaveFile = (props) => {
 
   const handleSearch = (e) => {
     handleSave();
-    setOpenS(true);
+    // setOpenS(true);
     handleCloseModal();
     e.preventDefault();
   };
@@ -130,8 +130,9 @@ const SaveFile = (props) => {
       setError(true);
       return;
     }
-    save(props.setFileId, props.content, props.name, setOpenS);
+    save(props.setFileId, props.content, props.name, setOpenS,setError,setMessage);
     props.setSaved(true);
+
   };
 
   return (
@@ -249,6 +250,15 @@ const SaveFile = (props) => {
           setOpen={setOpenU}
           message={"The file has been updated successfully !"}
         />
+      </Snackbar>
+      <Snackbar
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              open={error}
+              autoHideDuration={6000}
+              onClose={() => setError(false)}
+              key={"bottomright"}
+            >
+              <Error open={error} setOpen={setError} message={message} />
       </Snackbar>
     </>
   );

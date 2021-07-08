@@ -76,6 +76,11 @@ export default function TextEditor(props) {
     const baseUrl = core + command;
     let URL = undefined;
 
+    let myHeaders = new Headers();
+    myHeaders.append("content-type", "application/json");
+    myHeaders.append("Authorization", 'Bearer ' + localStorage.getItem("uTID"));
+    // myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjI1NTg3OTgzLCJleHAiOjE2MjY0NTE5ODN9.2F0eDyqWbi8BsC7GDwoB3CM_pZ_95ROfeGbDsE7-79NEqwXHd-B1_bHg5DIGlWALuSjolUEOeFis6e1HYK0B_A");
+
     if (
       command === "findSimilarEndsWith" ||
       command === "findSimilarStartsWith" ||
@@ -95,11 +100,14 @@ export default function TextEditor(props) {
         URL = baseUrl + "?startLetter=" + newData[0] + "&word=" + newData[1];
       }
 
-      fetch(URL)
+      fetch(URL,{method: 'get',
+      headers: myHeaders})
         .then((res) => res.json())
         .then((wordList) => {
+          if(wordList.status!==401){
           setWords(wordList);
           setIsLoading(false);
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -108,11 +116,15 @@ export default function TextEditor(props) {
       if (newData !== undefined) {
         if (command === "getSentencesByWord") {
           const URL = baseUrl + "?word=" + newData.trim();
-          fetch(URL)
+          fetch(URL,{method: 'get',
+            headers: myHeaders})
             .then((res) => res.json())
             .then((sentenceList) => {
+              if(sentenceList.status!==401){
+              console.log("hi",sentenceList)
               setSentences(sentenceList);
               setIsLoading(false);
+              }
             })
             .catch((err) => {
               console.log(err);
@@ -124,11 +136,14 @@ export default function TextEditor(props) {
             newData[0].trim() +
             "&word=" +
             newData[1].trim();
-          fetch(URL)
+            fetch(URL,{method: 'get',
+      headers: myHeaders})
             .then((res) => res.json())
             .then((sentenceList) => {
+              if(sentenceList.status!==401){
               setSentences(sentenceList);
               setIsLoading(false);
+              }
             })
             .catch((err) => {
               console.log(err);
@@ -140,11 +155,14 @@ export default function TextEditor(props) {
             newData[0].trim() +
             "&word=" +
             newData[1].trim();
-          fetch(URL)
+            fetch(URL,{method: 'get',
+      headers: myHeaders})
             .then((res) => res.json())
             .then((sentenceList) => {
+              if(sentenceList.status!==401){
               setSentences(sentenceList);
               setIsLoading(false);
+              }
             })
             .catch((err) => {
               console.log(err);
@@ -152,31 +170,40 @@ export default function TextEditor(props) {
         } else {
           const URL = baseUrl + "?word=" + newData.trim();
           if (command === "getSentencesByWord") {
-            fetch(URL)
+            fetch(URL,{method: 'get',
+      headers: myHeaders})
               .then((res) => res.json())
               .then((sentenceList) => {
+                if(sentenceList.status!==401){
                 setSentences(sentenceList);
                 setIsLoading(false);
+                }
               })
               .catch((err) => {
                 console.log(err);
               });
           } else if (command === "findPortmanteaus") {
-            fetch(URL)
+            fetch(URL,{method: 'get',
+      headers: myHeaders})
               .then((res) => res.json())
               .then((wordList) => {
+                if(wordList.status!==401){
                 setPortmanteaus(wordList);
                 setIsLoading(false);
+                }
               })
               .catch((err) => {
                 console.log(err);
               });
           } else if (command === "findWordInformation") {
-            fetch(URL)
+           fetch(URL,{method: 'get',
+      headers: myHeaders})
               .then((res) => res.json())
               .then((wordList) => {
+                if(wordList.status!==401){
                 setInformation(wordList);
                 setIsLoading(false);
+                }
               })
               .catch((err) => {
                 console.log(err);
@@ -185,31 +212,41 @@ export default function TextEditor(props) {
             let data = newData.split(" ");
             let newURL =
               baseUrl + "?firstWord=" + data[0] + "&secondWord=" + data[1];
-            fetch(newURL)
+            fetch(newURL,{method: 'get',
+      headers: myHeaders})
               .then((res) => res.json())
               .then((wordList) => {
+                if(wordList.status!==401){
                 setRhymes(wordList);
                 setIsLoading(false);
+                }
               })
               .catch((err) => {
                 console.log(err);
               });
           } else if (command === "getRhymeWordsByScraping") {
-            fetch(URL)
+            fetch(URL,{method: 'get',
+      headers: myHeaders})
               .then((res) => res.json())
               .then((wordList) => {
+                if(wordList.status!==401){
                 setScrappedRhymes(wordList);
                 setIsLoading(false);
+                }
               })
               .catch((err) => {
                 console.log(err);
               });
           } else {
-            fetch(URL)
+            fetch(URL,{method: 'get',
+      headers: myHeaders})
               .then((res) => res.json())
               .then((wordList) => {
+                console.log("hi",wordList)
+                if(wordList.status!==401){
                 setWords(wordList);
                 setIsLoading(false);
+                }
               })
               .catch((err) => {
                 console.log(err);

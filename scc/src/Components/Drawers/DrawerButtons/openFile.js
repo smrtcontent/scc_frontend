@@ -62,12 +62,21 @@ const OpenFile = (props) => {
   /**
    * Method to fetch file names from the database
    */
+   let myHeaders = new Headers();
+   myHeaders.append("content-type", "application/json");
+   myHeaders.append("Authorization", 'Bearer ' + localStorage.getItem("uTID"));
+  //  myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjI1NTg3OTgzLCJleHAiOjE2MjY0NTE5ODN9.2F0eDyqWbi8BsC7GDwoB3CM_pZ_95ROfeGbDsE7-79NEqwXHd-B1_bHg5DIGlWALuSjolUEOeFis6e1HYK0B_A");
+
   const fetchFiles = () => {
-    const URL = "http://localhost:8088/scc/api/getFileByUserId?userId=34";
-    fetch(URL)
+    const uuid=localStorage.getItem("ccid")
+    const URL = "http://localhost:8088/scc/api/getFileByUserId?userId="+uuid;
+    fetch(URL,{method: 'get',
+    headers: myHeaders})
       .then((res) => res.json())
       .then((result) => {
+        if(result.status!==401){
         setFiles(result);
+        }
       })
       .catch((err) => console.log(err));
   };

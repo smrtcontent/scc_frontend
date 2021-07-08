@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState,useEffect } from "react";
 import clsx from "clsx";
 import TextEditor from "../textEditor";
 import {
@@ -22,8 +22,10 @@ import customDrawerMobile from "../../app/themes/customDrawerMobile";
 import SaveFile from "./DrawerButtons/saveFile";
 import OpenFile from "./DrawerButtons/openFile";
 import Download from "./DrawerButtons/download";
+import Logout from "./DrawerButtons/logout";
 import NewFile from "./DrawerButtons/newFile";
 import SaveFileAs from "./DrawerButtons/saveAs";
+import { Redirect } from "react-router-dom";
 
 export default function MiniDrawer() {
   const classes = isMobileOnly ? customDrawerMobile() : customDrawer();
@@ -34,6 +36,7 @@ export default function MiniDrawer() {
   const [saved, setSaved] = useState(false); // Contains if the file is saved or not (as bool value)
   const [openFileContent, setOpenFileContent] = useState("");
   const [newFile, setNewFile] = useState(false)
+  const [authLogin, setAuthLogin] = useState(false)
   const [fileId, setFileId] = useState()  // Stores the ID of current file
 
   const handleDrawerOpen = () => {
@@ -44,6 +47,16 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("uTID");
+    if (token === null) {
+      setAuthLogin(true);
+    } 
+  }, []);
+  
+  if(authLogin){
+    return <Redirect to="/"/>
+  }
   return (
     <>
       <div className={classes.root}>
@@ -139,6 +152,7 @@ export default function MiniDrawer() {
               setFileId={setFileId}
             />
             <Download content={content} open={open} name={name} />
+            <Logout content={content} open={open} name={name} />
             
           </List>
         </Drawer>

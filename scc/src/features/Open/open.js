@@ -10,12 +10,19 @@ import { openUrl } from "../../app/config/URLs";
  * @param {*} setError -> Hook to toggle the error alert
  */
 const Open = (filename, setOpenFileContent, setName, setSaved,setFileId, setOpen, setError) => {
+  let myHeaders = new Headers();
+  myHeaders.append("content-type", "application/json");
+  myHeaders.append("Authorization", 'Bearer ' + localStorage.getItem("uTID"));
+  // myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjI1NTg3OTgzLCJleHAiOjE2MjY0NTE5ODN9.2F0eDyqWbi8BsC7GDwoB3CM_pZ_95ROfeGbDsE7-79NEqwXHd-B1_bHg5DIGlWALuSjolUEOeFis6e1HYK0B_A");
+  const uuid=localStorage.getItem("ccid")
+
   const URL =
     // "http://localhost:8088/scc/api/getFileByUserIdAndName?fileName=" +
     openUrl +
     filename +
-    "&userId=34";
-  fetch(URL)
+    "&userId="+uuid;
+  fetch(URL,{method: 'get',
+  headers: myHeaders})
     .then((res) => res.json())
     .then((result) => {
       if (result.content === undefined) {
