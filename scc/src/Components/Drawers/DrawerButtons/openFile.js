@@ -69,7 +69,7 @@ const OpenFile = (props) => {
 
   const fetchFiles = () => {
     const uuid=localStorage.getItem("ccid")
-    const URL = "http://localhost:8088/scc/api/getFileByUserId?userId="+uuid;
+    const URL = "http://3.19.86.116:8081/scc-1/api/getFileByUserId?userId="+uuid;
     fetch(URL,{method: 'get',
     headers: myHeaders})
       .then((res) => res.json())
