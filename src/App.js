@@ -13,8 +13,8 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Login} />
-        <Route path="/dashboard" component={MiniDrawer} />
+        <Route exact path="/SmartContentCreator" component={Login} />
+        <Route path="/SmartContentCreator/dashboard" component={MiniDrawer} />
         <Route component={Error} />
       </Switch>
     </Router>

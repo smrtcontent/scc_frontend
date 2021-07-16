@@ -1,17 +1,31 @@
+def COLOR_MAP = [
+'SUCCESS': 'good',
+'FAILURE': 'danger',
+]
 pipeline {
-     agent any
-     stages {
-        stage("Build") {
-            steps {
-                sh "sudo npm install"
-                sh "sudo npm run build"
-            }
+    agent any
+    stages {
+        stage('Git Clone'){
+      steps {
+        script {
+                    echo("${env.GIT_BRANCH}")
+
+                    }
+                  }
+                }
+    stage("Maven Build"){
+      environment {
+            mavenHome =  tool name: "maven-3.8.1", type: "maven"
+            mavenCMD = "${mavenHome}/bin/mvn"
         }
-        stage("Deploy") {
-            steps {
-                sh "sudo rm -rf /var/www/jenkins-react-app"
-                sh "sudo cp -r ${WORKSPACE}/build/ /var/www/jenkins-react-app/"
-            }
-        }
+
+      steps {
+               sh "${mavenCMD} package -Pprod"
+               // sh "${mavenCMD} spring-boot:run"
+               sh "cp target/SmartContentCreator.war  /home/ubuntu/apache-tomcat-9.0.50/webapps/"
+
+          }
+      }
     }
-}
+
+ }
