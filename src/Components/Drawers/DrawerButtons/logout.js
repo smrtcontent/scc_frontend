@@ -66,7 +66,7 @@ const Logout = (props) => {
    */
   const handleLogout = () => {
     localStorage.clear();
-    history.push('/')
+    history.push('/SmartContentCreator')
   };
 
   return (
