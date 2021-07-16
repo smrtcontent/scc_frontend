@@ -48,7 +48,7 @@ const Login = () => {
       .catch((error) => console.log("error", error));
   };
   if (authLogin) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to="/SmartContentCreator/dashboard" />;
   }
   return (
     <div className="container">

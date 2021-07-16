@@ -14,7 +14,7 @@ function App() {
     <Router>
       <Switch>
         <Route exact path="/SmartContentCreator" component={Login} />
-        <Route path="/dashboard" component={MiniDrawer} />
+        <Route path="/SmartContentCreator/dashboard" component={MiniDrawer} />
         <Route component={Error} />
       </Switch>
     </Router>

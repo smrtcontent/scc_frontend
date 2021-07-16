@@ -5,7 +5,7 @@ const ErrorScreen = () => {
   var [authLogin, setAuthLogin] = useState(false);
 
   if (authLogin) {
-    return <Redirect to="/" />;
+    return <Redirect to="/SmartContentCreator" />;
   }
   return (
     <div className="container">

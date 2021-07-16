@@ -55,7 +55,7 @@ export default function MiniDrawer() {
   }, []);
   
   if(authLogin){
-    return <Redirect to="/"/>
+    return <Redirect to="/SmartContentCreator"/>
   }
   return (
     <>
