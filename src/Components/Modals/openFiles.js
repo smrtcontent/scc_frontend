@@ -20,6 +20,11 @@ import { isMobile } from "react-device-detect";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DescriptionIcon from "@material-ui/icons/Description";
 import { indigo, red } from "@material-ui/core/colors";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import Open from "./../../features/Open/open";
 import Success from "../Alerts/success";
 import Error from "../Alerts/error";
@@ -108,6 +113,25 @@ const OpenFiles = (props) => {
   const [open, setOpen] = useState(false); // Hook to store and toggle the success alert
   const [openDelete, setOpenDelete] = useState(false); // Hook to store and toggle the deleted file alert
   const [error, setError] = useState(false); // Hook to store and toggle the error alert
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const [deleteID, setDeleteID] = React.useState('');
+
+  const handleDialogOpen = (e,x) => {
+    e.preventDefault();
+    setDeleteID(x.id)
+    setOpenDialog(true);
+  };
+
+  const handleDialogCancel = () => {
+    setDeleteID('')
+    setOpenDialog(false);
+  };
+
+  const handleDialogConfirm = () => {
+    deleteFile(setOpenDelete, deleteID);
+    props.setOpen(false);
+    setOpenDialog(false);
+  };
 
   const handleClose = () => {
     props.setOpen(false);
@@ -141,7 +165,7 @@ const OpenFiles = (props) => {
                   <div className="col-11 p-0">
                     <ListItems
                       className={classes.title}
-                      style={{ color: "black"}}
+                      style={{ color: "black" }}
                       key={Math.random() * 100}
                     >
                       <div className="col-md-4 col-6 p-0">
@@ -249,10 +273,10 @@ const OpenFiles = (props) => {
                             <Button
                               className={classes.button}
                               onClick={(e) => {
-                                e.preventDefault();
-                                deleteFile(setOpenDelete, x.id);
-                                console.log("deleted " + x.fileName);
-                                props.setOpen(false);
+                                handleDialogOpen(e, x);
+                                // e.preventDefault();
+                                // deleteFile(setOpenDelete, x.id);
+                                // props.setOpen(false);
                               }}
                             >
                               <DeleteIcon />
@@ -277,6 +301,28 @@ const OpenFiles = (props) => {
           </Card>
         </Fade>
       </Modal>
+      {/* dialog confirmation for delet or not */}
+      <Dialog
+        open={openDialog}
+        onClose={handleDialogCancel}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Delete File?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete this file.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogCancel} color="primary">
+            No
+          </Button>
+          <Button onClick={handleDialogConfirm} color="primary" autoFocus>
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         open={open}
