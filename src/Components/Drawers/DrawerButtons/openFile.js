@@ -4,6 +4,7 @@ import NoteAddIcon from "@material-ui/icons/OpenInNew";
 import { indigo } from "@material-ui/core/colors";
 import OpenFiles from "./../../Modals/openFiles";
 import AlertDialog from "../../Prompts/savePrompt";
+import { BASE_URL } from "../../../Constant";
 
 const ListItems = withStyles({
   root: {
@@ -62,20 +63,19 @@ const OpenFile = (props) => {
   /**
    * Method to fetch file names from the database
    */
-   let myHeaders = new Headers();
-   myHeaders.append("content-type", "application/json");
-   myHeaders.append("Authorization", 'Bearer ' + localStorage.getItem("uTID"));
+  let myHeaders = new Headers();
+  myHeaders.append("content-type", "application/json");
+  myHeaders.append("Authorization", "Bearer " + localStorage.getItem("uTID"));
   //  myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjI1NTg3OTgzLCJleHAiOjE2MjY0NTE5ODN9.2F0eDyqWbi8BsC7GDwoB3CM_pZ_95ROfeGbDsE7-79NEqwXHd-B1_bHg5DIGlWALuSjolUEOeFis6e1HYK0B_A");
 
   const fetchFiles = () => {
-    const uuid=localStorage.getItem("ccid")
-    const URL = "http://3.19.86.116:8081/scc-1/api/getFileByUserId?userId="+uuid;
-    fetch(URL,{method: 'get',
-    headers: myHeaders})
+    const uuid = localStorage.getItem("ccid");
+    const URL = BASE_URL + "/api/getFileByUserId?userId=" + uuid;
+    fetch(URL, { method: "get", headers: myHeaders })
       .then((res) => res.json())
       .then((result) => {
-        if(result.status!==401){
-        setFiles(result);
+        if (result.status !== 401) {
+          setFiles(result);
         }
       })
       .catch((err) => console.log(err));

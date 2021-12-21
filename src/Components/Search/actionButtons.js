@@ -8,14 +8,17 @@ const ActionButtons = (props) => {
   const customCards = customCard();
   const classes = customButton();
   const handleClick = (value) => props.onClick(value);
+  var hasLeading = s => /^\S+\s\S+\s\S+$/.test(s);
 
+  var actionButtonSortList = actionButtonList.sort((a, b) => hasLeading(b.command.toUpperCase()) - hasLeading(a.command.toUpperCase()) || a.command.toUpperCase() > b.command.toUpperCase() || -(a.command.toUpperCase() < b.command.toUpperCase())
+  );
   return (
     <>
       <Card className={customCards.root}>
         <CardContent className="p-1">
           <div className="row my-0">
             <div className="col-12">
-              {actionButtonList.map((x, index) => (
+              {actionButtonSortList.map((x, index) => (
                 <Button
                   size="small"
                   key={index}

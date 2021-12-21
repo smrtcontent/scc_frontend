@@ -41,7 +41,11 @@ div.public-DraftEditor-content {
   /* white-space: nowrap; */
   /* text-overflow: ellipsis; */
 }
-
+.public-DraftStyleDefault-ltr {
+  direction: ltr;
+  text-align: left;
+  overflow: auto;
+}
 .TextEditor {
   min-height: 67vh;
   height: 67vh;
