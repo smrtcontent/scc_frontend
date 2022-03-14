@@ -22,7 +22,7 @@ pipeline {
       steps {
                sh "${mavenCMD} package -Pprod"
                // sh "${mavenCMD} spring-boot:run"
-               sh "cp target/SmartContentCreator.war  /home/ubuntu/apache-tomcat-9.0.50/webapps/"
+               sh "cp target/SmartContentCreator.war  /home/ubuntu/apache-tomcat-9.0.59/webapps/"
 
           }
       }
